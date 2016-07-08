@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/topLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/mainBackground">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:background="@mipmap/ic_window_close_grey600_36dp" />
+
+        <ImageView
+           android:background="@mipmap/ic_check_grey600_36dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+           />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/titleChooserFiterl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/mainBackground"
+        android:paddingTop="15dp"
+        android:text="Choose you filter"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorPrimaryDark" />
+        <RadioGroup
+            android:id="@+id/radio"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/mainBackground"
+            android:orientation="vertical" />
+</LinearLayout>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <item
+        android:id="@+id/chooser"
+        android:icon="@mipmap/ic_share_white_48dp"
+        android:title="Popup menu item 4"
+        android:showAsAction="always"
+        tools:ignore="AppCompatResource" />
+</menu>
