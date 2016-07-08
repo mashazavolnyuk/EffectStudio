@@ -14,6 +14,8 @@ import com.vk.sdk.VKScope;
 import com.vk.sdk.api.model.VKApiPhotoAlbum;
 import com.vk.sdk.api.model.VKList;
 
+;
+
 /**
  * Created by Dark Maleficent on 07.05.2016.
  */
@@ -43,8 +45,12 @@ public class FragmentGridView extends Fragment implements IObserve {
         imageAdapter = new ImageAdapter(getActivity(), (INavigation) getActivity());
         imageAdapter.setObserver(this);
         gridView.setAdapter(imageAdapter);
-        fabPlus = (FloatingActionButton) v.findViewById(R.id.btnFab);
-
+        //fabPlus = (FloatingActionButton) v.findViewById(R.id.btnFab);
+//        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+//            ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) fabPlus.getLayoutParams();
+//            p.setMargins(0, 0, dpToPx(getActivity(), 8), 0); // get rid of margins since shadow area is now the margin
+//            fabPlus.setLayoutParams(p);
+//        }
         fabLoadImageFromCamera=(FloatingActionButton) v.findViewById(R.id.btnFabCamera);
         fabLoadImageFromGallery=(FloatingActionButton) v.findViewById(R.id.btnFabGallery);
 
@@ -91,17 +97,17 @@ public class FragmentGridView extends Fragment implements IObserve {
 
             }
         });
-        fabPlus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fabLoadImageFromCamera.setVisibility(View.VISIBLE);
-                fabLoadImageFromGallery.setVisibility(View.VISIBLE);
-//                animationButtonUp(fabLoadImageFromCamera, 60);
-//                animationButtonUp(fabLoadImageFromGallery, 120);
-
-
-            }
-        });
+//        fabPlus.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                fabLoadImageFromCamera.setVisibility(View.VISIBLE);
+//                fabLoadImageFromGallery.setVisibility(View.VISIBLE);
+////                animationButtonUp(fabLoadImageFromCamera, 60);
+////                animationButtonUp(fabLoadImageFromGallery, 120);
+//
+//
+//            }
+//        });
         return v;
     }
 
