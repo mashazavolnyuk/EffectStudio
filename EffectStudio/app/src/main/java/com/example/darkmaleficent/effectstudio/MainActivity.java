@@ -1,6 +1,7 @@
 package com.example.darkmaleficent.effectstudio;
 
 import android.Manifest;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -12,6 +13,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -24,11 +26,14 @@ import com.vk.sdk.VKScope;
 import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,INavigation,IMenuImageGallery {
+        implements NavigationView.OnNavigationItemSelectedListener, INavigation, IMenuImageGallery {
 
     private static final int PICK_IMAGE_REQUEST = 1;
     private static final int CAMERA_REQUEST = 2;
-    private String []scope=new String[]{VKScope.WALL,VKScope.PHOTOS};
+    private String[] scope = new String[]{VKScope.WALL, VKScope.PHOTOS};
+    ActionBarDrawerToggle toggle;
+    NavigationView navigationView;
+    DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,25 +41,80 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        ActionBar supportActionBar = getSupportActionBar();
+        if (supportActionBar != null) {
+        supportActionBar.setDisplayHomeAsUpEnabled(true);
+        supportActionBar.setHomeButtonEnabled(true);
+        }
+       drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+       toggle = new ActionBarDrawerToggle(
+                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.setDrawerListener(toggle);
         toggle.syncState();
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         toGridView();
+
     }
 
+    private void setMainNavigationState(boolean state) {
+        if (state) {
+            setAsSecondaryScreen();//где надо back
+        } else {
+            setAsMainScreen();//где глав
+        }
+    }
 
+    private void setAsSecondaryScreen() {
+        enableHomeButton();
+        disableNavigationDrawer();
+    }
+
+    private void disableNavigationDrawer() {
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+    }
+    private void enableHomeButton() {
+        final ActionBar supportActionBar = getSupportActionBar();
+        toggle.setDrawerIndicatorEnabled(false);
+        if (supportActionBar != null) {
+            supportActionBar.setDisplayHomeAsUpEnabled(true);
+            supportActionBar.setHomeButtonEnabled(true);
+        }
+        toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+    }
+
+    private void setAsMainScreen() {
+        disableHomeButton();
+        enableNavigationDrawer();
+    }
+
+    private void enableNavigationDrawer() {
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+    }
+
+    private void disableHomeButton() {
+        final ActionBar supportActionBar = getSupportActionBar();
+        if (supportActionBar != null) {
+            supportActionBar.setDisplayHomeAsUpEnabled(false);
+            supportActionBar.setHomeButtonEnabled(false);
+        }
+        toggle.setDrawerIndicatorEnabled(true);
+        toggle.setToolbarNavigationClickListener(null);
+    }
 
     @Override
     public void toGridView() {
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         FragmentGridView fragment = new FragmentGridView();
-        ft.add(R.id.maincontainer, fragment,"galllery");
+        ft.add(R.id.maincontainer, fragment, "galllery");
         ft.addToBackStack("galllery");
         ft.commit();
+        setMainNavigationState(false);
     }
 
     @Override
@@ -64,7 +124,8 @@ public class MainActivity extends AppCompatActivity
         Bundle bundle = new Bundle();
         bundle.putParcelable("image", image);
         fragment.setArguments(bundle);
-        ft.replace(R.id.maincontainer, fragment,"modify");
+        ft.add(R.id.maincontainer, fragment, "modify");
+        setMainNavigationState(true);
         ft.addToBackStack("modify");
         ft.commit();
     }
@@ -117,13 +178,17 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        toGridView();
-//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        if (drawer.isDrawerOpen(GravityCompat.START)) {
-//            drawer.closeDrawer(GravityCompat.START);
-//        } else {
-//            super.onBackPressed();
-//        }
+        FragmentManager fm = getFragmentManager();
+        if (fm.getBackStackEntryCount() > 0) {
+            fm.popBackStack();
+        }
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            toGridView();
+            super.onBackPressed();
+        }
     }
 
     @Override
@@ -141,6 +206,10 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
+        if (id == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
         if (id == R.id.action_settings) {
             return true;
         }
@@ -178,7 +247,7 @@ public class MainActivity extends AppCompatActivity
         ImageManagerLoader.getInstance().setWorkingPosition(position);
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         DialogMenuImageFromGallery fragment = new DialogMenuImageFromGallery();
-        ft.add(R.id.maincontainer, fragment,"menu");
+        ft.add(R.id.maincontainer, fragment, "menu");
         ft.commit();
     }
 }
