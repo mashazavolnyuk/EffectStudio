@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
@@ -23,6 +24,9 @@ import android.view.View;
 
 import com.vk.sdk.VKScope;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity
@@ -107,6 +111,26 @@ public class MainActivity extends AppCompatActivity
         toggle.setToolbarNavigationClickListener(null);
     }
 
+    public void onShareItem(Bitmap bmp){
+
+        Bitmap icon = bmp;
+        Intent share = new Intent(Intent.ACTION_SEND);
+        share.setType("image/jpeg");
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        icon.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        File f = new File(Environment.getExternalStorageDirectory() + File.separator + "temporary_file.jpg");
+        try {
+            f.createNewFile();
+            FileOutputStream fo = new FileOutputStream(f);
+            fo.write(bytes.toByteArray());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        share.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///sdcard/temporary_file.jpg"));
+        startActivity(Intent.createChooser(share, "Share Image"));
+
+    }
+
     @Override
     public void toGridView() {
         FragmentTransaction ft = getFragmentManager().beginTransaction();
@@ -165,6 +189,8 @@ public class MainActivity extends AppCompatActivity
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                 ImageManagerLoader.getInstance().addImage(bitmap);
+                 toGridView();
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -247,7 +273,7 @@ public class MainActivity extends AppCompatActivity
         ImageManagerLoader.getInstance().setWorkingPosition(position);
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         DialogMenuImageFromGallery fragment = new DialogMenuImageFromGallery();
-        ft.add(R.id.maincontainer, fragment, "menu");
+        ft.replace(R.id.maincontainer, fragment, "menu");
         ft.commit();
     }
 }
