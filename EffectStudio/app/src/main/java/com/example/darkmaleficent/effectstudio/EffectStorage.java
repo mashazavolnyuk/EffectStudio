@@ -23,6 +23,7 @@ public class EffectStorage {
     }
 
     public List<Effect> getEffects() {
+        effects.clear();
         fiilEffects();
         return effects;
     }

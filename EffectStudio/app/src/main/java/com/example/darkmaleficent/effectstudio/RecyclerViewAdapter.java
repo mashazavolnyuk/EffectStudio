@@ -2,22 +2,22 @@ package com.example.darkmaleficent.effectstudio;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.List;
 
-/**
- * Created by Dark Maleficent on 14.06.2016.
- */
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolders> {
 
     private Context context;
-    private List<Effect> data = EffectStorage.getInstance().getEffects();
+    private List<Effect> data;
 
     public RecyclerViewAdapter(Context context) {
         this.context = context;
+        data = EffectStorage.getInstance().getEffects();
+        Log.d("Effect size",""+ data.size());
     }
 
     @Override

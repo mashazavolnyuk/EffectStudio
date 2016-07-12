@@ -3,13 +3,11 @@ package com.example.darkmaleficent.effectstudio;
 import android.content.Context;
 import android.graphics.Bitmap;
 
-import java.util.List;
-
 /**
  * Created by Dark Maleficent on 20.06.2016.
  */
 public class EffectExecutor {
-    private List<Effect> data = EffectStorage.getInstance().getEffects();
+
     private Bitmap bmp;
     private static EffectExecutor instance;
 
@@ -25,8 +23,8 @@ public class EffectExecutor {
             }
         return instance;
     }
-
     public Bitmap executeEffect(int id, Bitmap bitmap, Context context) {
+
         switch (id) {
             case 1:
                 GrayScaleEffect grayScaleEffecteffect = new GrayScaleEffect();
@@ -48,6 +46,5 @@ public class EffectExecutor {
         }
         return bmp;
     }
-
 
 }

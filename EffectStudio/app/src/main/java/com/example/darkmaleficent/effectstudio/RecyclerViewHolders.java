@@ -14,23 +14,28 @@ public class RecyclerViewHolders extends RecyclerView.ViewHolder {
     ImageView effect;
     View.OnClickListener listener;
     int position;
+    View view;
+    Bitmap bitmap;
 
     public RecyclerViewHolders(View itemView) {
         super(itemView);
-
         description = (TextView) itemView.findViewById(R.id.tvDescriptionEffectTools);
         effect = (ImageView) itemView.findViewById(R.id.imgEffectTools);
-        listener = new View.OnClickListener() {
+        //TODO
+        listener =new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Bitmap bmp = ImageManagerLoader.getInstance().getWorkingBitmap();
                 int i = (int) description.getTag();
-                Bitmap bitmap = EffectExecutor.getInstance().executeEffect(i, bmp, v.getContext());
+                bitmap = EffectExecutor.getInstance().executeEffect(i, bmp,v.getContext() );
                 ImageManagerLoader.getInstance().setWorkingBitmap(bitmap);
             }
         };
-        itemView.setOnClickListener(listener);
-    }
+       itemView.setOnClickListener(listener);
 
 }
+}
+
+
+
 

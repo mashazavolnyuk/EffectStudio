@@ -8,7 +8,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
@@ -24,13 +23,11 @@ import android.view.View;
 
 import com.vk.sdk.VKScope;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, INavigation, IMenuImageGallery {
+        implements NavigationView.OnNavigationItemSelectedListener, INavigation, IMenuImageGallery,IMenuGallety {
 
     private static final int PICK_IMAGE_REQUEST = 1;
     private static final int CAMERA_REQUEST = 2;
@@ -57,16 +54,16 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
          navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        setMainNavigationState(false);
         toGridView();
 
     }
 
     private void setMainNavigationState(boolean state) {
-        if (state) {
+        if (state)
             setAsSecondaryScreen();//где надо back
-        } else {
+        else
             setAsMainScreen();//где глав
-        }
     }
 
     private void setAsSecondaryScreen() {
@@ -111,44 +108,26 @@ public class MainActivity extends AppCompatActivity
         toggle.setToolbarNavigationClickListener(null);
     }
 
-    public void onShareItem(Bitmap bmp){
-
-        Bitmap icon = bmp;
-        Intent share = new Intent(Intent.ACTION_SEND);
-        share.setType("image/jpeg");
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        icon.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        File f = new File(Environment.getExternalStorageDirectory() + File.separator + "temporary_file.jpg");
-        try {
-            f.createNewFile();
-            FileOutputStream fo = new FileOutputStream(f);
-            fo.write(bytes.toByteArray());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        share.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///sdcard/temporary_file.jpg"));
-        startActivity(Intent.createChooser(share, "Share Image"));
-
-    }
-
     @Override
     public void toGridView() {
+        setMainNavigationState(false);
         FragmentTransaction ft = getFragmentManager().beginTransaction();
-        FragmentGridView fragment = new FragmentGridView();
+        FragmentMainGallery fragment = new FragmentMainGallery();
         ft.add(R.id.maincontainer, fragment, "galllery");
         ft.addToBackStack("galllery");
         ft.commit();
-        setMainNavigationState(false);
+
+
     }
 
     @Override
     public void toModifyImage(Bitmap image) {
         FragmentTransaction ft = getFragmentManager().beginTransaction();
-        FragmentWorkingImage fragment = new FragmentWorkingImage();
+        FragmentImageProcessing fragment = new FragmentImageProcessing();
         Bundle bundle = new Bundle();
         bundle.putParcelable("image", image);
         fragment.setArguments(bundle);
-        ft.add(R.id.maincontainer, fragment, "modify");
+        ft.replace(R.id.maincontainer, fragment, "modify");
         setMainNavigationState(true);
         ft.addToBackStack("modify");
         ft.commit();
@@ -165,16 +144,12 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void loadImagefromCamera() {
-        // Check permission for CAMERA
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
-            // Check Permissions Now
-            // Callback onRequestPermissionsResult interceptado na Activity MainActivity
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.CAMERA},
                     MainActivity.CAMERA_REQUEST);
         } else {
-            // permission has been granted, continue as usual
             Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             startActivityForResult(cameraIntent, CAMERA_REQUEST);
         }
@@ -207,6 +182,7 @@ public class MainActivity extends AppCompatActivity
         FragmentManager fm = getFragmentManager();
         if (fm.getBackStackEntryCount() > 0) {
             fm.popBackStack();
+            fm.beginTransaction();
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -219,19 +195,13 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == android.R.id.home) {
             onBackPressed();
             return true;
@@ -246,23 +216,14 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        switch(item.getItemId()){
+            case R.id.nav_camera:
+                loadImagefromCamera();
+                break;
+            case R.id.nav_gallery:
+                loadImagefromGallery();
+                break;
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -275,5 +236,14 @@ public class MainActivity extends AppCompatActivity
         DialogMenuImageFromGallery fragment = new DialogMenuImageFromGallery();
         ft.replace(R.id.maincontainer, fragment, "menu");
         ft.commit();
+    }
+    //TODO
+    @Override
+    public void toShare(Bitmap bmp) {
+        final Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("image/jpg");
+        final File photoFile = new File(getFilesDir(), "foo.jpg");
+        shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(photoFile));
+        startActivity(Intent.createChooser(shareIntent, "Share image using"));
     }
 }
