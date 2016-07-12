@@ -22,13 +22,15 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.vk.sdk.VKScope;
+import com.vk.sdk.VKSdk;
+import com.vk.sdk.util.VKUtil;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, INavigation, IMenuImageGallery,IMenuGallety {
-
+        implements NavigationView.OnNavigationItemSelectedListener, INavigation, IMenuImageGallery, IMenuGallety {
     private static final int PICK_IMAGE_REQUEST = 1;
     private static final int CAMERA_REQUEST = 2;
     private String[] scope = new String[]{VKScope.WALL, VKScope.PHOTOS};
@@ -40,19 +42,21 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        String[] fingerprints = VKUtil.getCertificateFingerprint(this, this.getPackageName());
+        System.out.print(Arrays.asList(fingerprints));
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar supportActionBar = getSupportActionBar();
         if (supportActionBar != null) {
-        supportActionBar.setDisplayHomeAsUpEnabled(true);
-        supportActionBar.setHomeButtonEnabled(true);
+            supportActionBar.setDisplayHomeAsUpEnabled(true);
+            supportActionBar.setHomeButtonEnabled(true);
         }
-       drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-       toggle = new ActionBarDrawerToggle(
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.setDrawerListener(toggle);
         toggle.syncState();
-         navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         setMainNavigationState(false);
         toGridView();
@@ -74,6 +78,7 @@ public class MainActivity extends AppCompatActivity
     private void disableNavigationDrawer() {
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
     }
+
     private void enableHomeButton() {
         final ActionBar supportActionBar = getSupportActionBar();
         toggle.setDrawerIndicatorEnabled(false);
@@ -164,7 +169,7 @@ public class MainActivity extends AppCompatActivity
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                 ImageManagerLoader.getInstance().addImage(bitmap);
-                 toGridView();
+                toGridView();
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -216,17 +221,43 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        switch(item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.nav_camera:
                 loadImagefromCamera();
                 break;
             case R.id.nav_gallery:
                 loadImagefromGallery();
                 break;
+            case R.id.nav_vk:
+                loginVK();
+                break;
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void loginVK() {
+
+        VKSdk.login(this, scope);
+
+//        VKRequest albums = new VKRequest("photos.getAlbums",
+//                VKParameters.from(VKApiConst.OWNER_ID,1));
+//
+//        albums.setResponseParser(new VKParser() {
+//            @Override
+//            public Object createModel(JSONObject object) {
+//                return new VKList<>(object, VKApiPhotoAlbum.class);
+//            }
+//        });
+//        albums.executeWithListener(new VKRequest.VKRequestListener() {
+//            @Override
+//            public void onComplete(VKResponse response) {
+//                Log.d("Albums: ", response.parsedModel.toString());
+//               // updateAlbums((VKList) response.parsedModel);
+//            }
+        //    });
+
     }
 
     @Override
@@ -237,6 +268,7 @@ public class MainActivity extends AppCompatActivity
         ft.replace(R.id.maincontainer, fragment, "menu");
         ft.commit();
     }
+
     //TODO
     @Override
     public void toShare(Bitmap bmp) {
