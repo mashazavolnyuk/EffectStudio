@@ -8,8 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#F5F5F5"
-        android:numColumns="2"
-       />
+        android:numColumns="2" />
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
@@ -18,39 +17,6 @@
         app:layout_anchor="@id/gridView"
         app:layout_anchorGravity="bottom|right|end">
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/btnFabGallery"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="4dp"
-            android:visibility="invisible"
-            app:backgroundTint="@color/colorAccent"
-            app:borderWidth="0dp"
-            app:elevation="12dp" />
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/btnFabCamera"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="4dp"
-            android:paddingTop="2dp"
-            android:visibility="invisible"
-            app:borderWidth="0dp"
-            app:elevation="12dp" />
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/btnFab"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="4dp"
-            android:layout_marginRight="10dp"
-            android:padding="16dp"
-            app:backgroundTint="@color/colorAccent"
-            app:borderWidth="0dp"
-            app:elevation="12dp" />
 
     </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
@@ -17,17 +18,26 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.vk.sdk.VKScope;
-import com.vk.sdk.VKSdk;
-import com.vk.sdk.util.VKUtil;
+import com.vk.sdk.api.VKApiConst;
+import com.vk.sdk.api.VKParameters;
+import com.vk.sdk.api.VKParser;
+import com.vk.sdk.api.VKRequest;
+import com.vk.sdk.api.VKResponse;
+import com.vk.sdk.api.model.VKApiPhoto;
+import com.vk.sdk.api.model.VKApiPhotoAlbum;
+import com.vk.sdk.api.model.VKList;
+
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, INavigation, IMenuImageGallery, IMenuGallety {
@@ -37,13 +47,18 @@ public class MainActivity extends AppCompatActivity
     ActionBarDrawerToggle toggle;
     NavigationView navigationView;
     DrawerLayout drawerLayout;
+    private List<VKApiPhoto> photos;
+    FloatingActionButton fabPlus;
+    FloatingActionButton fabLoadImageFromCamera;
+    FloatingActionButton fabLoadImageFromGallery;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        String[] fingerprints = VKUtil.getCertificateFingerprint(this, this.getPackageName());
-        System.out.print(Arrays.asList(fingerprints));
+        fabPlus = (FloatingActionButton)findViewById(R.id.btnFabPlus);
+        fabLoadImageFromCamera=(FloatingActionButton)findViewById(R.id.btnFabCamera);
+        fabLoadImageFromGallery=(FloatingActionButton)findViewById(R.id.btnFabGallery);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar supportActionBar = getSupportActionBar();
@@ -60,9 +75,13 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         setMainNavigationState(false);
         toGridView();
+        fabPlus.show();
 
     }
-
+    private void hideFAB(){
+        fabLoadImageFromCamera.hide();
+        fabLoadImageFromGallery.hide();
+    }
     private void setMainNavigationState(boolean state) {
         if (state)
             setAsSecondaryScreen();//где надо back
@@ -127,6 +146,8 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void toModifyImage(Bitmap image) {
+        fabPlus.hide();
+        hideFAB();
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         FragmentImageProcessing fragment = new FragmentImageProcessing();
         Bundle bundle = new Bundle();
@@ -171,6 +192,7 @@ public class MainActivity extends AppCompatActivity
                 ImageManagerLoader.getInstance().addImage(bitmap);
                 toGridView();
 
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -179,7 +201,9 @@ public class MainActivity extends AppCompatActivity
             Bitmap photo = (Bitmap) data.getExtras().get("data");
             ImageManagerLoader.getInstance().addImage(photo);
             toGridView();
+
         }
+        hideFAB();
     }
 
     @Override
@@ -229,7 +253,7 @@ public class MainActivity extends AppCompatActivity
                 loadImagefromGallery();
                 break;
             case R.id.nav_vk:
-                loginVK();
+                getAlbumsVK();
                 break;
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -237,28 +261,29 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    private void loginVK() {
+    private void getAlbumsVK() {
+        int id = getIntent().getIntExtra("need_covers", 1);
+        VKRequest albums = new VKRequest("photos.getAlbums",
+                VKParameters.from(VKApiConst.ALBUM_ID,"need_covers",1));
 
-        VKSdk.login(this, scope);
+        albums.setResponseParser(new VKParser() {
+            @Override
+            public Object createModel(JSONObject object) {
+                return new VKList<>(object, VKApiPhotoAlbum.class);
+            }
+        });
+        albums.executeWithListener(new VKRequest.VKRequestListener() {
+            @Override
+            public void onComplete(VKResponse response) {
+                Log.d("Albums: ", response.parsedModel.toString());
+            }
+                    });
 
-//        VKRequest albums = new VKRequest("photos.getAlbums",
-//                VKParameters.from(VKApiConst.OWNER_ID,1));
-//
-//        albums.setResponseParser(new VKParser() {
-//            @Override
-//            public Object createModel(JSONObject object) {
-//                return new VKList<>(object, VKApiPhotoAlbum.class);
-//            }
-//        });
-//        albums.executeWithListener(new VKRequest.VKRequestListener() {
-//            @Override
-//            public void onComplete(VKResponse response) {
-//                Log.d("Albums: ", response.parsedModel.toString());
-//               // updateAlbums((VKList) response.parsedModel);
-//            }
-        //    });
+
 
     }
+
+
 
     @Override
     public void createMenu(int position, View v) {
