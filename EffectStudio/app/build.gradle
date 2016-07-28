@@ -7,7 +7,7 @@ android {
     defaultConfig {
         applicationId "com.example.darkmaleficent.effectstudio"
         minSdkVersion 16
-        targetSdkVersion 24
+        targetSdkVersion 23
         versionCode 1
         versionName "1.0"
     }
@@ -28,6 +28,5 @@ dependencies {
     compile 'com.github.zomato:androidphotofilters:1.0.1'
     compile 'com.mukesh:photofilter:1.0.0'
     compile 'com.vk:androidsdk:1.6.5'
-    compile'com.facebook.android:facebook-android-sdk:[4,5)'
     compile 'com.melnykov:floatingactionbutton:1.3.0'
 }

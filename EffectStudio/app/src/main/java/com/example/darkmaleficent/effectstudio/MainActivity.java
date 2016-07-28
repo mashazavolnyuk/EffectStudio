@@ -40,7 +40,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, INavigation, IMenuImageGallery, IMenuGallety {
+        implements NavigationView.OnNavigationItemSelectedListener, INavigation, IMenuImageGallery, IMenuGallery {
     private static final int PICK_IMAGE_REQUEST = 1;
     private static final int CAMERA_REQUEST = 2;
     private String[] scope = new String[]{VKScope.WALL, VKScope.PHOTOS};
@@ -73,7 +73,8 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        setMainNavigationState(false);
+        //TODO fixed navigation drawer
+        setMainNavigationState(true);
         toGridView();
         fabPlus.show();
 

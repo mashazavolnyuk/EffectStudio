@@ -27,7 +27,7 @@ public class DialogMenuImageFromGallery extends DialogFragment implements View.O
     }
     private void onShareItem() {
         Bitmap bmp=ImageManagerLoader.getInstance().getWorkingBitmap();
-        ((IMenuGallety)getActivity()).toShare(bmp);
+        ((IMenuGallery)getActivity()).toShare(bmp);
     }
 
     @Override
