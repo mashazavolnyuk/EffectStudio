@@ -11,7 +11,7 @@ import com.mukesh.image_processing.ImageProcessor;
 public class ReflectionEffect extends SingleImageEffect {
 
     public ReflectionEffect() {
-        super(4, " Reflection", R.mipmap.ic_loop_white_36dp,TypeEffect.Filter);
+        super(4, " Reflection", R.mipmap.ic_loop_white_36dp);
     }
 
     @Override

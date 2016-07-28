@@ -5,7 +5,7 @@ package com.example.darkmaleficent.effectstudio;
  */
 public abstract class SingleImageEffect extends Effect implements ISingleImageEffect{
 
-    public SingleImageEffect(int id, String name, int image, TypeEffect typeEffect) {
-        super(id, name, image,typeEffect);
+    public SingleImageEffect(int id, String name, int image) {
+        super(id, name, image);
     }
 }

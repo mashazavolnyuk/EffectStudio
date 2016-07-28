@@ -9,6 +9,6 @@ public abstract class DoubleImageEffect extends Effect implements IDoubleImageEf
     }
 
     public DoubleImageEffect(int id, String name, int image, TypeEffect typeEffect) {
-        super(id, name, image,typeEffect);
+        super(id, name, image);
     }
 }

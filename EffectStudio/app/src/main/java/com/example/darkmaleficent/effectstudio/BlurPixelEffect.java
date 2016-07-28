@@ -9,7 +9,7 @@ import android.graphics.Bitmap;
 public class BlurPixelEffect extends SingleImageEffect {
 
     public BlurPixelEffect() {
-        super(3, "Blur Pixels", R.mipmap.ic_add_a_photo_white_36dp,TypeEffect.Filter);
+        super(3, "Blur Pixels", R.mipmap.ic_add_a_photo_white_36dp);
     }
 
     @Override

@@ -52,7 +52,10 @@ public class MainActivity extends AppCompatActivity
     FloatingActionButton fabLoadImageFromCamera;
     FloatingActionButton fabLoadImageFromGallery;
 
-
+    static
+    {
+        System.loadLibrary("NativeImageProcessor");
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

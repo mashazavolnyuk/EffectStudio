@@ -28,20 +28,15 @@ public class EffectStorage {
         return effects;
     }
 
-    public List<Effect> getEffectsByType(TypeEffect typeEffect) {
-
-        for (Effect obj : effects){
-            if (obj.getTypeEffect() == typeEffect)
-                effects.add(obj);
-        }
-        return effects;
-    }
 
     private void fiilEffects() {
         effects.add(new BlurEffect());
         effects.add(new GrayScaleEffect());
         effects.add(new BlurPixelEffect());
         effects.add(new ReflectionEffect());
-        effects.add(new SnowEffect());
+        effects.add(new Removal());
+        effects.add(new FleaEffect());
+        effects.add(new ShowEffect());
+        effects.add(new TestEffect());
     }
 }

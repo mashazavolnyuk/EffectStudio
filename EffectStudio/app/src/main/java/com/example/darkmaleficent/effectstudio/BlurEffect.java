@@ -13,7 +13,7 @@ import android.renderscript.ScriptIntrinsicBlur;
 public class BlurEffect extends SingleImageEffect {
 
     public BlurEffect() {
-        super(2, "Blur", R.mipmap.ic_add_a_photo_white_36dp,TypeEffect.Filter);
+        super(2, "Blur", R.mipmap.ic_add_a_photo_white_36dp);
     }
 
     @Override

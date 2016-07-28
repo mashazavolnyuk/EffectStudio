@@ -10,7 +10,7 @@ import android.graphics.Color;
 public class GrayScaleEffect extends SingleImageEffect {
 
     public GrayScaleEffect() {
-        super(1, "GrayScale", R.mipmap.ic_add_a_photo_white_36dp,TypeEffect.Filter);
+        super(1, "GrayScale", R.mipmap.ic_add_a_photo_white_36dp);
     }
 
     @Override

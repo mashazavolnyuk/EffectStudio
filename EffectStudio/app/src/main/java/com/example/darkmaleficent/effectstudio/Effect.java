@@ -8,25 +8,16 @@ public abstract class Effect {
     int id;
     int image;
     String name;
-    TypeEffect typeEffect;
-
-    public TypeEffect getTypeEffect() {
-        return typeEffect;
-    }
-
-    public void setTypeEffect(TypeEffect typeEffect) {
-        this.typeEffect = typeEffect;
-    }
 
     public Effect(){
 
     }
 
-    public Effect(int id, String name, int image, TypeEffect typeEffect){
+    public Effect(int id, String name, int image){
         this.id = id;
         this.name = name;
         this.image = image;
-        this.typeEffect=typeEffect;
+
     }
 
     public int getId() {

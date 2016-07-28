@@ -41,8 +41,18 @@ public class EffectExecutor {
                 ReflectionEffect reflectionEffect=new ReflectionEffect();
                 bmp=reflectionEffect.apply(context, bitmap);
             case 5:
-                SnowEffect snowEffect=new SnowEffect();
-                bmp=snowEffect.apply(context,bitmap);
+                Removal removalEffect=new Removal();
+                bmp=removalEffect.apply(context,bitmap);
+
+            case 6:
+                FleaEffect fleaEffect=new FleaEffect();
+                bmp=fleaEffect.apply(context,bitmap);
+            case 7:
+                ShowEffect snow=new ShowEffect();
+                bmp=snow.apply(context,bitmap);
+            case 8:
+                TestEffect testEffect=new TestEffect();
+                bmp=testEffect.apply(context,bitmap);
         }
         return bmp;
     }
