@@ -15,13 +15,34 @@
         android:orientation="horizontal"
         android:scrollbars="horizontal"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+    <LinearLayout
+        android:id="@+id/android_material_design_spinner"
+        android:background="@color/mainBackground"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
+    <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+        android:id="@+id/material_design_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:backgroundTint="@color/mainBackground"
+        android:backgroundTintMode="multiply"
+        android:hint="Choose you tools"
+        android:textColorHint="#FF0011"
+        android:textColorHighlight="@color/colorAccent"
+        android:textColor="@color/colorPrimaryDark"
+        />
+</LinearLayout>
     <ImageView
         android:id="@+id/workingImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/rcvToolsEffect"
+        android:layout_below="@id/android_material_design_spinner"
         android:background="@color/mainBackground"
         android:scaleType="centerCrop"
         android:scrollbarStyle="insideInset" />
+
+
 </RelativeLayout>

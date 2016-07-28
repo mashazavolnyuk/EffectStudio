@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity
     FloatingActionButton fabLoadImageFromCamera;
     FloatingActionButton fabLoadImageFromGallery;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +63,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar supportActionBar = getSupportActionBar();
+
         if (supportActionBar != null) {
             supportActionBar.setDisplayHomeAsUpEnabled(true);
             supportActionBar.setHomeButtonEnabled(true);
@@ -154,7 +156,7 @@ public class MainActivity extends AppCompatActivity
         Bundle bundle = new Bundle();
         bundle.putParcelable("image", image);
         fragment.setArguments(bundle);
-        ft.replace(R.id.maincontainer, fragment, "modify");
+        ft.add(R.id.maincontainer, fragment, "modify");
         setMainNavigationState(true);
         ft.addToBackStack("modify");
         ft.commit();
@@ -265,7 +267,7 @@ public class MainActivity extends AppCompatActivity
     private void getAlbumsVK() {
         int id = getIntent().getIntExtra("need_covers", 1);
         VKRequest albums = new VKRequest("photos.getAlbums",
-                VKParameters.from(VKApiConst.ALBUM_ID,"need_covers",1));
+                VKParameters.from(VKApiConst.ALBUM_ID,id));
 
         albums.setResponseParser(new VKParser() {
             @Override

@@ -20,8 +20,6 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/btnFabGallery"
-        app:fab_shadow="true"
-        app:fab_type="mini"
         android:layout_above="@+id/btnFabCamera"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -35,8 +33,6 @@
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/btnFabCamera"
         android:layout_above="@+id/btnFabPlus"
-        app:fab_shadow="true"
-        app:fab_type="mini"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@mipmap/ic_add_a_photo_white_36dp"
@@ -56,8 +52,6 @@
         android:layout_alignParentRight="true"
         app:backgroundTint="@color/colorAccent"
         app:borderWidth="0dp"
-        app:fab_shadow="true"
-        app:fab_type="normal"
         app:elevation="12dp" />
 
 </RelativeLayout>
