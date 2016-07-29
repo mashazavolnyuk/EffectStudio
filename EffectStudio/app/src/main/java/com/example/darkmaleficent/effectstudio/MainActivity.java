@@ -23,6 +23,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.darkmaleficent.effectstudio.fragment.DialogMenuImageFromGallery;
+import com.example.darkmaleficent.effectstudio.fragment.FragmentImageProcessing;
+import com.example.darkmaleficent.effectstudio.fragment.FragmentMainGallery;
+import com.example.darkmaleficent.effectstudio.interfaces.IMenuGallery;
+import com.example.darkmaleficent.effectstudio.interfaces.IMenuImageGallery;
+import com.example.darkmaleficent.effectstudio.interfaces.INavigation;
 import com.vk.sdk.VKScope;
 import com.vk.sdk.api.VKApiConst;
 import com.vk.sdk.api.VKParameters;
@@ -195,7 +201,7 @@ public class MainActivity extends AppCompatActivity
             Uri uri = data.getData();
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                ImageManagerLoader.getInstance().addImage(bitmap);
+                ImageStorage.getInstance().addImage(bitmap);
                 toGridView();
 
 
@@ -205,7 +211,7 @@ public class MainActivity extends AppCompatActivity
         }
         if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
             Bitmap photo = (Bitmap) data.getExtras().get("data");
-            ImageManagerLoader.getInstance().addImage(photo);
+            ImageStorage.getInstance().addImage(photo);
             toGridView();
 
         }
@@ -293,7 +299,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void createMenu(int position, View v) {
-        ImageManagerLoader.getInstance().setWorkingPosition(position);
+        ImageStorage.getInstance().setWorkingPosition(position);
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         DialogMenuImageFromGallery fragment = new DialogMenuImageFromGallery();
         ft.replace(R.id.maincontainer, fragment, "menu");

@@ -43,6 +43,4 @@
         android:background="@color/mainBackground"
         android:scaleType="centerCrop"
         android:scrollbarStyle="insideInset" />
-
-
 </RelativeLayout>
