@@ -23,9 +23,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.darkmaleficent.effectstudio.data.ImageStorage;
 import com.example.darkmaleficent.effectstudio.fragment.DialogMenuImageFromGallery;
 import com.example.darkmaleficent.effectstudio.fragment.FragmentImageProcessing;
 import com.example.darkmaleficent.effectstudio.fragment.FragmentMainGallery;
+import com.example.darkmaleficent.effectstudio.fragment.FragmentRegulatorProperty;
 import com.example.darkmaleficent.effectstudio.interfaces.IMenuGallery;
 import com.example.darkmaleficent.effectstudio.interfaces.IMenuImageGallery;
 import com.example.darkmaleficent.effectstudio.interfaces.INavigation;
@@ -58,17 +60,17 @@ public class MainActivity extends AppCompatActivity
     FloatingActionButton fabLoadImageFromCamera;
     FloatingActionButton fabLoadImageFromGallery;
 
-    static
-    {
+    static {
         System.loadLibrary("NativeImageProcessor");
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        fabPlus = (FloatingActionButton)findViewById(R.id.btnFabPlus);
-        fabLoadImageFromCamera=(FloatingActionButton)findViewById(R.id.btnFabCamera);
-        fabLoadImageFromGallery=(FloatingActionButton)findViewById(R.id.btnFabGallery);
+        fabPlus = (FloatingActionButton) findViewById(R.id.btnFabPlus);
+        fabLoadImageFromCamera = (FloatingActionButton) findViewById(R.id.btnFabCamera);
+        fabLoadImageFromGallery = (FloatingActionButton) findViewById(R.id.btnFabGallery);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar supportActionBar = getSupportActionBar();
@@ -90,10 +92,12 @@ public class MainActivity extends AppCompatActivity
         fabPlus.show();
 
     }
-    private void hideFAB(){
+
+    private void hideFAB() {
         fabLoadImageFromCamera.hide();
         fabLoadImageFromGallery.hide();
     }
+
     private void setMainNavigationState(boolean state) {
         if (state)
             setAsSecondaryScreen();//где надо back
@@ -168,6 +172,19 @@ public class MainActivity extends AppCompatActivity
         ft.add(R.id.maincontainer, fragment, "modify");
         setMainNavigationState(true);
         ft.addToBackStack("modify");
+        ft.commit();
+    }
+
+    @Override
+    public void toRegulationProperty(Bitmap image) {
+
+        fabPlus.hide();
+        hideFAB();
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        FragmentRegulatorProperty fragment = new FragmentRegulatorProperty();
+        ft.replace(R.id.maincontainer, fragment, "regulation");
+        setMainNavigationState(true);
+        ft.addToBackStack("regulation");
         ft.commit();
     }
 
@@ -247,9 +264,9 @@ public class MainActivity extends AppCompatActivity
             onBackPressed();
             return true;
         }
-        if (id == R.id.action_settings) {
-            return true;
-        }
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -276,7 +293,7 @@ public class MainActivity extends AppCompatActivity
     private void getAlbumsVK() {
         int id = getIntent().getIntExtra("need_covers", 1);
         VKRequest albums = new VKRequest("photos.getAlbums",
-                VKParameters.from(VKApiConst.ALBUM_ID,id));
+                VKParameters.from(VKApiConst.ALBUM_ID, id));
 
         albums.setResponseParser(new VKParser() {
             @Override
@@ -289,12 +306,10 @@ public class MainActivity extends AppCompatActivity
             public void onComplete(VKResponse response) {
                 Log.d("Albums: ", response.parsedModel.toString());
             }
-                    });
-
+        });
 
 
     }
-
 
 
     @Override
@@ -315,4 +330,8 @@ public class MainActivity extends AppCompatActivity
         shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(photoFile));
         startActivity(Intent.createChooser(shareIntent, "Share image using"));
     }
+
+    /**
+     * Created by Dark Maleficent on 31.07.2016.
+     */
 }

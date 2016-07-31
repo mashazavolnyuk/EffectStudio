@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.darkmaleficent.effectstudio.ImageStorage;
+import com.example.darkmaleficent.effectstudio.data.ImageStorage;
 import com.example.darkmaleficent.effectstudio.R;
 import com.example.darkmaleficent.effectstudio.effect.EffectExecutor;
 
@@ -33,8 +33,8 @@ public class EffectsListHolders extends RecyclerView.ViewHolder {
             @Override
             public void onClick(View v) {
                 try{
-                ExecuteEffectTask task=new ExecuteEffectTask(v.getContext());
-                task.execute();
+               // ExecuteEffectTask task=new ExecuteEffectTask(v.getContext());
+              //  task.execute();
                     Snackbar.make(v,"well done",Snackbar.LENGTH_LONG).show();
                 }catch(Exception e){
                     Snackbar.make(v,"sorry,your phone can't does this operation",Snackbar.LENGTH_LONG).show();

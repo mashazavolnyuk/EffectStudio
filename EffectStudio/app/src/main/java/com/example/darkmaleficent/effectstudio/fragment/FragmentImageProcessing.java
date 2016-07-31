@@ -17,12 +17,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.darkmaleficent.effectstudio.interfaces.IChooserFilters;
+import com.example.darkmaleficent.effectstudio.R;
+import com.example.darkmaleficent.effectstudio.adapter.PropertiesAdapter;
+import com.example.darkmaleficent.effectstudio.data.ImageStorage;
 import com.example.darkmaleficent.effectstudio.interfaces.IObserveRecyclerTools;
 import com.example.darkmaleficent.effectstudio.interfaces.IObserveWorkingImage;
-import com.example.darkmaleficent.effectstudio.ImageStorage;
-import com.example.darkmaleficent.effectstudio.R;
-import com.example.darkmaleficent.effectstudio.adapter.EffectsListAdapter;
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
 /**
@@ -32,7 +31,7 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
     ImageView imageView;
     RecyclerView barToolsEffect;
     View v;
-    EffectsListAdapter adapter;
+    PropertiesAdapter adapter;
     String[] SPINNERLIST = {"Filters", "Effect","Properties"};
 
     @Nullable
@@ -43,7 +42,7 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
         barToolsEffect = (RecyclerView) v.findViewById(R.id.rcvToolsEffect);
         imageView = (ImageView) v.findViewById(R.id.workingImage);
         ImageStorage.getInstance().setObserver(this);
-        adapter = new EffectsListAdapter(getActivity());
+        adapter = new PropertiesAdapter(getActivity());
         barToolsEffect.setAdapter(adapter);
         Bitmap bitmap = ImageStorage.getInstance().getWorkingBitmap();
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Effect");
@@ -58,6 +57,19 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
         materialDesignSpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                switch (i){
+
+                    case 0:
+
+                        break;
+                    case 2:
+                        PropertiesAdapter propertiseAdapter=new PropertiesAdapter(getActivity());
+                        barToolsEffect.setAdapter(propertiseAdapter);
+
+                        break;
+
+                }
                 Toast.makeText(getActivity(), "i=" + i + ", l=" + l, Toast.LENGTH_SHORT).show();
 
             }
@@ -67,16 +79,16 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        getActivity().getMenuInflater().inflate(R.menu.image_processing, menu);
+        //getActivity().getMenuInflater().inflate(R.menu.image_processing, menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.chooser:
-                ((IChooserFilters) getActivity()).toChoosefilter();
-                break;
-        }
+//        switch (item.getItemId()) {
+//            case R.id.chooser:
+//                ((IChooserFilters) getActivity()).toChoosefilter();
+//                break;
+      //  }
         return super.onOptionsItemSelected(item);
     }
 

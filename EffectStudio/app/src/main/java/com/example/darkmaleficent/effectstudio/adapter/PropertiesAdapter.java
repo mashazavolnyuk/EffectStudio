@@ -8,36 +8,41 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.darkmaleficent.effectstudio.R;
-import com.example.darkmaleficent.effectstudio.effect.Effect;
 import com.example.darkmaleficent.effectstudio.data.ChangeImageStorage;
+import com.example.darkmaleficent.effectstudio.effect.Effect;
 
 import java.util.List;
 
-public class EffectsListAdapter extends RecyclerView.Adapter<EffectsListHolders> {
+/**
+ * Created by Dark Maleficent on 31.07.2016.
+ */
+public class PropertiesAdapter extends  RecyclerView.Adapter<PropertiesHolders> {
 
     private Context context;
     private List<Effect> data;
 
-    public EffectsListAdapter(Context context) {
+    public PropertiesAdapter(Context context){
+
         this.context = context;
         data = ChangeImageStorage.getInstance().getEffects();
         Log.d("Effect size",""+ data.size());
     }
-
     @Override
-    public EffectsListHolders onCreateViewHolder(ViewGroup parent, int viewType) {
+    public PropertiesHolders onCreateViewHolder(ViewGroup parent, int viewType) {
         View layoutView = LayoutInflater.from(context).inflate(R.layout.item_list_effect_tools, null);
-        EffectsListHolders rcv = new EffectsListHolders(layoutView);
+        PropertiesHolders rcv = new PropertiesHolders(layoutView);
         return rcv;
     }
 
     @Override
-    public void onBindViewHolder(EffectsListHolders holder, final int position) {
+    public void onBindViewHolder(PropertiesHolders holder, int position) {
         holder.description.setText(data.get(position).getName());
         holder.description.setTag(data.get(position).getId());
         holder.effect.setImageResource(data.get(position).getImage());
         holder.position = position;
+        holder.c=context;
     }
+
     @Override
     public int getItemCount() {
         return data.size();

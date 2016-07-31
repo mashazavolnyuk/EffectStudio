@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 public interface INavigation {
     void toGridView();
     void toModifyImage(Bitmap image);
+    void toRegulationProperty(Bitmap image);
     void loadImagefromGallery();
     void loadImagefromCamera();
 }

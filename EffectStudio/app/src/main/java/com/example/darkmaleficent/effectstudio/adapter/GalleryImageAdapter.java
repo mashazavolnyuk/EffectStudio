@@ -15,7 +15,7 @@ import com.example.darkmaleficent.effectstudio.interfaces.IListener;
 import com.example.darkmaleficent.effectstudio.interfaces.IMenuImageGallery;
 import com.example.darkmaleficent.effectstudio.interfaces.INavigation;
 import com.example.darkmaleficent.effectstudio.interfaces.IObserve;
-import com.example.darkmaleficent.effectstudio.ImageStorage;
+import com.example.darkmaleficent.effectstudio.data.ImageStorage;
 import com.example.darkmaleficent.effectstudio.R;
 
 import java.util.LinkedList;

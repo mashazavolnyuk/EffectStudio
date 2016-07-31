@@ -2,9 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
     <item
-        android:id="@+id/chooser"
-        android:icon="@mipmap/ic_share_white_48dp"
-        android:title="Popup menu item 4"
+        android:title="done"
+        android:id="@+id/checkDone"
+        android:icon="@mipmap/ic_check_white_36dp"
         android:showAsAction="always"
-        tools:ignore="AppCompatResource" />
+        android:orderInCategory="100"
+         />
 </menu>

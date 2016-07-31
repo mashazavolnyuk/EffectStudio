@@ -1,4 +1,4 @@
-package com.example.darkmaleficent.effectstudio;
+package com.example.darkmaleficent.effectstudio.data;
 
 import android.graphics.Bitmap;
 
