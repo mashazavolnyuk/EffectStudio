@@ -3,6 +3,7 @@ package com.example.darkmaleficent.effectstudio;
 import android.Manifest;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -17,14 +18,15 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.ListPopupWindow;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.darkmaleficent.effectstudio.adapter.OptionsAdapter;
 import com.example.darkmaleficent.effectstudio.data.ImageStorage;
-import com.example.darkmaleficent.effectstudio.fragment.DialogMenuImageFromGallery;
 import com.example.darkmaleficent.effectstudio.fragment.FragmentImageProcessing;
 import com.example.darkmaleficent.effectstudio.fragment.FragmentMainGallery;
 import com.example.darkmaleficent.effectstudio.fragment.FragmentRegulatorProperty;
@@ -315,10 +317,25 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void createMenu(int position, View v) {
         ImageStorage.getInstance().setWorkingPosition(position);
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        DialogMenuImageFromGallery fragment = new DialogMenuImageFromGallery();
-        ft.replace(R.id.maincontainer, fragment, "menu");
-        ft.commit();
+//        FragmentTransaction ft = getFragmentManager().beginTransaction();
+//        DialogMenuImageFromGallery fragment = new DialogMenuImageFromGallery();
+//        ft.replace(R.id.maincontainer, fragment, "menu");
+//        ft.commit();
+        int i = ImageStorage.getInstance().getWorkingPosition();
+        Context ctx = v.getContext();
+        ListPopupWindow optionsWindow = new ListPopupWindow(ctx);
+        OptionsAdapter adapter = new OptionsAdapter(optionsWindow, this, i);
+        optionsWindow.setAdapter(adapter);
+        optionsWindow.setAnchorView(v);
+        optionsWindow.setHorizontalOffset(-10);
+      setOptionWindowWidth(ctx, optionsWindow, R.dimen.fab_margin);
+        optionsWindow.setModal(true);
+        optionsWindow.show();
+    }
+
+
+    private void setOptionWindowWidth(Context context, ListPopupWindow optionsWindow, int dimenIdWidth) {
+        optionsWindow.setWidth(context.getResources().getDimensionPixelSize(dimenIdWidth));
     }
 
     //TODO
@@ -329,6 +346,20 @@ public class MainActivity extends AppCompatActivity
         final File photoFile = new File(getFilesDir(), "foo.jpg");
         shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(photoFile));
         startActivity(Intent.createChooser(shareIntent, "Share image using"));
+
+
+//        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+//        icon.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+//        File f = new File(Environment.getExternalStorageDirectory() + File.separator + "temporary_file.jpg");
+//        try {
+//            f.createNewFile();
+//            FileOutputStream fo = new FileOutputStream(f);
+//            fo.write(bytes.toByteArray());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        share.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///sdcard/temporary_file.jpg"));
+//        startActivity(Intent.createChooser(share, "Share Image"));
     }
 
     /**

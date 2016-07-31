@@ -19,6 +19,7 @@ public class DialogMenuImageFromGallery extends DialogFragment implements View.O
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_dialog_menu_image_from_gallery, null);
+        v.setOnClickListener(this);
         return v;
     }
     @Override

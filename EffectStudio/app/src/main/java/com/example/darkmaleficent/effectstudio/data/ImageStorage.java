@@ -65,7 +65,10 @@ public class ImageStorage implements IObservableWorkingImage {
         bitmapList.set(index, newObject);
         observeWorkingImage.newState(true);
     }
+    public Bitmap getImageByPostiton(int position){
+        return bitmapList.get(position);
 
+    }
 
     @Override
     public void setObserver(IObserveWorkingImage observer) {
