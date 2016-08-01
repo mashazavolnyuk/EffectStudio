@@ -21,7 +21,6 @@ public class PropertiesHolders  extends RecyclerView.ViewHolder {
     View.OnClickListener listener;
     int position;
     Bitmap bitmap;
-    View view;
 
     public PropertiesHolders(View itemView) {
         super(itemView);
@@ -34,7 +33,7 @@ public class PropertiesHolders  extends RecyclerView.ViewHolder {
 
                     int i = (int) description.getTag();
                     bitmap = ImageStorage.getInstance().getWorkingBitmap();
-                    ((INavigation) c).toRegulationProperty(bitmap);
+                    ((INavigation) c).toRegulationProperty(bitmap, i);
 
                 }catch(Exception e){
 

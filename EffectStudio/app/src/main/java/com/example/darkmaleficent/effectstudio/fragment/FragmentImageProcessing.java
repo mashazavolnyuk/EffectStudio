@@ -15,9 +15,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.example.darkmaleficent.effectstudio.R;
+import com.example.darkmaleficent.effectstudio.adapter.EffectsListAdapter;
 import com.example.darkmaleficent.effectstudio.adapter.PropertiesAdapter;
 import com.example.darkmaleficent.effectstudio.data.ImageStorage;
 import com.example.darkmaleficent.effectstudio.interfaces.IObserveRecyclerTools;
@@ -31,8 +31,14 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
     ImageView imageView;
     RecyclerView barToolsEffect;
     View v;
-    PropertiesAdapter adapter;
+    EffectsListAdapter adapter;
     String[] SPINNERLIST = {"Filters", "Effect","Properties"};
+    int positionBar=0;
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
 
     @Nullable
     @Override
@@ -42,8 +48,7 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
         barToolsEffect = (RecyclerView) v.findViewById(R.id.rcvToolsEffect);
         imageView = (ImageView) v.findViewById(R.id.workingImage);
         ImageStorage.getInstance().setObserver(this);
-        adapter = new PropertiesAdapter(getActivity());
-        barToolsEffect.setAdapter(adapter);
+       setToolsBar(positionBar);
         Bitmap bitmap = ImageStorage.getInstance().getWorkingBitmap();
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Effect");
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -57,26 +62,29 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
         materialDesignSpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-                switch (i){
-
-                    case 0:
-
-                        break;
-                    case 2:
-                        PropertiesAdapter propertiseAdapter=new PropertiesAdapter(getActivity());
-                        barToolsEffect.setAdapter(propertiseAdapter);
-
-                        break;
-
-                }
-                Toast.makeText(getActivity(), "i=" + i + ", l=" + l, Toast.LENGTH_SHORT).show();
-
+                setToolsBar(i);
+                positionBar=i;
             }
         });
         return v;
     }
+    private void setToolsBar(int position){
 
+        switch (position){
+
+            case 0:
+                EffectsListAdapter effectsListAdapter=new EffectsListAdapter(getActivity());
+                barToolsEffect.setAdapter(effectsListAdapter);
+                break;
+            case 2:
+                PropertiesAdapter propertiseAdapter=new PropertiesAdapter(getActivity());
+                barToolsEffect.setAdapter(propertiseAdapter);
+
+                break;
+
+        }
+
+    }
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         //getActivity().getMenuInflater().inflate(R.menu.image_processing, menu);

@@ -33,8 +33,8 @@ public class EffectsListHolders extends RecyclerView.ViewHolder {
             @Override
             public void onClick(View v) {
                 try{
-               // ExecuteEffectTask task=new ExecuteEffectTask(v.getContext());
-              //  task.execute();
+                ExecuteEffectTask task=new ExecuteEffectTask(v.getContext());
+                task.execute();
                     Snackbar.make(v,"well done",Snackbar.LENGTH_LONG).show();
                 }catch(Exception e){
                     Snackbar.make(v,"sorry,your phone can't does this operation",Snackbar.LENGTH_LONG).show();
@@ -70,7 +70,7 @@ public class EffectsListHolders extends RecyclerView.ViewHolder {
         protected Bitmap doInBackground(Void... voids) {
             try {
                 Bitmap bmp = ImageStorage.getInstance().getWorkingBitmap();
-                bitmap = EffectExecutor.getInstance().executeEffect(i, bmp,context);
+                bitmap = EffectExecutor.getInstance().execute(i, bmp,context);
 
             } catch (Exception e) {
                 e.printStackTrace();

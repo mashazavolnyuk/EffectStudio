@@ -3,10 +3,12 @@ package com.example.darkmaleficent.effectstudio.effect;
 import android.content.Context;
 import android.graphics.Bitmap;
 
+import com.example.darkmaleficent.effectstudio.interfaces.IExecutor;
+
 /**
  * Created by Dark Maleficent on 20.06.2016.
  */
-public class EffectExecutor {
+public class EffectExecutor implements IExecutor {
 
     private Bitmap bmp;
     private static EffectExecutor instance;
@@ -23,7 +25,8 @@ public class EffectExecutor {
             }
         return instance;
     }
-    public Bitmap executeEffect(int id, Bitmap bitmap, Context context) {
+    @Override
+    public Bitmap execute(int id, Bitmap bitmap, Context context) {
 
         ISingleImageEffect effect = null;
         switch (id) {

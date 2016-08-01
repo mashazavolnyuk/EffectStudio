@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import com.example.darkmaleficent.effectstudio.R;
 import com.example.darkmaleficent.effectstudio.data.ChangeImageStorage;
-import com.example.darkmaleficent.effectstudio.effect.Effect;
+import com.example.darkmaleficent.effectstudio.property.Property;
 
 import java.util.List;
 
@@ -19,12 +19,12 @@ import java.util.List;
 public class PropertiesAdapter extends  RecyclerView.Adapter<PropertiesHolders> {
 
     private Context context;
-    private List<Effect> data;
+    private List<Property> data;
 
     public PropertiesAdapter(Context context){
 
         this.context = context;
-        data = ChangeImageStorage.getInstance().getEffects();
+        data = ChangeImageStorage.getInstance().getProperties();
         Log.d("Effect size",""+ data.size());
     }
     @Override

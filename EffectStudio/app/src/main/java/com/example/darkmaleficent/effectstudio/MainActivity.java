@@ -178,12 +178,16 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void toRegulationProperty(Bitmap image) {
+    public void toRegulationProperty(Bitmap image,int idProperties) {
 
         fabPlus.hide();
         hideFAB();
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         FragmentRegulatorProperty fragment = new FragmentRegulatorProperty();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("image", image);
+        bundle.putInt("idProperties",idProperties);
+        fragment.setArguments(bundle);
         ft.replace(R.id.maincontainer, fragment, "regulation");
         setMainNavigationState(true);
         ft.addToBackStack("regulation");
