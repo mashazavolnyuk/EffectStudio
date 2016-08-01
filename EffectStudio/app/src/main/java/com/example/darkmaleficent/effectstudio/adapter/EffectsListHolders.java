@@ -69,7 +69,7 @@ public class EffectsListHolders extends RecyclerView.ViewHolder {
         @Override
         protected Bitmap doInBackground(Void... voids) {
             try {
-                Bitmap bmp = ImageStorage.getInstance().getWorkingBitmap();
+                Bitmap bmp = ImageStorage.getInstance().getBmp();
                 bitmap = EffectExecutor.getInstance().execute(i, bmp,context);
 
             } catch (Exception e) {
@@ -86,7 +86,7 @@ public class EffectsListHolders extends RecyclerView.ViewHolder {
 
         @Override
         protected void onPostExecute(Bitmap bitmap) {
-            ImageStorage.getInstance().setWorkingBitmap(bitmap);
+            ImageStorage.getInstance().setBmp(bitmap);
             progressDialog.dismiss();
         }
     }

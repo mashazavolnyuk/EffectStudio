@@ -6,16 +6,13 @@ import com.example.darkmaleficent.effectstudio.interfaces.IObservableWorkingImag
 import com.example.darkmaleficent.effectstudio.interfaces.IObserveWorkingImage;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Dark Maleficent on 09.06.2016.
  */
-public class ImageStorage implements IObservableWorkingImage,Serializable {
+public class ImageStorage implements IObservableWorkingImage, Serializable {
     private static ImageStorage intance;
-    private List<Bitmap> bitmapList;
-    private int workingPosition;
+    private Bitmap bmp;
     private IObserveWorkingImage observeWorkingImage;
 
     private ImageStorage() {
@@ -30,50 +27,22 @@ public class ImageStorage implements IObservableWorkingImage,Serializable {
         return intance;
     }
 
-    public boolean isLoadedImageList() {
-        if (null == bitmapList || bitmapList.isEmpty())
-            return false;
-        else
-            return true;
-    }
-    public Bitmap getWorkingBitmap(){
-        return bitmapList.get(workingPosition);
-    }
-    public int getWorkingPosition(){
-        return workingPosition;
-    }
-    public void setWorkingPosition(int position){
-        this.workingPosition=position;
-    }
-    public void setWorkingBitmap(Bitmap bitmap){
-        ReplaceImage(workingPosition, bitmap);
-    }
-    public void setCurrentWorkingImage(int position){
-        workingPosition=position;
-    }
-    public void addImage(Bitmap obj) {
-        if (!isLoadedImageList()) {
-            bitmapList = new ArrayList<Bitmap>();
-            bitmapList.add(obj);
-        } else
-            bitmapList.add(obj);
+    public void setBmp(Bitmap bmp) {
+        this.bmp = bmp;
     }
 
-    public List<Bitmap> getAllImage() {
-        return bitmapList;
+    public Bitmap getBmp() {
+        return bmp;
     }
 
     private void ReplaceImage(int index, Bitmap newObject) {
-        bitmapList.set(index, newObject);
+        setBmp(newObject);
         observeWorkingImage.newState(true);
     }
-    public Bitmap getImageByPostiton(int position){
-        return bitmapList.get(position);
 
-    }
 
     @Override
     public void setObserver(IObserveWorkingImage observer) {
-        observeWorkingImage=observer;
+        observeWorkingImage = observer;
     }
 }

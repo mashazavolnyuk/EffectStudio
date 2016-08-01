@@ -3,7 +3,6 @@ package com.example.darkmaleficent.effectstudio;
 import android.Manifest;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -18,20 +17,15 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.ListPopupWindow;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.example.darkmaleficent.effectstudio.adapter.OptionsAdapter;
 import com.example.darkmaleficent.effectstudio.data.ImageStorage;
 import com.example.darkmaleficent.effectstudio.fragment.FragmentImageProcessing;
-import com.example.darkmaleficent.effectstudio.fragment.FragmentMainGallery;
 import com.example.darkmaleficent.effectstudio.fragment.FragmentRegulatorProperty;
-import com.example.darkmaleficent.effectstudio.interfaces.IMenuGallery;
-import com.example.darkmaleficent.effectstudio.interfaces.IMenuImageGallery;
 import com.example.darkmaleficent.effectstudio.interfaces.INavigation;
 import com.vk.sdk.VKScope;
 import com.vk.sdk.api.VKApiConst;
@@ -45,12 +39,11 @@ import com.vk.sdk.api.model.VKList;
 
 import org.json.JSONObject;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, INavigation, IMenuImageGallery, IMenuGallery {
+        implements NavigationView.OnNavigationItemSelectedListener, INavigation {
     private static final int PICK_IMAGE_REQUEST = 1;
     private static final int CAMERA_REQUEST = 2;
     private String[] scope = new String[]{VKScope.WALL, VKScope.PHOTOS};
@@ -70,28 +63,22 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        fabPlus = (FloatingActionButton) findViewById(R.id.btnFabPlus);
-        fabLoadImageFromCamera = (FloatingActionButton) findViewById(R.id.btnFabCamera);
-        fabLoadImageFromGallery = (FloatingActionButton) findViewById(R.id.btnFabGallery);
+      //  fabPlus = (FloatingActionButton) findViewById(R.id.btnFabPlus);
+//        fabLoadImageFromCamera = (FloatingActionButton) findViewById(R.id.btnFabCamera);
+//        fabLoadImageFromGallery = (FloatingActionButton) findViewById(R.id.btnFabGallery);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        ActionBar supportActionBar = getSupportActionBar();
 
-        if (supportActionBar != null) {
-            supportActionBar.setDisplayHomeAsUpEnabled(true);
-            supportActionBar.setHomeButtonEnabled(true);
-        }
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+
         drawerLayout.setDrawerListener(toggle);
         toggle.syncState();
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        //TODO fixed navigation drawer
-        setMainNavigationState(true);
-        toGridView();
-        fabPlus.show();
+        toModifyImage();
+
 
     }
 
@@ -102,9 +89,9 @@ public class MainActivity extends AppCompatActivity
 
     private void setMainNavigationState(boolean state) {
         if (state)
-            setAsSecondaryScreen();//где надо back
+            setAsMainScreen();
         else
-            setAsMainScreen();//где глав
+            setAsSecondaryScreen();
     }
 
     private void setAsSecondaryScreen() {
@@ -132,6 +119,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setAsMainScreen() {
+//        enableHomeButton();
         disableHomeButton();
         enableNavigationDrawer();
     }
@@ -150,58 +138,34 @@ public class MainActivity extends AppCompatActivity
         toggle.setToolbarNavigationClickListener(null);
     }
 
-    @Override
-    public void toGridView() {
-        setMainNavigationState(false);
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        FragmentMainGallery fragment = new FragmentMainGallery();
-        ft.add(R.id.maincontainer, fragment, "galllery");
-        ft.addToBackStack("galllery");
-        ft.commit();
-
-
-    }
 
     @Override
-    public void toModifyImage(Bitmap image) {
-        fabPlus.hide();
-        hideFAB();
+    public void toModifyImage() {
+        setMainNavigationState(true);
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         FragmentImageProcessing fragment = new FragmentImageProcessing();
-        Bundle bundle = new Bundle();
-        bundle.putParcelable("image", image);
-        fragment.setArguments(bundle);
-        ft.add(R.id.maincontainer, fragment, "modify");
-        setMainNavigationState(true);
+        ft.add(R.id.mainContent, fragment, "modify");
         ft.addToBackStack("modify");
         ft.commit();
+
+
     }
 
     @Override
     protected void onPause() {
-
-        Object instance=ImageStorage.getInstance();
-        try {
-            SerializationUtil.serialize(instance,"ImageStore.ser");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         super.onPause();
     }
 
     @Override
-    public void toRegulationProperty(Bitmap image,int idProperties) {
-
-        fabPlus.hide();
-        hideFAB();
+    public void toRegulationProperty(Bitmap image, int idProperties) {
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         FragmentRegulatorProperty fragment = new FragmentRegulatorProperty();
         Bundle bundle = new Bundle();
         bundle.putParcelable("image", image);
-        bundle.putInt("idProperties",idProperties);
+        bundle.putInt("idProperties", idProperties);
         fragment.setArguments(bundle);
-        ft.replace(R.id.maincontainer, fragment, "regulation");
-        setMainNavigationState(true);
+        ft.replace(R.id.mainContent, fragment, "regulation");
+        setMainNavigationState(false);
         ft.addToBackStack("regulation");
         ft.commit();
     }
@@ -236,35 +200,33 @@ public class MainActivity extends AppCompatActivity
             Uri uri = data.getData();
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                ImageStorage.getInstance().addImage(bitmap);
-                toGridView();
-
-
+                ImageStorage.getInstance().setBmp(bitmap);
+                toModifyImage();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
         if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
             Bitmap photo = (Bitmap) data.getExtras().get("data");
-            ImageStorage.getInstance().addImage(photo);
-            toGridView();
-
+            ImageStorage.getInstance().setBmp(photo);
+            toModifyImage();
         }
-        hideFAB();
+
     }
 
     @Override
     public void onBackPressed() {
         FragmentManager fm = getFragmentManager();
         if (fm.getBackStackEntryCount() > 0) {
-            fm.popBackStack();
-            fm.beginTransaction();
+            fm.popBackStackImmediate();
+            fm.beginTransaction().commit();
+
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            toGridView();
+            toModifyImage();
             super.onBackPressed();
         }
     }
@@ -329,56 +291,4 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-
-    @Override
-    public void createMenu(int position, View v) {
-        ImageStorage.getInstance().setWorkingPosition(position);
-//        FragmentTransaction ft = getFragmentManager().beginTransaction();
-//        DialogMenuImageFromGallery fragment = new DialogMenuImageFromGallery();
-//        ft.replace(R.id.maincontainer, fragment, "menu");
-//        ft.commit();
-        int i = ImageStorage.getInstance().getWorkingPosition();
-        Context ctx = v.getContext();
-        ListPopupWindow optionsWindow = new ListPopupWindow(ctx);
-        OptionsAdapter adapter = new OptionsAdapter(optionsWindow, this, i);
-        optionsWindow.setAdapter(adapter);
-        optionsWindow.setAnchorView(v);
-        optionsWindow.setHorizontalOffset(-10);
-      setOptionWindowWidth(ctx, optionsWindow, R.dimen.fab_margin);
-        optionsWindow.setModal(true);
-        optionsWindow.show();
-    }
-
-
-    private void setOptionWindowWidth(Context context, ListPopupWindow optionsWindow, int dimenIdWidth) {
-        optionsWindow.setWidth(context.getResources().getDimensionPixelSize(dimenIdWidth));
-    }
-
-    //TODO
-    @Override
-    public void toShare(Bitmap bmp) {
-        final Intent shareIntent = new Intent(Intent.ACTION_SEND);
-        shareIntent.setType("image/jpg");
-        final File photoFile = new File(getFilesDir(), "foo.jpg");
-        shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(photoFile));
-        startActivity(Intent.createChooser(shareIntent, "Share image using"));
-
-
-//        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-//        icon.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-//        File f = new File(Environment.getExternalStorageDirectory() + File.separator + "temporary_file.jpg");
-//        try {
-//            f.createNewFile();
-//            FileOutputStream fo = new FileOutputStream(f);
-//            fo.write(bytes.toByteArray());
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        share.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///sdcard/temporary_file.jpg"));
-//        startActivity(Intent.createChooser(share, "Share Image"));
-    }
-
-    /**
-     * Created by Dark Maleficent on 31.07.2016.
-     */
 }

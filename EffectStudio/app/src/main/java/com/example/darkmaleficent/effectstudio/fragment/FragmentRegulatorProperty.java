@@ -39,8 +39,7 @@ public class FragmentRegulatorProperty extends Fragment {
         id = getArguments().getInt("idProperties");
         imgPreview = (ImageView) v.findViewById(R.id.imgPreview);
         setHasOptionsMenu(true);
-        int i=ImageStorage.getInstance().getWorkingPosition();
-        bitmap=ImageStorage.getInstance().getWorkingBitmap();
+        bitmap=ImageStorage.getInstance().getBmp();
         imgPreview.setImageBitmap(bitmap);
         seekBarRugelator.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -57,7 +56,7 @@ public class FragmentRegulatorProperty extends Fragment {
             public void onStopTrackingTouch(SeekBar seekBar) {
                 PropertyTask propertyTask = new PropertyTask(getActivity());
                 propertyTask.execute();
-                imgPreview.setImageBitmap(ImageStorage.getInstance().getWorkingBitmap());
+                imgPreview.setImageBitmap(ImageStorage.getInstance().getBmp());
             }
         });
         return v;
@@ -87,8 +86,8 @@ public class FragmentRegulatorProperty extends Fragment {
 
         @Override
         protected void onPostExecute(Bitmap bitmap) {
-            ImageStorage.getInstance().setWorkingBitmap(bitmap);
-            Bitmap bmp=ImageStorage.getInstance().getWorkingBitmap();
+            ImageStorage.getInstance().setBmp(bitmap);
+            Bitmap bmp=ImageStorage.getInstance().getBmp();
             imgPreview.setImageBitmap(bmp);
             progressDialog.dismiss();
         }
@@ -102,7 +101,7 @@ public class FragmentRegulatorProperty extends Fragment {
         @Override
         protected Bitmap doInBackground(Void... voids) {
             try {
-                Bitmap bmp = ImageStorage.getInstance().getWorkingBitmap();
+                Bitmap bmp = ImageStorage.getInstance().getBmp();
                 bitmap = PropertyExecutor.getInstance().execute(id, bmp, getActivity());
 
             } catch (Exception e) {

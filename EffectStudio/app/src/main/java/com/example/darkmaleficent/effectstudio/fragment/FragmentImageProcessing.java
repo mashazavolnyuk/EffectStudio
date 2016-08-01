@@ -2,6 +2,7 @@ package com.example.darkmaleficent.effectstudio.fragment;
 
 import android.app.Fragment;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -32,8 +33,8 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
     RecyclerView barToolsEffect;
     View v;
     EffectsListAdapter adapter;
-    String[] SPINNERLIST = {"Filters", "Effect","Properties"};
-    int positionBar=0;
+    String[] SPINNERLIST = {"Filters", "Effect", "Properties"};
+    int positionBar = 0;
 
     @Override
     public void onStart() {
@@ -48,12 +49,15 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
         barToolsEffect = (RecyclerView) v.findViewById(R.id.rcvToolsEffect);
         imageView = (ImageView) v.findViewById(R.id.workingImage);
         ImageStorage.getInstance().setObserver(this);
-       setToolsBar(positionBar);
-        Bitmap bitmap = ImageStorage.getInstance().getWorkingBitmap();
+        setToolsBar(positionBar);
+        Bitmap bitmap = ImageStorage.getInstance().getBmp();
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Effect");
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        if (bitmap != null)
+        if (bitmap != null) {
             imageView.setImageBitmap(bitmap);
+        } else {
+            imageView.setBackgroundColor(Color.BLUE);
+            barToolsEffect.setEnabled(false);
+        }
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_dropdown_item_1line, SPINNERLIST);
         final MaterialBetterSpinner materialDesignSpinner = (MaterialBetterSpinner)
@@ -63,21 +67,22 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 setToolsBar(i);
-                positionBar=i;
+                positionBar = i;
             }
         });
         return v;
     }
-    private void setToolsBar(int position){
 
-        switch (position){
+    private void setToolsBar(int position) {
+
+        switch (position) {
 
             case 0:
-                EffectsListAdapter effectsListAdapter=new EffectsListAdapter(getActivity());
+                EffectsListAdapter effectsListAdapter = new EffectsListAdapter(getActivity());
                 barToolsEffect.setAdapter(effectsListAdapter);
                 break;
             case 2:
-                PropertiesAdapter propertiseAdapter=new PropertiesAdapter(getActivity());
+                PropertiesAdapter propertiseAdapter = new PropertiesAdapter(getActivity());
                 barToolsEffect.setAdapter(propertiseAdapter);
 
                 break;
@@ -85,6 +90,7 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
         }
 
     }
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         //getActivity().getMenuInflater().inflate(R.menu.image_processing, menu);
@@ -96,14 +102,14 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
 //            case R.id.chooser:
 //                ((IChooserFilters) getActivity()).toChoosefilter();
 //                break;
-      //  }
+        //  }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void newState(boolean state) {
         if (state) {
-            Bitmap bitmap = ImageStorage.getInstance().getWorkingBitmap();
+            Bitmap bitmap = ImageStorage.getInstance().getBmp();
             imageView.setImageBitmap(bitmap);
         }
     }
