@@ -178,6 +178,18 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    protected void onPause() {
+
+        Object instance=ImageStorage.getInstance();
+        try {
+            SerializationUtil.serialize(instance,"ImageStore.ser");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        super.onPause();
+    }
+
+    @Override
     public void toRegulationProperty(Bitmap image,int idProperties) {
 
         fabPlus.hide();

@@ -39,6 +39,7 @@ public class FragmentRegulatorProperty extends Fragment {
         id = getArguments().getInt("idProperties");
         imgPreview = (ImageView) v.findViewById(R.id.imgPreview);
         setHasOptionsMenu(true);
+        int i=ImageStorage.getInstance().getWorkingPosition();
         bitmap=ImageStorage.getInstance().getWorkingBitmap();
         imgPreview.setImageBitmap(bitmap);
         seekBarRugelator.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -56,6 +57,7 @@ public class FragmentRegulatorProperty extends Fragment {
             public void onStopTrackingTouch(SeekBar seekBar) {
                 PropertyTask propertyTask = new PropertyTask(getActivity());
                 propertyTask.execute();
+                imgPreview.setImageBitmap(ImageStorage.getInstance().getWorkingBitmap());
             }
         });
         return v;

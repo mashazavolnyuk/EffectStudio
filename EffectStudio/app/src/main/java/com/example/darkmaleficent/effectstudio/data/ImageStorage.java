@@ -5,17 +5,19 @@ import android.graphics.Bitmap;
 import com.example.darkmaleficent.effectstudio.interfaces.IObservableWorkingImage;
 import com.example.darkmaleficent.effectstudio.interfaces.IObserveWorkingImage;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Dark Maleficent on 09.06.2016.
  */
-public class ImageStorage implements IObservableWorkingImage {
+public class ImageStorage implements IObservableWorkingImage,Serializable {
     private static ImageStorage intance;
     private List<Bitmap> bitmapList;
     private int workingPosition;
     private IObserveWorkingImage observeWorkingImage;
+
     private ImageStorage() {
     }
 

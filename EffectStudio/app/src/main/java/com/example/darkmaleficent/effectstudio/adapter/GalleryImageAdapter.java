@@ -11,13 +11,15 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.darkmaleficent.effectstudio.R;
+import com.example.darkmaleficent.effectstudio.SerializationUtil;
+import com.example.darkmaleficent.effectstudio.data.ImageStorage;
 import com.example.darkmaleficent.effectstudio.interfaces.IListener;
 import com.example.darkmaleficent.effectstudio.interfaces.IMenuImageGallery;
 import com.example.darkmaleficent.effectstudio.interfaces.INavigation;
 import com.example.darkmaleficent.effectstudio.interfaces.IObserve;
-import com.example.darkmaleficent.effectstudio.data.ImageStorage;
-import com.example.darkmaleficent.effectstudio.R;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -30,12 +32,22 @@ public class GalleryImageAdapter extends BaseAdapter implements IListener {
     private INavigation navigation;
     private List<Bitmap> imagelist;
     private ImageView imageMenu;
+    ImageStorage imageStorage;
 
     private IObserve _observer;
 
     public GalleryImageAdapter(Context c, INavigation navigation) {
         context = c;
         this.navigation = navigation;
+        //TODO serialize gallery
+        try {
+            ImageStorage imageStorage= (ImageStorage) SerializationUtil.deserialize("ImageStore.ser");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         if (ImageStorage.getInstance().isLoadedImageList())
             imagelist = ImageStorage.getInstance().getAllImage();
         else
@@ -61,6 +73,7 @@ public class GalleryImageAdapter extends BaseAdapter implements IListener {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         final ImageView imageView;
+
         View grid;
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -91,11 +104,9 @@ public class GalleryImageAdapter extends BaseAdapter implements IListener {
                 }
             });
         } else {
-            //imageView = (ImageView) convertView;
             grid = (View) convertView;
         }
-//        Bitmap obj = imagelist.get(position);
-//        imageView.setImageBitmap(obj);
+
         return grid;
     }
 

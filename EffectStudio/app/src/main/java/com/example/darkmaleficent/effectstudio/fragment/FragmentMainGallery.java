@@ -11,11 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
+import com.example.darkmaleficent.effectstudio.R;
+import com.example.darkmaleficent.effectstudio.adapter.GalleryImageAdapter;
 import com.example.darkmaleficent.effectstudio.interfaces.IListener;
 import com.example.darkmaleficent.effectstudio.interfaces.INavigation;
 import com.example.darkmaleficent.effectstudio.interfaces.IObserve;
-import com.example.darkmaleficent.effectstudio.R;
-import com.example.darkmaleficent.effectstudio.adapter.GalleryImageAdapter;
 import com.vk.sdk.VKScope;
 import com.vk.sdk.api.model.VKApiPhotoAlbum;
 import com.vk.sdk.api.model.VKList;
