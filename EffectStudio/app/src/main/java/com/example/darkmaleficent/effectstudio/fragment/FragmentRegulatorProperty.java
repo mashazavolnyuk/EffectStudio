@@ -28,13 +28,15 @@ public class FragmentRegulatorProperty extends Fragment {
 
     SeekBar seekBarRugelator;
     Bitmap bitmap;
+    Bitmap temp;
     ImageView imgPreview;
     int id = 0;
+    int value;
 
     @Override
     public void onDestroyView() {
         ViewGroup mContainer = (ViewGroup) getActivity().findViewById(R.id.mainContent);
-        mContainer.removeAllViews();
+        mContainer.removeAllViewsInLayout();
         super.onDestroyView();
     }
 
@@ -61,9 +63,10 @@ public class FragmentRegulatorProperty extends Fragment {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+                value=seekBar.getProgress();
                 PropertyTask propertyTask = new PropertyTask(getActivity());
                 propertyTask.execute();
-                imgPreview.setImageBitmap(ImageStorage.getInstance().getBmp());
+
             }
         });
         return v;
@@ -93,9 +96,7 @@ public class FragmentRegulatorProperty extends Fragment {
 
         @Override
         protected void onPostExecute(Bitmap bitmap) {
-            ImageStorage.getInstance().setBmp(bitmap);
-            Bitmap bmp=ImageStorage.getInstance().getBmp();
-            imgPreview.setImageBitmap(bmp);
+            imgPreview.setImageBitmap(temp);
             progressDialog.dismiss();
         }
 
@@ -108,13 +109,12 @@ public class FragmentRegulatorProperty extends Fragment {
         @Override
         protected Bitmap doInBackground(Void... voids) {
             try {
-                Bitmap bmp = ImageStorage.getInstance().getBmp();
-                bitmap = PropertyExecutor.getInstance().execute(id, bmp, getActivity());
+                temp = PropertyExecutor.getInstance().execute(id, bitmap, getActivity());
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            return bitmap;
+            return temp;
         }
     }
 
@@ -135,6 +135,7 @@ public class FragmentRegulatorProperty extends Fragment {
         switch (item.getItemId()) {
             case R.id.checkDone:
                 Toast.makeText(getActivity(), "qwwr", Toast.LENGTH_SHORT).show();
+                ImageStorage.getInstance().setBmp(temp);
                 break;
 
 

@@ -3,13 +3,14 @@ package com.example.darkmaleficent.effectstudio;
 import android.Manifest;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
@@ -21,12 +22,18 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.example.darkmaleficent.effectstudio.data.ImageStorage;
 import com.example.darkmaleficent.effectstudio.fragment.FragmentImageProcessing;
 import com.example.darkmaleficent.effectstudio.fragment.FragmentRegulatorProperty;
 import com.example.darkmaleficent.effectstudio.interfaces.INavigation;
+import com.example.darkmaleficent.effectstudio.interfaces.ISwitchCanvas;
 import com.vk.sdk.VKScope;
 import com.vk.sdk.api.VKApiConst;
 import com.vk.sdk.api.VKParameters;
@@ -43,7 +50,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, INavigation {
+        implements NavigationView.OnNavigationItemSelectedListener, INavigation, View.OnTouchListener, ISwitchCanvas {
     private static final int PICK_IMAGE_REQUEST = 1;
     private static final int CAMERA_REQUEST = 2;
     private String[] scope = new String[]{VKScope.WALL, VKScope.PHOTOS};
@@ -51,9 +58,13 @@ public class MainActivity extends AppCompatActivity
     NavigationView navigationView;
     DrawerLayout drawerLayout;
     private List<VKApiPhoto> photos;
-    FloatingActionButton fabPlus;
-    FloatingActionButton fabLoadImageFromCamera;
-    FloatingActionButton fabLoadImageFromGallery;
+    CanvasView v;
+    RelativeLayout layoutSurfase;
+    float x, y;
+    Bitmap ball;
+    // FloatingActionButton fabPlus;
+//    FloatingActionButton fabLoadImageFromCamera;
+//    FloatingActionButton fabLoadImageFromGallery;
 
     static {
         System.loadLibrary("NativeImageProcessor");
@@ -63,7 +74,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-      //  fabPlus = (FloatingActionButton) findViewById(R.id.btnFabPlus);
+        //  fabPlus = (FloatingActionButton) findViewById(R.id.btnFabPlus);
 //        fabLoadImageFromCamera = (FloatingActionButton) findViewById(R.id.btnFabCamera);
 //        fabLoadImageFromGallery = (FloatingActionButton) findViewById(R.id.btnFabGallery);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -83,8 +94,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void hideFAB() {
-        fabLoadImageFromCamera.hide();
-        fabLoadImageFromGallery.hide();
+//        fabLoadImageFromCamera.hide();
+//        fabLoadImageFromGallery.hide();
     }
 
     private void setMainNavigationState(boolean state) {
@@ -291,4 +302,96 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    @Override
+    public boolean onTouch(View view, MotionEvent event) {
+        try {
+            Thread.sleep(50);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                x = event.getX();
+                y = event.getY();
+
+                break;
+            case MotionEvent.ACTION_UP:
+                x = event.getX();
+                y = event.getY();
+
+                break;
+            case MotionEvent.ACTION_MOVE:
+                x = event.getX();
+                y = event.getY();
+
+                break;
+        }// end switch
+
+        return true;
+    }
+
+    @Override
+    public void switchOnCanvas(boolean flag, Bitmap bmp, ViewGroup group) {
+        //TODO
+        if (flag){
+            v = new CanvasView(this);
+            group.removeAllViewsInLayout();
+            group.addView(v);
+        ball = bmp;
+        x = y = 0;}
+
+
+    }
+
+    public class CanvasView extends SurfaceView implements Runnable {
+        Thread t = null;
+        SurfaceHolder holder;
+        boolean isItOK = false;
+
+        public CanvasView(Context context) {
+            super(context);
+            holder = getHolder();
+        }
+
+        @Override
+        protected void onDraw(Canvas canvas) {
+            super.onDraw(canvas);
+        }
+
+        @Override
+        public void run() {
+            while (isItOK == true) {
+                // perform canvas drawing
+                if (!holder.getSurface().isValid()) {
+                    continue;
+                }
+                // sprite = new Sprite(OurView.this,blob);
+                Canvas c = holder.lockCanvas();
+                c.drawARGB(255, 100, 100, 10);
+                //c.drawBitmap(ball, x, y, null);
+                // onDraw(c);
+                holder.unlockCanvasAndPost(c);
+            }
+        }
+
+        public void pause() {
+            isItOK = false;
+            while (true) {
+                try {
+                    t.join();
+                } catch (InterruptedException e) {
+                    // TODO: handle exception
+                    e.printStackTrace();
+                }
+                break;
+            }// end while
+        }
+
+        public void resume() {
+            isItOK = true;
+            t = new Thread(this);
+            t.start();
+        }
+    }
 }

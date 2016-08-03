@@ -7,11 +7,15 @@
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:background="@color/colorPrimary"
+        android:layout_gravity="center"
         />
     <TextView
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
         android:id="@+id/tvDescriptionEffectTools"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/colorAccent"
+        android:layout_gravity="center"
         />
 </LinearLayout>

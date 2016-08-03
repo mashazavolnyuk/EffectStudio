@@ -23,6 +23,7 @@ import com.example.darkmaleficent.effectstudio.adapter.PropertiesAdapter;
 import com.example.darkmaleficent.effectstudio.data.ImageStorage;
 import com.example.darkmaleficent.effectstudio.interfaces.IObserveRecyclerTools;
 import com.example.darkmaleficent.effectstudio.interfaces.IObserveWorkingImage;
+import com.example.darkmaleficent.effectstudio.interfaces.ISwitchCanvas;
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
 /**
@@ -33,8 +34,9 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
     RecyclerView barToolsEffect;
     View v;
     EffectsListAdapter adapter;
-    String[] SPINNERLIST = {"Filters", "Effect", "Properties"};
+    String[] SPINNERLIST = {"Effect","Filters", "Properties"};
     int positionBar = 0;
+    ViewGroup group;
 
     @Override
     public void onStart() {
@@ -43,18 +45,19 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
 
     @Override
     public void onDestroyView() {
-        ViewGroup mContainer = (ViewGroup) getActivity().findViewById(R.id.mainContent);
-        mContainer.removeAllViews();
+//        ViewGroup mContainer = (ViewGroup) getActivity().findViewById(R.id.mainContent);
+//        mContainer.removeAllViewsInLayout();
         super.onDestroyView();
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        v = inflater.inflate(R.layout.fragment_image_view, null);
+        v = inflater.inflate(R.layout.fragment_image_processing, null);
         setHasOptionsMenu(true);
         barToolsEffect = (RecyclerView) v.findViewById(R.id.rcvToolsEffect);
         imageView = (ImageView) v.findViewById(R.id.workingImage);
+        group=(ViewGroup) v.findViewById(R.id.workingSpace);
         ImageStorage.getInstance().setObserver(this);
         setToolsBar(positionBar);
         Bitmap bitmap = ImageStorage.getInstance().getBmp();
@@ -88,6 +91,10 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
             case 0:
                 EffectsListAdapter effectsListAdapter = new EffectsListAdapter(getActivity());
                 barToolsEffect.setAdapter(effectsListAdapter);
+                break;
+            case 1:
+                Bitmap bmp=BitmapFactory.decodeResource(getResources(),R.mipmap.ic_add_a_photo_white_36dp);
+                ((ISwitchCanvas)getActivity()).switchOnCanvas(true,bmp,group);
                 break;
             case 2:
                 PropertiesAdapter propertiseAdapter = new PropertiesAdapter(getActivity());

@@ -32,5 +32,12 @@ public class GrayScaleEffect extends SingleImageEffect {
             }
         }
         return timebimp;
+//        Bitmap bitmap2= BitmapFactory.decodeResource(Resources.getSystem(),R.mipmap.smurfs);
+//        Bitmap overlayBitmap = Bitmap.createBitmap(bitmap);
+//        Canvas canvas = new Canvas(overlayBitmap);
+//        canvas.drawBitmap(bitmap,new Matrix(),null);
+//        canvas.drawBitmap(bitmap2, new Matrix(), null);
+//
+//        return overlayBitmap;
     }
 }

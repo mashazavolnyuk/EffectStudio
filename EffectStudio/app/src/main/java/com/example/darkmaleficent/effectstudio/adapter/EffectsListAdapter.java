@@ -2,14 +2,13 @@ package com.example.darkmaleficent.effectstudio.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.darkmaleficent.effectstudio.R;
-import com.example.darkmaleficent.effectstudio.effect.Effect;
 import com.example.darkmaleficent.effectstudio.data.ChangeImageStorage;
+import com.example.darkmaleficent.effectstudio.effect.Effect;
 
 import java.util.List;
 
@@ -21,7 +20,7 @@ public class EffectsListAdapter extends RecyclerView.Adapter<EffectsListHolders>
     public EffectsListAdapter(Context context) {
         this.context = context;
         data = ChangeImageStorage.getInstance().getEffects();
-        Log.d("Effect size",""+ data.size());
+
     }
 
     @Override

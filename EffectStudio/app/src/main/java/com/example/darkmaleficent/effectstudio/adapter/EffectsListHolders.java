@@ -14,16 +14,15 @@ import com.example.darkmaleficent.effectstudio.data.ImageStorage;
 import com.example.darkmaleficent.effectstudio.R;
 import com.example.darkmaleficent.effectstudio.effect.EffectExecutor;
 
-/**
- * Created by Dark Maleficent on 14.06.2016.
- */
+
 public class EffectsListHolders extends RecyclerView.ViewHolder {
     TextView description;
     ImageView effect;
     View.OnClickListener listener;
     int position;
-    Bitmap bitmap;
-    View view;
+    Bitmap bitmap=ImageStorage.getInstance().getBmp();
+    Bitmap temp;
+
 
     public EffectsListHolders(View itemView) {
         super(itemView);
@@ -69,13 +68,13 @@ public class EffectsListHolders extends RecyclerView.ViewHolder {
         @Override
         protected Bitmap doInBackground(Void... voids) {
             try {
-                Bitmap bmp = ImageStorage.getInstance().getBmp();
-                bitmap = EffectExecutor.getInstance().execute(i, bmp,context);
+                temp = ImageStorage.getInstance().getBmp();
+                temp = EffectExecutor.getInstance().execute(i, bitmap,context);
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            return bitmap;
+            return temp;
         }
 
         @Override
@@ -86,7 +85,7 @@ public class EffectsListHolders extends RecyclerView.ViewHolder {
 
         @Override
         protected void onPostExecute(Bitmap bitmap) {
-            ImageStorage.getInstance().setBmp(bitmap);
+           ImageStorage.getInstance().setBmp(temp);
             progressDialog.dismiss();
         }
     }

@@ -14,8 +14,7 @@ public class PropertyExecutor implements IExecutor {
     private Bitmap bmp;
     private static PropertyExecutor instance;
 
-    private PropertyExecutor() {
-    }
+
 
     public static PropertyExecutor getInstance() {
         if (instance == null)
@@ -36,13 +35,14 @@ public class PropertyExecutor implements IExecutor {
         switch (id) {
             case Property.Brightness:
                 regulator = new BrightnessProperty();
-                regulator.setMaxMin(255,0);
+                regulator.setMaxMin(240,0);
                 break;
             case Property.Contrast:
                 regulator = new ContrastProperty();
                 regulator.setMaxMin(255,0);
                 break;
             case Property.Opacity:
+                regulator=new OpacityProperty();
                 break;
 
 

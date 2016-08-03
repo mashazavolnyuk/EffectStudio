@@ -8,8 +8,10 @@ import com.example.darkmaleficent.effectstudio.effect.GrayScaleEffect;
 import com.example.darkmaleficent.effectstudio.effect.ReflectionEffect;
 import com.example.darkmaleficent.effectstudio.effect.RemovalEffect;
 import com.example.darkmaleficent.effectstudio.effect.ShowEffect;
+import com.example.darkmaleficent.effectstudio.effect.TestEffect;
 import com.example.darkmaleficent.effectstudio.property.BrightnessProperty;
 import com.example.darkmaleficent.effectstudio.property.ContrastProperty;
+import com.example.darkmaleficent.effectstudio.property.OpacityProperty;
 import com.example.darkmaleficent.effectstudio.property.Property;
 
 import java.util.ArrayList;
@@ -19,8 +21,8 @@ import java.util.List;
 public class ChangeImageStorage {
 
     private static ChangeImageStorage instance;
-    private List<Effect> effects=new ArrayList<>();
-    private List<Property> properties=new ArrayList<>();
+    private List<Effect> effects = new ArrayList<>();
+    private List<Property> properties = new ArrayList<>();
 
     private ChangeImageStorage() {
     }
@@ -39,17 +41,21 @@ public class ChangeImageStorage {
         fiilEffects();
         return effects;
     }
-    public List<Property> getProperties(){
+
+    public List<Property> getProperties() {
         fillProperties();
         return properties;
 
     }
-    private void fillProperties(){
+
+    private void fillProperties() {
         properties.clear();
         properties.add(new BrightnessProperty());
         properties.add(new ContrastProperty());
+        properties.add(new OpacityProperty());
 
     }
+
     private void fiilEffects() {
         effects.clear();
         effects.add(new BlurEffect());
@@ -59,6 +65,6 @@ public class ChangeImageStorage {
         effects.add(new RemovalEffect());
         effects.add(new FleaEffect());
         effects.add(new ShowEffect());
-     //   effects.add(new TestEffect());
+        effects.add(new TestEffect());
     }
 }

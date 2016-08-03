@@ -29,17 +29,12 @@ public class ImageStorage implements IObservableWorkingImage, Serializable {
 
     public void setBmp(Bitmap bmp) {
         this.bmp = bmp;
+        observeWorkingImage.newState(true);
     }
 
     public Bitmap getBmp() {
         return bmp;
     }
-
-    private void ReplaceImage(int index, Bitmap newObject) {
-        setBmp(newObject);
-        observeWorkingImage.newState(true);
-    }
-
 
     @Override
     public void setObserver(IObserveWorkingImage observer) {
