@@ -31,6 +31,13 @@ public class FragmentRegulatorProperty extends Fragment {
     ImageView imgPreview;
     int id = 0;
 
+    @Override
+    public void onDestroyView() {
+        ViewGroup mContainer = (ViewGroup) getActivity().findViewById(R.id.mainContent);
+        mContainer.removeAllViews();
+        super.onDestroyView();
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

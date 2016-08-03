@@ -41,6 +41,13 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
         super.onStart();
     }
 
+    @Override
+    public void onDestroyView() {
+        ViewGroup mContainer = (ViewGroup) getActivity().findViewById(R.id.mainContent);
+        mContainer.removeAllViews();
+        super.onDestroyView();
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
