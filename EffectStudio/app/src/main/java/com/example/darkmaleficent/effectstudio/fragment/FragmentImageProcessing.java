@@ -2,7 +2,7 @@ package com.example.darkmaleficent.effectstudio.fragment;
 
 import android.app.Fragment;
 import android.graphics.Bitmap;
-import android.graphics.Color;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -55,7 +55,8 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
         if (bitmap != null) {
             imageView.setImageBitmap(bitmap);
         } else {
-            imageView.setBackgroundColor(Color.BLUE);
+            Bitmap bitmap1= BitmapFactory.decodeResource(getResources(),R.mipmap.cat);
+            imageView.setImageBitmap(bitmap1);
             barToolsEffect.setEnabled(false);
         }
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(),
