@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -307,7 +308,6 @@ public class MainActivity extends AppCompatActivity
         try {
             Thread.sleep(50);
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         switch (event.getAction()) {
@@ -326,72 +326,76 @@ public class MainActivity extends AppCompatActivity
                 y = event.getY();
 
                 break;
-        }// end switch
+        }
 
         return true;
     }
 
     @Override
     public void switchOnCanvas(boolean flag, Bitmap bmp, ViewGroup group) {
-        //TODO
         if (flag){
             v = new CanvasView(this);
             group.removeAllViewsInLayout();
             group.addView(v);
         ball = bmp;
-        x = y = 0;}
+        x = y = 0;
+        }
 
 
     }
 
-    public class CanvasView extends SurfaceView implements Runnable {
-        Thread t = null;
-        SurfaceHolder holder;
-        boolean isItOK = false;
+    public class CanvasView extends SurfaceView implements SurfaceHolder.Callback {
+        private DrawThread drawThread;
 
         public CanvasView(Context context) {
             super(context);
-            holder = getHolder();
+            getHolder().addCallback(this);
         }
 
         @Override
-        protected void onDraw(Canvas canvas) {
-            super.onDraw(canvas);
+        public void surfaceCreated(SurfaceHolder surfaceHolder) {
+            drawThread = new DrawThread(getHolder());
+            drawThread.run();
+            drawThread.start();
+
         }
 
+        @Override
+        public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
+
+        }
+    }
+
+    class DrawThread extends Thread{
+        private SurfaceHolder surfaceHolder;
+        private Matrix matrix;
+        private boolean runFlag = false;
+
+        public DrawThread(SurfaceHolder surfaceHolder){
+            this.surfaceHolder = surfaceHolder;
+
+        }
         @Override
         public void run() {
-            while (isItOK == true) {
-                // perform canvas drawing
-                if (!holder.getSurface().isValid()) {
-                    continue;
-                }
-                // sprite = new Sprite(OurView.this,blob);
-                Canvas c = holder.lockCanvas();
-                c.drawARGB(255, 100, 100, 10);
-                //c.drawBitmap(ball, x, y, null);
-                // onDraw(c);
-                holder.unlockCanvasAndPost(c);
+            Canvas canvas;
+            try{
+                canvas = surfaceHolder.lockCanvas(null);
+                synchronized (surfaceHolder) {
+                    Bitmap bmp=ImageStorage.getInstance().getBmp();
+                  canvas.drawBitmap(bmp,x,y,null);
+                  //  canvas.drawColor(Color.BLUE);
+                    canvas.drawBitmap(ball,x,y,null);
+                    surfaceHolder.unlockCanvasAndPost(canvas);
+
             }
-        }
-
-        public void pause() {
-            isItOK = false;
-            while (true) {
-                try {
-                    t.join();
-                } catch (InterruptedException e) {
-                    // TODO: handle exception
-                    e.printStackTrace();
-                }
-                break;
-            }// end while
-        }
-
-        public void resume() {
-            isItOK = true;
-            t = new Thread(this);
-            t.start();
+        }catch (Exception e){
+            Log.d("DrawThread"," "+e.toString());
+            }
         }
     }
 }
