@@ -9,7 +9,10 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.PixelFormat;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -298,6 +301,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void switchOnCanvas(boolean flag, Bitmap bmp, ViewGroup group) {
         if (flag) {
+
             bmpDraw = ImageStorage.getInstance().getBmp();
             v = new CanvasView(this);
             Drawable d = new BitmapDrawable(getResources(), bmpDraw);
@@ -325,16 +329,16 @@ public class MainActivity extends AppCompatActivity
         @Override
         public void draw(Canvas canvas) {
             super.draw(canvas);
-            drawThread =new DrawThread(getHolder());
+            drawThread = new DrawThread(getHolder());
             drawThread.run();
             drawThread.start();
-         // updateBall();
+            // updateBall();
 
         }
 
         @Override
         public boolean onTouchEvent(MotionEvent event) {
-            switch (event.getAction()){
+            switch (event.getAction()) {
 
                 case MotionEvent.ACTION_DOWN: // нажатие
                     x = (int) event.getX();
@@ -343,26 +347,25 @@ public class MainActivity extends AppCompatActivity
                 case MotionEvent.ACTION_MOVE: // движение
                     x = (int) event.getX();
                     y = (int) event.getY();
-                    updateBall();
+
                     break;
                 case MotionEvent.ACTION_UP: // отпускание
                     x = (int) event.getX();
                     y = (int) event.getY();
+                    updateBall();
                     break;
             }
 //            x = (int) event.getX();
 //            y = (int) event.getY();
-           // updateBall();
+            // updateBall();
             return true;
 
         }
 
+
         @Override
         protected void onDraw(Canvas canvas) {
-//            drawThread =new DrawThread(getHolder());
-//            drawThread.run();
-//            drawThread.start();
-            //canvas.drawBitmap(ball, x, y, null);
+            super.onDraw(canvas);
         }
 
         @Override
@@ -383,13 +386,15 @@ public class MainActivity extends AppCompatActivity
 
         private void updateBall() {
             try {
-                canvas=null;
+                canvas = null;
                 canvas = getHolder().lockCanvas(null);
                 synchronized (getHolder()) {
                     this.draw(canvas);
+
                 }
             } finally {
                 if (canvas != null) {
+                    //this.onDraw(canvas);
                     getHolder().unlockCanvasAndPost(canvas);
                 }
             }
@@ -409,12 +414,13 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         public void run() {
-
-
             try {
                 canvas = surfaceHolder.lockCanvas(null);
                 synchronized (surfaceHolder) {
-
+                    Paint paint = new Paint();
+                    paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+                    canvas.drawPaint(paint);
+                    paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC));
                     canvas.drawBitmap(ball, x, y, null);
                     surfaceHolder.unlockCanvasAndPost(canvas);
                 }
@@ -422,7 +428,5 @@ public class MainActivity extends AppCompatActivity
                 Log.d("DrawThread", " " + e.toString());
             }
         }
-
-
     }
 }
