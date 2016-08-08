@@ -31,7 +31,6 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 
 import com.example.darkmaleficent.effectstudio.data.ImageStorage;
 import com.example.darkmaleficent.effectstudio.fragment.FragmentImageProcessing;
@@ -54,7 +53,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, INavigation, View.OnTouchListener, ISwitchCanvas {
+        implements NavigationView.OnNavigationItemSelectedListener, INavigation, ISwitchCanvas {
     private static final int PICK_IMAGE_REQUEST = 1;
     private static final int CAMERA_REQUEST = 2;
     private String[] scope = new String[]{VKScope.WALL, VKScope.PHOTOS};
@@ -63,12 +62,9 @@ public class MainActivity extends AppCompatActivity
     DrawerLayout drawerLayout;
     private List<VKApiPhoto> photos;
     CanvasView v;
-    RelativeLayout layoutSurfase;
     float x, y;
     Bitmap ball;
-    // FloatingActionButton fabPlus;
-//    FloatingActionButton fabLoadImageFromCamera;
-//    FloatingActionButton fabLoadImageFromGallery;
+    Bitmap bmpDraw;
 
     static {
         System.loadLibrary("NativeImageProcessor");
@@ -78,9 +74,6 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //  fabPlus = (FloatingActionButton) findViewById(R.id.btnFabPlus);
-//        fabLoadImageFromCamera = (FloatingActionButton) findViewById(R.id.btnFabCamera);
-//        fabLoadImageFromGallery = (FloatingActionButton) findViewById(R.id.btnFabGallery);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -97,10 +90,6 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    private void hideFAB() {
-//        fabLoadImageFromCamera.hide();
-//        fabLoadImageFromGallery.hide();
-    }
 
     private void setMainNavigationState(boolean state) {
         if (state)
@@ -134,7 +123,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setAsMainScreen() {
-//        enableHomeButton();
         disableHomeButton();
         enableNavigationDrawer();
     }
@@ -306,45 +294,18 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    @Override
-    public boolean onTouch(View view, MotionEvent event) {
-        try {
-            Thread.sleep(50);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                x = event.getX();
-                y = event.getY();
-
-                break;
-            case MotionEvent.ACTION_UP:
-                x = event.getX();
-                y = event.getY();
-
-                break;
-            case MotionEvent.ACTION_MOVE:
-                x = event.getX();
-                y = event.getY();
-
-                break;
-        }
-
-        return true;
-    }
 
     @Override
     public void switchOnCanvas(boolean flag, Bitmap bmp, ViewGroup group) {
         if (flag) {
-            bmp = ImageStorage.getInstance().getBmp();
+            bmpDraw = ImageStorage.getInstance().getBmp();
             v = new CanvasView(this);
-            Drawable d = new BitmapDrawable(getResources(), bmp);
+            Drawable d = new BitmapDrawable(getResources(), bmpDraw);
             group.removeAllViewsInLayout();
             group.addView(v);
-            v.setZOrderOnTop(true);
             v.setBackground(d);
-            ball = BitmapFactory.decodeResource(getResources(), R.mipmap.test);
+            v.setZOrderOnTop(true);
+            ball = BitmapFactory.decodeResource(getResources(), R.mipmap.monster);
             x = y = 0;
         }
 
@@ -353,6 +314,8 @@ public class MainActivity extends AppCompatActivity
 
     public class CanvasView extends SurfaceView implements SurfaceHolder.Callback {
         private DrawThread drawThread;
+        Canvas canvas;
+
 
         public CanvasView(Context context) {
             super(context);
@@ -360,10 +323,51 @@ public class MainActivity extends AppCompatActivity
         }
 
         @Override
-        public void surfaceCreated(SurfaceHolder surfaceHolder) {
-            drawThread = new DrawThread(getHolder());
+        public void draw(Canvas canvas) {
+            super.draw(canvas);
+            drawThread =new DrawThread(getHolder());
             drawThread.run();
             drawThread.start();
+         // updateBall();
+
+        }
+
+        @Override
+        public boolean onTouchEvent(MotionEvent event) {
+            switch (event.getAction()){
+
+                case MotionEvent.ACTION_DOWN: // нажатие
+                    x = (int) event.getX();
+                    y = (int) event.getY();
+                    break;
+                case MotionEvent.ACTION_MOVE: // движение
+                    x = (int) event.getX();
+                    y = (int) event.getY();
+                    updateBall();
+                    break;
+                case MotionEvent.ACTION_UP: // отпускание
+                    x = (int) event.getX();
+                    y = (int) event.getY();
+                    break;
+            }
+//            x = (int) event.getX();
+//            y = (int) event.getY();
+           // updateBall();
+            return true;
+
+        }
+
+        @Override
+        protected void onDraw(Canvas canvas) {
+//            drawThread =new DrawThread(getHolder());
+//            drawThread.run();
+//            drawThread.start();
+            //canvas.drawBitmap(ball, x, y, null);
+        }
+
+        @Override
+        public void surfaceCreated(SurfaceHolder surfaceHolder) {
+
 
         }
 
@@ -376,10 +380,26 @@ public class MainActivity extends AppCompatActivity
         public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
 
         }
+
+        private void updateBall() {
+            try {
+                canvas=null;
+                canvas = getHolder().lockCanvas(null);
+                synchronized (getHolder()) {
+                    this.draw(canvas);
+                }
+            } finally {
+                if (canvas != null) {
+                    getHolder().unlockCanvasAndPost(canvas);
+                }
+            }
+
+        }
     }
 
     class DrawThread extends Thread {
         private SurfaceHolder surfaceHolder;
+        private Canvas canvas;
 
         public DrawThread(SurfaceHolder surfaceHolder) {
             this.surfaceHolder = surfaceHolder;
@@ -389,18 +409,20 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         public void run() {
-            Canvas canvas;
+
+
             try {
                 canvas = surfaceHolder.lockCanvas(null);
                 synchronized (surfaceHolder) {
-                 
+
                     canvas.drawBitmap(ball, x, y, null);
                     surfaceHolder.unlockCanvasAndPost(canvas);
-
                 }
             } catch (Exception e) {
                 Log.d("DrawThread", " " + e.toString());
             }
         }
+
+
     }
 }
