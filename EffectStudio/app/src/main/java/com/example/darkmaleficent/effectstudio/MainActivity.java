@@ -7,8 +7,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Matrix;
+import android.graphics.PixelFormat;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -333,12 +336,16 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void switchOnCanvas(boolean flag, Bitmap bmp, ViewGroup group) {
-        if (flag){
+        if (flag) {
+            bmp = ImageStorage.getInstance().getBmp();
             v = new CanvasView(this);
+            Drawable d = new BitmapDrawable(getResources(), bmp);
             group.removeAllViewsInLayout();
             group.addView(v);
-        ball = bmp;
-        x = y = 0;
+            v.setZOrderOnTop(true);
+            v.setBackground(d);
+            ball = BitmapFactory.decodeResource(getResources(), R.mipmap.test);
+            x = y = 0;
         }
 
 
@@ -371,30 +378,28 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    class DrawThread extends Thread{
+    class DrawThread extends Thread {
         private SurfaceHolder surfaceHolder;
-        private Matrix matrix;
-        private boolean runFlag = false;
 
-        public DrawThread(SurfaceHolder surfaceHolder){
+        public DrawThread(SurfaceHolder surfaceHolder) {
             this.surfaceHolder = surfaceHolder;
+            surfaceHolder.setFormat(PixelFormat.TRANSPARENT);
 
         }
+
         @Override
         public void run() {
             Canvas canvas;
-            try{
+            try {
                 canvas = surfaceHolder.lockCanvas(null);
                 synchronized (surfaceHolder) {
-                    Bitmap bmp=ImageStorage.getInstance().getBmp();
-                  canvas.drawBitmap(bmp,x,y,null);
-                  //  canvas.drawColor(Color.BLUE);
-                    canvas.drawBitmap(ball,x,y,null);
+                 
+                    canvas.drawBitmap(ball, x, y, null);
                     surfaceHolder.unlockCanvasAndPost(canvas);
 
-            }
-        }catch (Exception e){
-            Log.d("DrawThread"," "+e.toString());
+                }
+            } catch (Exception e) {
+                Log.d("DrawThread", " " + e.toString());
             }
         }
     }
