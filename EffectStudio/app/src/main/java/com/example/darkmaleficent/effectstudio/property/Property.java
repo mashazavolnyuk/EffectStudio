@@ -12,8 +12,6 @@ public abstract class Property extends ChangeImage {
     static final int Opacity=3;
     public abstract int getId();
 
-
-
     public Property(int id, String name, int image) {
         super(id, name, image);
     }

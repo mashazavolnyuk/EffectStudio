@@ -9,6 +9,9 @@ import com.example.darkmaleficent.effectstudio.effect.ReflectionEffect;
 import com.example.darkmaleficent.effectstudio.effect.RemovalEffect;
 import com.example.darkmaleficent.effectstudio.effect.ShowEffect;
 import com.example.darkmaleficent.effectstudio.effect.TestEffect;
+import com.example.darkmaleficent.effectstudio.filter.Filter;
+import com.example.darkmaleficent.effectstudio.filter.AquaFilter;
+import com.example.darkmaleficent.effectstudio.filter.DecreaseFilter;
 import com.example.darkmaleficent.effectstudio.property.BrightnessProperty;
 import com.example.darkmaleficent.effectstudio.property.ContrastProperty;
 import com.example.darkmaleficent.effectstudio.property.OpacityProperty;
@@ -23,6 +26,7 @@ public class ChangeImageStorage {
     private static ChangeImageStorage instance;
     private List<Effect> effects = new ArrayList<>();
     private List<Property> properties = new ArrayList<>();
+    private List<com.example.darkmaleficent.effectstudio.filter.Filter> filters = new ArrayList<>();
 
     private ChangeImageStorage() {
     }
@@ -37,6 +41,11 @@ public class ChangeImageStorage {
         return instance;
     }
 
+    public List<Filter> getFilters(){
+        fillFilters();
+       return filters;
+
+    }
     public List<Effect> getEffects() {
         fiilEffects();
         return effects;
@@ -66,5 +75,13 @@ public class ChangeImageStorage {
         effects.add(new FleaEffect());
         effects.add(new ShowEffect());
         effects.add(new TestEffect());
+    }
+
+    private void fillFilters() {
+        filters.clear();
+        filters.add(new AquaFilter());
+        filters.add(new DecreaseFilter());
+
+
     }
 }

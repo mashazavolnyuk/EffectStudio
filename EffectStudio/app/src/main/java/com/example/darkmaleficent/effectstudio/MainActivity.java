@@ -307,8 +307,14 @@ public class MainActivity extends AppCompatActivity
             Drawable d = new BitmapDrawable(getResources(), bmpDraw);
             group.removeAllViewsInLayout();
             group.addView(v);
-            v.setBackground(d);
-            v.setZOrderOnTop(true);
+            // v.setBackground(d);
+            //v.setBackgroundColor(Color.BLUE);
+            v.setZOrderMediaOverlay(true);
+            // v.setZOrderOnTop(true);
+            // v.setZOrderMediaOverlay(true);
+            //v.setKeepScreenOn(true);
+            v.getHolder().setFormat(PixelFormat.TRANSPARENT);
+            // v.getHolder().setFormat(PixelFormat.RGBA_8888);
             ball = BitmapFactory.decodeResource(getResources(), R.mipmap.monster);
             x = y = 0;
         }
@@ -319,11 +325,20 @@ public class MainActivity extends AppCompatActivity
     public class CanvasView extends SurfaceView implements SurfaceHolder.Callback {
         private DrawThread drawThread;
         Canvas canvas;
+        Bitmap working;
+        Bitmap original = ImageStorage.getInstance().getBmp();
+        Paint transparentPaint;
 
 
         public CanvasView(Context context) {
             super(context);
             getHolder().addCallback(this);
+            working = original.copy(Bitmap.Config.ARGB_8888, true);
+            transparentPaint = new Paint();
+            transparentPaint.setColor(getResources().getColor(android.R.color.transparent));
+            transparentPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+            transparentPaint.setAntiAlias(true);
+
         }
 
         @Override
@@ -332,7 +347,6 @@ public class MainActivity extends AppCompatActivity
             drawThread = new DrawThread(getHolder());
             drawThread.run();
             drawThread.start();
-            // updateBall();
 
         }
 
@@ -355,22 +369,34 @@ public class MainActivity extends AppCompatActivity
                     updateBall();
                     break;
             }
-//            x = (int) event.getX();
-//            y = (int) event.getY();
-            // updateBall();
             return true;
 
         }
 
+        @Override
+        protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+            super.onSizeChanged(w, h, oldw, oldh);
+
+//            bitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
+//            bitmap.eraseColor(Color.TRANSPARENT);
+//            temp = new Canvas(bitmap);
+        }
 
         @Override
         protected void onDraw(Canvas canvas) {
             super.onDraw(canvas);
+//            drawThread = new DrawThread(getHolder(),canvas);
+//            drawThread.run();
+//            drawThread.start();
+//            temp.drawColor(Color.argb(80, 0, 0, 0));
+//            temp.drawCircle(centerPosX, centerPosY, 200, transparentPaint);
+//            canvas.drawBitmap(bitmap, 0, 0, null);
+
         }
 
         @Override
         public void surfaceCreated(SurfaceHolder surfaceHolder) {
-
+            canvas = new Canvas(working);
 
         }
 
@@ -386,47 +412,52 @@ public class MainActivity extends AppCompatActivity
 
         private void updateBall() {
             try {
-                canvas = null;
+
                 canvas = getHolder().lockCanvas(null);
                 synchronized (getHolder()) {
                     this.draw(canvas);
-
                 }
             } finally {
                 if (canvas != null) {
-                    //this.onDraw(canvas);
                     getHolder().unlockCanvasAndPost(canvas);
+
                 }
+
             }
 
         }
-    }
 
-    class DrawThread extends Thread {
-        private SurfaceHolder surfaceHolder;
-        private Canvas canvas;
+        class DrawThread extends Thread {
+            private SurfaceHolder surfaceHolder;
 
-        public DrawThread(SurfaceHolder surfaceHolder) {
-            this.surfaceHolder = surfaceHolder;
-            surfaceHolder.setFormat(PixelFormat.TRANSPARENT);
+            public DrawThread(SurfaceHolder surfaceHolder) {
+                this.surfaceHolder = surfaceHolder;
+                surfaceHolder.setFormat(PixelFormat.TRANSPARENT);
 
-        }
+            }
 
-        @Override
-        public void run() {
-            try {
-                canvas = surfaceHolder.lockCanvas(null);
-                synchronized (surfaceHolder) {
-                    Paint paint = new Paint();
-                    paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-                    canvas.drawPaint(paint);
-                    paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC));
-                    canvas.drawBitmap(ball, x, y, null);
-                    surfaceHolder.unlockCanvasAndPost(canvas);
+            @Override
+            public void run() {
+                Canvas canvas=new Canvas(working);
+                try {
+                    canvas = surfaceHolder.lockCanvas(null);
+                    synchronized (surfaceHolder) {
+                        Paint paint = new Paint(Paint.FILTER_BITMAP_FLAG);
+                        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+                        canvas.setBitmap(working);
+                        canvas.drawBitmap(ball, x, y, paint);
+                        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC));
+                        surfaceHolder.unlockCanvasAndPost(canvas);
+
+                    }
+                } catch (Exception e) {
+                    Log.d("DrawThread", " " + e.toString());
                 }
-            } catch (Exception e) {
-                Log.d("DrawThread", " " + e.toString());
             }
         }
+
+
     }
+
+
 }
