@@ -12,6 +12,9 @@ import com.example.darkmaleficent.effectstudio.effect.TestEffect;
 import com.example.darkmaleficent.effectstudio.filter.Filter;
 import com.example.darkmaleficent.effectstudio.filter.AquaFilter;
 import com.example.darkmaleficent.effectstudio.filter.DecreaseFilter;
+import com.example.darkmaleficent.effectstudio.filter.HotSunFilter;
+import com.example.darkmaleficent.effectstudio.filter.GrassFilter;
+import com.example.darkmaleficent.effectstudio.filter.PacificOceanFilter;
 import com.example.darkmaleficent.effectstudio.property.BrightnessProperty;
 import com.example.darkmaleficent.effectstudio.property.ContrastProperty;
 import com.example.darkmaleficent.effectstudio.property.OpacityProperty;
@@ -81,6 +84,9 @@ public class ChangeImageStorage {
         filters.clear();
         filters.add(new AquaFilter());
         filters.add(new DecreaseFilter());
+        filters.add(new HotSunFilter());
+        filters.add(new GrassFilter());
+        filters.add(new PacificOceanFilter());
 
 
     }

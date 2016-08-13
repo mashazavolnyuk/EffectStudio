@@ -4,4 +4,6 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="mainBackground">#FFFFFF</color>
+    <color name="Aqua">#10E0BC </color>
+    <color name="Fuchsia">#E0109B </color>
 </resources>

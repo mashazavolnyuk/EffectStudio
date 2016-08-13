@@ -25,7 +25,7 @@ public class AquaFilter extends Filter implements ISingleImageEffect {
        //  Bitmap bmp=processor.decreaseColorDepth(bitmap,120); //+
        // Bitmap bmp=processor.emboss(bitmap);//добавить в эффекты "тиснение"
         Bitmap bmp=processor.boost(bitmap, ImageProcessingConstants.GREEN,0.2);
-        Bitmap q=processor.boost(bmp, ImageProcessingConstants.BLUE,0.2);
+        Bitmap q=processor.boost(bmp, ImageProcessingConstants.BLUE,0.3);
         return q;
     }
 

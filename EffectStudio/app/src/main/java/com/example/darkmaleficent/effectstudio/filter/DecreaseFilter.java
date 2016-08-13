@@ -2,7 +2,11 @@ package com.example.darkmaleficent.effectstudio.filter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.LightingColorFilter;
+import android.graphics.Paint;
 import android.support.v7.graphics.Palette;
 
 import com.example.darkmaleficent.effectstudio.R;
@@ -13,11 +17,12 @@ import com.mukesh.image_processing.ImageProcessor;
  * Created by Dark Maleficent on 13.08.2016.
  */
 public class DecreaseFilter extends Filter implements ISingleImageEffect {
-int id;
+    int id;
+    Context context;
 
     public DecreaseFilter() {
         super(Filter.DescreaseColor, "Decrease", R.mipmap.ic_mode_edit_white_48dp);
-        id=Filter.DescreaseColor;
+        id = Filter.DescreaseColor;
     }
 
     @Override
@@ -27,9 +32,10 @@ int id;
 
     @Override
     public Bitmap apply(Context context, Bitmap bitmap) {
-        ImageProcessor processor=new ImageProcessor();
+        this.context = context;
+        ImageProcessor processor = new ImageProcessor();
         //Bitmap bmp=processor.decreaseColorDepth(bitmap,100);
-        Palette palette= Palette.from(bitmap).generate();
+        Palette palette = Palette.from(bitmap).generate();
         int def = 0x000000;
         int vibrant = palette.getVibrantColor(def);
         int vibrantLight = palette.getDarkMutedColor(def);
@@ -44,18 +50,19 @@ int id;
         //Recept 2 "Purple Night"
         //Bitmap r=changeBlue(bitmap,20);
 
-        //Recept 3 "Sunset"
-//        Bitmap r=processor.doGamma(bitmap,4,1,1);
-//        return r;
 
-        //Recept 4 ""
-        Bitmap r=processor.doGamma(bitmap,4,1,1);
-        return r;
+        //new Effect
+//        Bitmap bmp = processor.engrave(bitmap);
+//        return bmp;
+
+        //new Effect
+        Bitmap bmp = changeBlue(bitmap, vibrant);
+        return bmp;
 
 
     }
 
-    private Bitmap changeBlue(Bitmap originalImage,double blue) {
+    private Bitmap changeBlue(Bitmap originalImage, double blue) {
         Bitmap bmOut = Bitmap.createBitmap(originalImage.getWidth(), originalImage.getHeight(),
                 originalImage.getConfig());
         int width = originalImage.getWidth();
@@ -71,16 +78,61 @@ int id;
             gammaB[i] = (int) Math.min(MAX_VALUE_INT,
                     (int) ((MAX_VALUE_DBL * Math.pow(i / MAX_VALUE_DBL, REVERSE / blue)) + 0.5));
         }
+
+
         for (int x = 0; x < width; ++x) {
             for (int y = 0; y < height; ++y) {
                 pixel = originalImage.getPixel(x, y);
                 A = Color.alpha(pixel);
                 R = Color.red(pixel);
                 G = Color.green(pixel);
-                B = gammaB[Color.blue(pixel)];
-                bmOut.setPixel(x, y, Color.argb(A, R, G, B));
+                B = Color.blue(pixel);
+
+  int r = (Color.red(com.example.darkmaleficent.effectstudio.R.color.Aqua));
+ int g = (Color.green(com.example.darkmaleficent.effectstudio.R.color.Aqua));
+                int b=Color.blue(com.example.darkmaleficent.effectstudio.R.color.Aqua);
+                bmOut.setPixel(x,y,Color.argb(A,R,G,190));
+
             }
         }
         return bmOut;
+    }
+
+
+    private Bitmap changeBitmapColor(Bitmap sourceBitmap, int color) {
+
+        Bitmap resultBitmap = Bitmap.createBitmap(sourceBitmap, 0, 0,
+                sourceBitmap.getWidth() - 1, sourceBitmap.getHeight() - 1);
+        Paint p = new Paint();
+        ColorFilter filter = new LightingColorFilter(color, 1);
+        int blueModify = Color.blue(com.example.darkmaleficent.effectstudio.R.color.Aqua);
+        int red = Color.red(com.example.darkmaleficent.effectstudio.R.color.Fuchsia);
+        ColorFilter filter1 = new LightingColorFilter(blueModify, 1);
+        p.setAlpha(90);
+        p.setColorFilter(filter1);
+        Canvas canvas = new Canvas(resultBitmap);
+        canvas.drawBitmap(resultBitmap, 0, 0, p);
+        return resultBitmap;
+    }
+
+
+    public int mixColors(int col1, int col2) {
+        int r1, g1, b1, r2, g2, b2;
+
+        r1 = Color.red(col1);
+        g1 = Color.green(col1);
+        b1 = Color.blue(col1);
+
+        r2 = Color.red(col2);
+        g2 = Color.green(col2);
+        b2 = Color.blue(col2);
+
+        int r3 = (r1 + r2) / 2;
+        int g3 = (g1 + g2) / 2;
+        int b3 = (b1 + b2) / 2;
+
+        return Color.rgb(r3, g3, b3);
+
+
     }
 }

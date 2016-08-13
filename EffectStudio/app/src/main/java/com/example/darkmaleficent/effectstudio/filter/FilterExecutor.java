@@ -37,6 +37,15 @@ public class FilterExecutor implements IExecutor {
             case Filter.DescreaseColor:
                 effect=new DecreaseFilter();
                 break;
+            case Filter.HotSun:
+                effect=new HotSunFilter();
+                break;
+            case Filter.Grass:
+                effect=new GrassFilter();
+                break;
+            case Filter.PacificOcean:
+                effect=new PacificOceanFilter();
+                break;
         }
         if(effect != null)
             bmp = effect.apply(context,bitmap);
