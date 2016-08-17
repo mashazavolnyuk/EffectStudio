@@ -4,6 +4,9 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="mainBackground">#FFFFFF</color>
-    <color name="Aqua">#10E0BC </color>
-    <color name="Fuchsia">#E0109B </color>
+    <color name="Aqua">#92FE9D </color>
+    <color name="BlueSea">#00C9FF</color>
+    <color name="Pink">#EF629F</color>
+    <color name="Sand">#EECDA3</color>
+
 </resources>

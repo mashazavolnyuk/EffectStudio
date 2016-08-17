@@ -100,21 +100,19 @@ public class DecreaseFilter extends Filter implements ISingleImageEffect {
 
 
     private Bitmap changeBitmapColor(Bitmap sourceBitmap, int color) {
-
         Bitmap resultBitmap = Bitmap.createBitmap(sourceBitmap, 0, 0,
                 sourceBitmap.getWidth() - 1, sourceBitmap.getHeight() - 1);
         Paint p = new Paint();
         ColorFilter filter = new LightingColorFilter(color, 1);
         int blueModify = Color.blue(com.example.darkmaleficent.effectstudio.R.color.Aqua);
-        int red = Color.red(com.example.darkmaleficent.effectstudio.R.color.Fuchsia);
+        int red = Color.red(R.color.BlueSea);
         ColorFilter filter1 = new LightingColorFilter(blueModify, 1);
-        p.setAlpha(90);
+        p.setAlpha(100);
         p.setColorFilter(filter1);
         Canvas canvas = new Canvas(resultBitmap);
         canvas.drawBitmap(resultBitmap, 0, 0, p);
         return resultBitmap;
     }
-
 
     public int mixColors(int col1, int col2) {
         int r1, g1, b1, r2, g2, b2;
