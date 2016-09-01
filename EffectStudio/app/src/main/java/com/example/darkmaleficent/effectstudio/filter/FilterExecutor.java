@@ -15,7 +15,6 @@ public class FilterExecutor implements IExecutor {
     private static FilterExecutor instance;
 
 
-
     public static FilterExecutor getInstance() {
         if (instance == null)
             synchronized (FilterExecutor.class) {
@@ -35,20 +34,29 @@ public class FilterExecutor implements IExecutor {
                 effect = new AquaFilter();
                 break;
             case Filter.DescreaseColor:
-                effect=new DecreaseFilter();
+                effect = new DecreaseFilter();
                 break;
             case Filter.HotSun:
-                effect=new HotSunFilter();
+                effect = new HotSunFilter();
                 break;
             case Filter.Grass:
-                effect=new GrassFilter();
+                effect = new GrassFilter();
                 break;
-            case Filter.PacificOcean:
-                effect=new PacificOceanFilter();
+            case Filter.SAND:
+                effect = new Sand();
+                break;
+            case Filter.RoseWater:
+                effect = new RoseWaterFilter();
+                break;
+            case Filter.Mysticism:
+                effect = new MysticismFilter();
+                break;
+            case Filter.Gray:
+                effect=new GrayFilter();
                 break;
         }
-        if(effect != null)
-            bmp = effect.apply(context,bitmap);
+        if (effect != null)
+            bmp = effect.apply(context, bitmap);
         return bmp;
     }
 }

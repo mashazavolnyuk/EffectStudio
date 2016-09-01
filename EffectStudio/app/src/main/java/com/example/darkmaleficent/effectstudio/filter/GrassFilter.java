@@ -16,7 +16,7 @@ public class GrassFilter extends Filter implements ISingleImageEffect {
 
     public GrassFilter() {
         super(Filter.Grass, "Grass", R.mipmap.ic_mode_edit_white_48dp);
-        id=Filter.Grass;
+        id = Filter.Grass;
     }
 
     @Override
@@ -26,8 +26,8 @@ public class GrassFilter extends Filter implements ISingleImageEffect {
 
     @Override
     public Bitmap apply(Context context, Bitmap bitmap) {
-        ImageProcessor processor=new ImageProcessor();
-        Bitmap b=processor.boost(bitmap, ImageProcessingConstants.GREEN,0.6);
+        ImageProcessor processor = new ImageProcessor();
+        Bitmap b = processor.boost(bitmap, ImageProcessingConstants.GREEN, 0.6);
         return b;
 
     }

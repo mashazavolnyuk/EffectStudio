@@ -15,7 +15,7 @@ public class HotSunFilter extends Filter implements ISingleImageEffect {
 
     public HotSunFilter() {
         super(Filter.HotSun, "Hot Sun", R.color.Aqua);
-        id=Filter.HotSun;
+        id = Filter.HotSun;
     }
 
     @Override
@@ -25,11 +25,11 @@ public class HotSunFilter extends Filter implements ISingleImageEffect {
 
     @Override
     public Bitmap apply(Context context, Bitmap bitmap) {
-        ImageProcessor processor=new ImageProcessor();
+        ImageProcessor processor = new ImageProcessor();
 //        Bitmap bmp=processor.boost(bitmap, ImageProcessingConstants.RED,0.3);
 //        Bitmap bmp=processor.boost(bitmap, ImageProcessingConstants.RED,0.3);
         //Recept 3 "Sunset"
-        Bitmap bmp=processor.doGamma(bitmap,3.5,1,1);
+        Bitmap bmp = processor.doGamma(bitmap, 3.5, 1, 1);
 //        return r;
         return bmp;
     }

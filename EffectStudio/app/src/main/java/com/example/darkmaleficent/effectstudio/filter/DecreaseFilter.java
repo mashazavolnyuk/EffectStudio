@@ -21,7 +21,7 @@ public class DecreaseFilter extends Filter implements ISingleImageEffect {
     Context context;
 
     public DecreaseFilter() {
-        super(Filter.DescreaseColor, "Decrease", R.mipmap.ic_mode_edit_white_48dp);
+        super(Filter.DescreaseColor, "Vibrant", R.mipmap.ic_mode_edit_white_48dp);
         id = Filter.DescreaseColor;
     }
 
@@ -88,10 +88,10 @@ public class DecreaseFilter extends Filter implements ISingleImageEffect {
                 G = Color.green(pixel);
                 B = Color.blue(pixel);
 
-  int r = (Color.red(com.example.darkmaleficent.effectstudio.R.color.Aqua));
- int g = (Color.green(com.example.darkmaleficent.effectstudio.R.color.Aqua));
-                int b=Color.blue(com.example.darkmaleficent.effectstudio.R.color.Aqua);
-                bmOut.setPixel(x,y,Color.argb(A,R,G,190));
+                int r = (Color.red(com.example.darkmaleficent.effectstudio.R.color.Aqua));
+                int g = (Color.green(com.example.darkmaleficent.effectstudio.R.color.Aqua));
+                int b = Color.blue(com.example.darkmaleficent.effectstudio.R.color.Aqua);
+                bmOut.setPixel(x, y, Color.argb(A, R, G, 190));
 
             }
         }

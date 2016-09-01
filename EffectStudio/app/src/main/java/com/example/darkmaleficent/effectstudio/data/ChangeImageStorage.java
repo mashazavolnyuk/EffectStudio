@@ -9,12 +9,15 @@ import com.example.darkmaleficent.effectstudio.effect.ReflectionEffect;
 import com.example.darkmaleficent.effectstudio.effect.RemovalEffect;
 import com.example.darkmaleficent.effectstudio.effect.ShowEffect;
 import com.example.darkmaleficent.effectstudio.effect.TestEffect;
-import com.example.darkmaleficent.effectstudio.filter.Filter;
 import com.example.darkmaleficent.effectstudio.filter.AquaFilter;
 import com.example.darkmaleficent.effectstudio.filter.DecreaseFilter;
-import com.example.darkmaleficent.effectstudio.filter.HotSunFilter;
+import com.example.darkmaleficent.effectstudio.filter.Filter;
 import com.example.darkmaleficent.effectstudio.filter.GrassFilter;
-import com.example.darkmaleficent.effectstudio.filter.PacificOceanFilter;
+import com.example.darkmaleficent.effectstudio.filter.GrayFilter;
+import com.example.darkmaleficent.effectstudio.filter.HotSunFilter;
+import com.example.darkmaleficent.effectstudio.filter.MysticismFilter;
+import com.example.darkmaleficent.effectstudio.filter.RoseWaterFilter;
+import com.example.darkmaleficent.effectstudio.filter.Sand;
 import com.example.darkmaleficent.effectstudio.property.BrightnessProperty;
 import com.example.darkmaleficent.effectstudio.property.ContrastProperty;
 import com.example.darkmaleficent.effectstudio.property.OpacityProperty;
@@ -86,7 +89,10 @@ public class ChangeImageStorage {
         filters.add(new DecreaseFilter());
         filters.add(new HotSunFilter());
         filters.add(new GrassFilter());
-        filters.add(new PacificOceanFilter());
+        filters.add(new Sand());
+        filters.add(new RoseWaterFilter());
+        filters.add(new MysticismFilter());
+        filters.add(new GrayFilter());
 
 
     }
