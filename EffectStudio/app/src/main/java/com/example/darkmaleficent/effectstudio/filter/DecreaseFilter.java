@@ -10,18 +10,17 @@ import android.graphics.Paint;
 import android.support.v7.graphics.Palette;
 
 import com.example.darkmaleficent.effectstudio.R;
-import com.example.darkmaleficent.effectstudio.effect.ISingleImageEffect;
 import com.mukesh.image_processing.ImageProcessor;
 
 /**
  * Created by Dark Maleficent on 13.08.2016.
  */
-public class DecreaseFilter extends Filter implements ISingleImageEffect {
+public class DecreaseFilter extends Filter  {
     int id;
     Context context;
 
     public DecreaseFilter() {
-        super(Filter.DescreaseColor, "Vibrant", R.mipmap.ic_mode_edit_white_48dp);
+        super(Filter.DescreaseColor, "Vibrant");
         id = Filter.DescreaseColor;
     }
 
@@ -31,7 +30,7 @@ public class DecreaseFilter extends Filter implements ISingleImageEffect {
     }
 
     @Override
-    public Bitmap apply(Context context, Bitmap bitmap) {
+    public Bitmap apply(Bitmap bitmap) {
         this.context = context;
         ImageProcessor processor = new ImageProcessor();
         //Bitmap bmp=processor.decreaseColorDepth(bitmap,100);

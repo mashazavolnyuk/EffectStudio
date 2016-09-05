@@ -22,7 +22,7 @@ public class Sand extends TintFilter implements ISingleImageEffect{
     Context context;
 
     public Sand() {
-        super(Filter.SAND, "Sand", R.mipmap.ic_mode_edit_white_48dp);
+        super(Filter.SAND, "Sand");
         id = Filter.SAND;
     }
 
@@ -32,7 +32,7 @@ public class Sand extends TintFilter implements ISingleImageEffect{
     }
 
     @Override
-    public Bitmap apply(Context context, Bitmap bitmap) {
+    public Bitmap apply( Bitmap bitmap) {
         this.context = context;
         int color1 = ContextCompat.getColor(context, R.color.Sand);
         Bitmap bmp = addTint(bitmap, color1,0);

@@ -22,8 +22,8 @@ public abstract class TintFilter extends Filter {
     Paint paint;
 
 
-    public TintFilter(int id, String name, int image) {
-        super(id, name, image);
+    public TintFilter(int id, String name) {
+        super(id, name);
 
     }
 
@@ -65,9 +65,6 @@ public abstract class TintFilter extends Filter {
         Canvas canvas = new Canvas(result);
         canvas.drawBitmap(src, 0, 0, paint);
         return result;
-
-
-
     }
 
 

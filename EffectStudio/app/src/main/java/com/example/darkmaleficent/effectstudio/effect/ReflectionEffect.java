@@ -1,22 +1,21 @@
 package com.example.darkmaleficent.effectstudio.effect;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 
-import com.example.darkmaleficent.effectstudio.R;
 import com.mukesh.image_processing.ImageProcessor;
 
 /**
  * Created by Dark Maleficent on 29.06.2016.
  */
-public class ReflectionEffect extends SingleImageEffect {
+public class ReflectionEffect extends Effect {
 
     public ReflectionEffect() {
-        super(4, " Reflection", R.mipmap.ic_loop_white_36dp);
+        super(4, " Reflection");
+
     }
 
     @Override
-    public Bitmap apply(Context context, Bitmap bitmap) {
+    public Bitmap apply(Bitmap bitmap) {
 //        Filter fooFilter = SampleFilters.getBlueMessFilter();
 //        Bitmap outputImage = fooFilter.processFilter(bitmap);
         ImageProcessor imageProcessor = new ImageProcessor();
@@ -24,4 +23,8 @@ public class ReflectionEffect extends SingleImageEffect {
         return outputImage;
 
     }
+
+
+
+
 }

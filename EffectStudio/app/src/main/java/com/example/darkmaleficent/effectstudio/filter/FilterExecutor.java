@@ -56,7 +56,7 @@ public class FilterExecutor implements IExecutor {
                 break;
         }
         if (effect != null)
-            bmp = effect.apply(context, bitmap);
+            bmp = effect.apply( bitmap);
         return bmp;
     }
 }

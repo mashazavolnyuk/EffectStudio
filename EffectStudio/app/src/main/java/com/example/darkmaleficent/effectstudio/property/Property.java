@@ -13,6 +13,6 @@ public abstract class Property extends ChangeImage {
     public abstract int getId();
 
     public Property(int id, String name, int image) {
-        super(id, name, image);
+        super(id, name);
     }
 }

@@ -38,7 +38,7 @@ public class PropertiesAdapter extends  RecyclerView.Adapter<PropertiesHolders> 
     public void onBindViewHolder(PropertiesHolders holder, int position) {
         holder.description.setText(data.get(position).getName());
         holder.description.setTag(data.get(position).getId());
-        holder.effect.setImageResource(data.get(position).getImage());
+      //  holder.effect.setImageResource(data.get(position).());
         holder.position = position;
         holder.c=context;
     }

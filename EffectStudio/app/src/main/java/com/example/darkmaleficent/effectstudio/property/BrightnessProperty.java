@@ -1,6 +1,5 @@
 package com.example.darkmaleficent.effectstudio.property;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 
 import com.example.darkmaleficent.effectstudio.R;
@@ -20,7 +19,7 @@ public class BrightnessProperty extends Property implements IRegulator {
     }
 
     @Override
-    public Bitmap apply(Context context, Bitmap bitmap) {
+    public Bitmap apply(Bitmap bitmap) {
         ImageProcessor processor=new ImageProcessor();
         Bitmap bmp=processor.doBrightness(bitmap,value);
         return bmp;

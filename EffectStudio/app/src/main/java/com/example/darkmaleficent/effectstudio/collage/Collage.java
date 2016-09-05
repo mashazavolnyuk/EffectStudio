@@ -8,7 +8,7 @@ import com.example.darkmaleficent.effectstudio.ChangeImage;
 public abstract class  Collage extends ChangeImage {
 
 
-    public Collage(int id, String name, int image) {
-        super(id, name, image);
+    public Collage(int id, String name) {
+        super(id, name);
     }
 }

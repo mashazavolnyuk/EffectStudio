@@ -47,7 +47,7 @@ public class PropertyExecutor implements IExecutor {
 
 
     }
-        bmp = regulator.apply(context,bitmap);
+        bmp = regulator.apply(bitmap);
         return bmp;
 }
 

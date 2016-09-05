@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity
     private static final int PICK_IMAGE_REQUEST = 1;
     private static final int CAMERA_REQUEST = 2;
     private String[] scope = new String[]{VKScope.WALL, VKScope.PHOTOS};
+    private static Context context;
     ActionBarDrawerToggle toggle;
     NavigationView navigationView;
     DrawerLayout drawerLayout;
@@ -73,13 +74,18 @@ public class MainActivity extends AppCompatActivity
         System.loadLibrary("NativeImageProcessor");
     }
 
+    public static Context getContext() {
+
+        return context;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        context = this;
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -438,7 +444,7 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void run() {
-                Canvas canvas=new Canvas(working);
+                Canvas canvas = new Canvas(working);
                 try {
                     canvas = surfaceHolder.lockCanvas(null);
                     synchronized (surfaceHolder) {

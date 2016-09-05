@@ -1,6 +1,5 @@
 package com.example.darkmaleficent.effectstudio.property;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -25,7 +24,7 @@ public class OpacityProperty extends Property implements IRegulator {
     }
 
     @Override
-    public Bitmap apply(Context context, Bitmap bitmap) {
+    public Bitmap apply( Bitmap bitmap) {
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
         Bitmap transBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);

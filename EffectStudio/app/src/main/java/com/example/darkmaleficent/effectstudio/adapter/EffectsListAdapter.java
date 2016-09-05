@@ -34,7 +34,7 @@ public class EffectsListAdapter extends RecyclerView.Adapter<EffectsListHolders>
     public void onBindViewHolder(EffectsListHolders holder, final int position) {
         holder.description.setText(data.get(position).getName());
         holder.description.setTag(data.get(position).getId());
-        holder.effect.setImageResource(data.get(position).getImage());
+        holder.effect.setImageBitmap(data.get(position).getPreview());
         holder.position = position;
     }
     @Override

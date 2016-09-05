@@ -5,15 +5,11 @@ package com.example.darkmaleficent.effectstudio;
  */
 public abstract class ChangeImage {
     int id;
-    int image;
     String name;
 
-
-    public ChangeImage(int id, String name, int image){
+    public ChangeImage(int id, String name){
         this.id = id;
         this.name = name;
-        this.image = image;
-
     }
 
     public int getId() {
@@ -22,14 +18,6 @@ public abstract class ChangeImage {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getImage() {
-        return image;
-    }
-
-    public void setImage(int image) {
-        this.image = image;
     }
 
     public String getName() {

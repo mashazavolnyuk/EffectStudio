@@ -38,7 +38,7 @@ public class FiltersListAdapter extends RecyclerView.Adapter<FiltersListHolders>
     public void onBindViewHolder(FiltersListHolders holder, int position) {
         holder.description.setText(data.get(position).getName());
         holder.description.setTag(data.get(position).getId());
-        holder.effect.setImageResource(data.get(position).getImage());
+        holder.effect.setImageBitmap(data.get(position).getPreview());
         holder.position = position;
     }
 

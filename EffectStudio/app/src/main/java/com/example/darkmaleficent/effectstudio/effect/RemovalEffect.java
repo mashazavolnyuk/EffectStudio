@@ -1,22 +1,19 @@
 package com.example.darkmaleficent.effectstudio.effect;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-
-import com.example.darkmaleficent.effectstudio.R;
 
 /**
  * Created by Dark Maleficent on 29.06.2016.
  */
-public class RemovalEffect extends SingleImageEffect {
-
+public class RemovalEffect extends Effect {
     public RemovalEffect() {
-        super(5, "RemovalEffect", R.mipmap.ic_add_a_photo_white_36dp);
+        super(5, "RemovalEffect");
+
     }
 
     @Override
-    public Bitmap apply(Context context, Bitmap bitmap) {
+    public Bitmap apply(Bitmap bitmap) {
         Bitmap outputImage = doBrightness(bitmap,50);
         return outputImage;
     }
@@ -59,4 +56,5 @@ public class RemovalEffect extends SingleImageEffect {
         }
         return bmOut;
     }
+
 }
