@@ -29,7 +29,6 @@ public class TestEffect extends Effect {
         canvas.setBitmap(overlayBitmap);
         canvas.drawBitmap(bitmap,new Matrix(),null);
 //        canvas.drawBitmap(bitmap2, new Matrix(), null);
-
         return overlayBitmap;
 
     }

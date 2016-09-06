@@ -1,10 +1,11 @@
 package com.example.darkmaleficent.effectstudio.filter;
 
-import android.content.res.Resources;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import com.example.darkmaleficent.effectstudio.ChangeImage;
+import com.example.darkmaleficent.effectstudio.MainActivity;
 import com.example.darkmaleficent.effectstudio.R;
 import com.example.darkmaleficent.effectstudio.effect.ISingleImageEffect;
 
@@ -13,8 +14,10 @@ import com.example.darkmaleficent.effectstudio.effect.ISingleImageEffect;
  */
 public abstract class Filter extends ChangeImage implements ISingleImageEffect {
 
-    private Bitmap originalPreview;
-    protected Bitmap preview;
+    Context context= MainActivity.getContext();
+    private  Bitmap originalPreview =BitmapFactory.decodeResource(context.getResources(), R.mipmap.preview);
+    Bitmap mutableBitmap=originalPreview.copy(Bitmap.Config.ARGB_8888, true);
+    private Bitmap preview;
 
     static final int AquaFilter = 1;
     static final int DescreaseColor = 2;
@@ -29,10 +32,8 @@ public abstract class Filter extends ChangeImage implements ISingleImageEffect {
 
     public Filter(int id, String name) {
         super(id, name);
-        originalPreview= BitmapFactory.decodeResource(Resources.getSystem(), R.mipmap.preview);
-        preview=apply(originalPreview);
     }
     public Bitmap getPreview() {
-        return preview;
+        return preview=apply(mutableBitmap);
     }
 }

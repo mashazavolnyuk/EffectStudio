@@ -15,6 +15,7 @@ public abstract class Effect extends ChangeImage implements ISingleImageEffect {
     Context context= MainActivity.getContext();
     private  Bitmap originalPreview =BitmapFactory.decodeResource(context.getResources(), R.mipmap.preview);
     Bitmap mutableBitmap=originalPreview.copy(Bitmap.Config.ARGB_8888, true);
+
     private Bitmap preview;
     public Effect(int id, String name) {
         super(id, name);

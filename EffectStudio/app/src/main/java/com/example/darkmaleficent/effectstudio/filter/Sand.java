@@ -10,6 +10,7 @@ import android.graphics.Paint;
 import android.graphics.Shader;
 import android.support.v4.content.ContextCompat;
 
+import com.example.darkmaleficent.effectstudio.MainActivity;
 import com.example.darkmaleficent.effectstudio.R;
 import com.example.darkmaleficent.effectstudio.effect.ISingleImageEffect;
 
@@ -33,8 +34,8 @@ public class Sand extends TintFilter implements ISingleImageEffect{
 
     @Override
     public Bitmap apply( Bitmap bitmap) {
-        this.context = context;
-        int color1 = ContextCompat.getColor(context, R.color.Sand);
+
+        int color1 = ContextCompat.getColor(MainActivity.getContext(), R.color.Sand);
         Bitmap bmp = addTint(bitmap, color1,0);
         return bmp;
     }

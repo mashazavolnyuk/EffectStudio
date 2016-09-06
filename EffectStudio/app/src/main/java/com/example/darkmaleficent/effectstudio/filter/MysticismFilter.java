@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.v4.content.ContextCompat;
 
+import com.example.darkmaleficent.effectstudio.MainActivity;
 import com.example.darkmaleficent.effectstudio.R;
 
 /**
@@ -28,7 +29,7 @@ public class MysticismFilter extends TintFilter {
     @Override
     public Bitmap apply( Bitmap bitmap) {
         this.context = context;
-        int color1 = ContextCompat.getColor(context, R.color.Mysticism);
+        int color1 = ContextCompat.getColor(MainActivity.getContext(), R.color.Mysticism);
         Bitmap bmp = addTint(bitmap, color1,0);
         return bmp;
     }
