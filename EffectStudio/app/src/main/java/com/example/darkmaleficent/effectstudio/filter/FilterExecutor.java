@@ -3,7 +3,7 @@ package com.example.darkmaleficent.effectstudio.filter;
 import android.content.Context;
 import android.graphics.Bitmap;
 
-import com.example.darkmaleficent.effectstudio.effect.ISingleImageEffect;
+import com.example.darkmaleficent.effectstudio.interfaces.ISimpleChangeImage;
 import com.example.darkmaleficent.effectstudio.interfaces.IExecutor;
 
 /**
@@ -28,7 +28,7 @@ public class FilterExecutor implements IExecutor {
 
     @Override
     public Bitmap execute(int id, Bitmap bitmap, Context context) {
-        ISingleImageEffect effect = null;
+        ISimpleChangeImage effect = null;
         switch (id) {
             case Filter.AquaFilter:
                 effect = new AquaFilter();

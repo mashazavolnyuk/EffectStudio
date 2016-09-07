@@ -1,9 +1,12 @@
 package com.example.darkmaleficent.effectstudio.fragment;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -20,11 +23,15 @@ import android.widget.ImageView;
 import com.example.darkmaleficent.effectstudio.R;
 import com.example.darkmaleficent.effectstudio.adapter.EffectsListAdapter;
 import com.example.darkmaleficent.effectstudio.adapter.FiltersListAdapter;
-import com.example.darkmaleficent.effectstudio.adapter.PropertiesAdapter;
 import com.example.darkmaleficent.effectstudio.data.ImageStorage;
 import com.example.darkmaleficent.effectstudio.interfaces.IObserveRecyclerTools;
 import com.example.darkmaleficent.effectstudio.interfaces.IObserveWorkingImage;
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 /**
  * Created by Dark Maleficent on 12.06.2016.
@@ -34,7 +41,7 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
     RecyclerView barToolsEffect;
     View v;
     EffectsListAdapter adapter;
-    String[] SPINNERLIST = {"Effect","Filters", "Properties"};
+    String[] SPINNERLIST = {"Effect", "Filters", "Gradient"};
     int positionBar = 0;
     ViewGroup group;
 
@@ -57,7 +64,7 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
         setHasOptionsMenu(true);
         barToolsEffect = (RecyclerView) v.findViewById(R.id.rcvToolsEffect);
         imageView = (ImageView) v.findViewById(R.id.workingImage);
-        group=(ViewGroup) v.findViewById(R.id.workingSpace);
+        group = (ViewGroup) v.findViewById(R.id.workingSpace);
         ImageStorage.getInstance().setObserver(this);
         setToolsBar(positionBar);
         Bitmap bitmap = ImageStorage.getInstance().getBmp();
@@ -65,7 +72,7 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
         if (bitmap != null) {
             imageView.setImageBitmap(bitmap);
         } else {
-            Bitmap bitmap1= BitmapFactory.decodeResource(getResources(),R.mipmap.cat);
+            Bitmap bitmap1 = BitmapFactory.decodeResource(getResources(), R.mipmap.cat);
             imageView.setImageBitmap(bitmap1);
             barToolsEffect.setEnabled(false);
         }
@@ -93,12 +100,12 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
                 barToolsEffect.setAdapter(effectsListAdapter);
                 break;
             case 1:
-                FiltersListAdapter filtersListAdapter=new FiltersListAdapter(getActivity());
+                FiltersListAdapter filtersListAdapter = new FiltersListAdapter(getActivity());
                 barToolsEffect.setAdapter(filtersListAdapter);
                 break;
             case 2:
-                PropertiesAdapter propertiseAdapter = new PropertiesAdapter(getActivity());
-                barToolsEffect.setAdapter(propertiseAdapter);
+//                PropertiesAdapter propertiseAdapter = new PropertiesAdapter(getActivity());
+//                barToolsEffect.setAdapter(propertiseAdapter);
                 break;
 
         }
@@ -107,16 +114,25 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        //getActivity().getMenuInflater().inflate(R.menu.image_processing, menu);
+        menu.clear();
+        MenuInflater menuInflater = (getActivity()).getMenuInflater();
+        menuInflater.inflate(R.menu.choose_filters, menu);
+        for (int j = 0; j < menu.size(); j++) {
+            MenuItem item = menu.getItem(j);
+            if (item.getItemId() == R.id.save)
+                item.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS);
+            item.setIcon(R.mipmap.ic_check_grey600_36dp);
+        }
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case R.id.chooser:
-//                ((IChooserFilters) getActivity()).toChoosefilter();
-//                break;
-        //  }
+        switch (item.getItemId()) {
+            case R.id.share:
+                if (ImageStorage.getInstance().getBmp() != null)
+                    share();
+                break;
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -133,5 +149,23 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
         if (flag) {
             adapter.notifyDataSetChanged();
         }
+    }
+
+    private void share() {
+        Bitmap bmp = ImageStorage.getInstance().getBmp();
+        final Intent share = new Intent(Intent.ACTION_SEND);
+        share.setType("image/jpg");
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        File f = new File(Environment.getExternalStorageDirectory() + File.separator + "temporary_file.jpg");
+        try {
+            f.createNewFile();
+            FileOutputStream fo = new FileOutputStream(f);
+            fo.write(bytes.toByteArray());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        share.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///sdcard/temporary_file.jpg"));
+        getActivity().startActivity(Intent.createChooser(share, "Share Image"));
     }
 }

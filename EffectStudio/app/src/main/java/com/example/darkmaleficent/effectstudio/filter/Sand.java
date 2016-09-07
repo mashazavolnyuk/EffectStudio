@@ -12,12 +12,12 @@ import android.support.v4.content.ContextCompat;
 
 import com.example.darkmaleficent.effectstudio.MainActivity;
 import com.example.darkmaleficent.effectstudio.R;
-import com.example.darkmaleficent.effectstudio.effect.ISingleImageEffect;
+import com.example.darkmaleficent.effectstudio.interfaces.ISimpleChangeImage;
 
 /**
  * Created by Dark Maleficent on 13.08.2016.
  */
-public class Sand extends TintFilter implements ISingleImageEffect{
+public class Sand extends TintFilter implements ISimpleChangeImage {
 
     int id;
     Context context;

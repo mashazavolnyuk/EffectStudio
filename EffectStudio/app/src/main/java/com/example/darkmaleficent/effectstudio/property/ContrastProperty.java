@@ -3,14 +3,14 @@ package com.example.darkmaleficent.effectstudio.property;
 import android.graphics.Bitmap;
 
 import com.example.darkmaleficent.effectstudio.R;
-import com.example.darkmaleficent.effectstudio.effect.ISingleImageEffect;
+import com.example.darkmaleficent.effectstudio.interfaces.ISimpleChangeImage;
 import com.example.darkmaleficent.effectstudio.interfaces.IRegulator;
 import com.mukesh.image_processing.ImageProcessor;
 
 /**
  * Created by Dark Maleficent on 31.07.2016.
  */
-public class ContrastProperty extends Property implements ISingleImageEffect,IRegulator{
+public class ContrastProperty extends Property implements ISimpleChangeImage,IRegulator{
     int value=0;
     int id;
     public ContrastProperty() {

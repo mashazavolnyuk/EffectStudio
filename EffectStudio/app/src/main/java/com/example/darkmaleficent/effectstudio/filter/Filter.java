@@ -7,12 +7,12 @@ import android.graphics.BitmapFactory;
 import com.example.darkmaleficent.effectstudio.ChangeImage;
 import com.example.darkmaleficent.effectstudio.MainActivity;
 import com.example.darkmaleficent.effectstudio.R;
-import com.example.darkmaleficent.effectstudio.effect.ISingleImageEffect;
+import com.example.darkmaleficent.effectstudio.interfaces.ISimpleChangeImage;
 
 /**
  * Created by Dark Maleficent on 31.07.2016.
  */
-public abstract class Filter extends ChangeImage implements ISingleImageEffect {
+public abstract class Filter extends ChangeImage implements ISimpleChangeImage {
 
     Context context= MainActivity.getContext();
     private  Bitmap originalPreview =BitmapFactory.decodeResource(context.getResources(), R.mipmap.preview);

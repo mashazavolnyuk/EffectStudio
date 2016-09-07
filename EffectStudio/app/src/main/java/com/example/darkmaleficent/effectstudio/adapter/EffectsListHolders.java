@@ -20,7 +20,7 @@ public class EffectsListHolders extends RecyclerView.ViewHolder {
     ImageView effect;
     View.OnClickListener listener;
     int position;
-    Bitmap bitmap=ImageStorage.getInstance().getBmp();
+    Bitmap bitmap = ImageStorage.getInstance().getBmp();
     Bitmap temp;
 
 
@@ -28,28 +28,29 @@ public class EffectsListHolders extends RecyclerView.ViewHolder {
         super(itemView);
         description = (TextView) itemView.findViewById(R.id.tvDescriptionEffectTools);
         effect = (ImageView) itemView.findViewById(R.id.imgEffectTools);
-        listener =new View.OnClickListener() {
+        listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try{
-                ExecuteEffectTask task=new ExecuteEffectTask(v.getContext());
-                task.execute();
-                    Snackbar.make(v,"well done",Snackbar.LENGTH_LONG).show();
-                }catch(Exception e){
-                    Snackbar.make(v,"sorry,your phone can't does this operation",Snackbar.LENGTH_LONG).show();
+                try {
+                    ExecuteEffectTask task = new ExecuteEffectTask(v.getContext());
+                    task.execute();
+                    Snackbar.make(v, "well done", Snackbar.LENGTH_LONG).show();
+                } catch (Exception e) {
+                    Snackbar.make(v, "sorry,your phone can't does this operation", Snackbar.LENGTH_LONG).show();
                 }
             }
         };
-       itemView.setOnClickListener(listener);
+        itemView.setOnClickListener(listener);
 
-}
-    class ExecuteEffectTask extends AsyncTask<Void,Void,Bitmap>{
+    }
+
+    class ExecuteEffectTask extends AsyncTask<Void, Void, Bitmap> {
 
         int i;
         Context context;
         ProgressDialog progressDialog;
-        public ExecuteEffectTask(Context context)
-        {
+
+        public ExecuteEffectTask(Context context) {
             this.context = context;
             progressDialog = new ProgressDialog(context);
             progressDialog.setMessage("Please,waite");
@@ -57,19 +58,19 @@ public class EffectsListHolders extends RecyclerView.ViewHolder {
             progressDialog.setMax(100);
             progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             progressDialog.setCancelable(true);
-
         }
+
         @Override
         protected void onPreExecute() {
-           i = (int) description.getTag();
+            i = (int) description.getTag();
             progressDialog.show();
-
         }
+
         @Override
         protected Bitmap doInBackground(Void... voids) {
             try {
                 temp = ImageStorage.getInstance().getBmp();
-                temp = EffectExecutor.getInstance().execute(i, bitmap,context);
+                temp = EffectExecutor.getInstance().execute(i, bitmap, context);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -85,7 +86,7 @@ public class EffectsListHolders extends RecyclerView.ViewHolder {
 
         @Override
         protected void onPostExecute(Bitmap bitmap) {
-           ImageStorage.getInstance().setBmp(temp);
+            ImageStorage.getInstance().setBmp(temp);
             progressDialog.dismiss();
         }
     }

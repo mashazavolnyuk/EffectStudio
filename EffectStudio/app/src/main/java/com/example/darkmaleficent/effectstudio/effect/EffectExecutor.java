@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 
 import com.example.darkmaleficent.effectstudio.interfaces.IExecutor;
+import com.example.darkmaleficent.effectstudio.interfaces.ISimpleChangeImage;
 
 /**
  * Created by Dark Maleficent on 20.06.2016.
@@ -28,7 +29,7 @@ public class EffectExecutor implements IExecutor {
     @Override
     public Bitmap execute(int id, Bitmap bitmap, Context context) {
 
-        ISingleImageEffect effect = null;
+        ISimpleChangeImage effect = null;
         switch (id) {
             case 1:
                 effect = new GrayScaleEffect();

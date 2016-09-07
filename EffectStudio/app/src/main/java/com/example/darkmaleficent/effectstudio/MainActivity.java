@@ -273,9 +273,9 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_gallery:
                 loadImagefromGallery();
                 break;
-            case R.id.nav_vk:
-                getAlbumsVK();
-                break;
+//            case R.id.nav_vk:
+//                getAlbumsVK();
+//                break;
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

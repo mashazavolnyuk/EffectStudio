@@ -1,10 +1,10 @@
-package com.example.darkmaleficent.effectstudio.effect;
+package com.example.darkmaleficent.effectstudio.interfaces;
 
 import android.graphics.Bitmap;
 
 /**
  * Created by Dark Maleficent on 17.06.2016.
  */
-public interface ISingleImageEffect {
+public interface ISimpleChangeImage {
     Bitmap apply(Bitmap bitmap);
 }
