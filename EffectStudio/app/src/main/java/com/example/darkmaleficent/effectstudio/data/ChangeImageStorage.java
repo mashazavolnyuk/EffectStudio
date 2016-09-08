@@ -18,6 +18,8 @@ import com.example.darkmaleficent.effectstudio.filter.HotSunFilter;
 import com.example.darkmaleficent.effectstudio.filter.MysticismFilter;
 import com.example.darkmaleficent.effectstudio.filter.RoseWaterFilter;
 import com.example.darkmaleficent.effectstudio.filter.Sand;
+import com.example.darkmaleficent.effectstudio.gradient.Gradient;
+import com.example.darkmaleficent.effectstudio.gradient.GradientPacificOcean;
 import com.example.darkmaleficent.effectstudio.property.BrightnessProperty;
 import com.example.darkmaleficent.effectstudio.property.ContrastProperty;
 import com.example.darkmaleficent.effectstudio.property.OpacityProperty;
@@ -31,6 +33,7 @@ public class ChangeImageStorage {
 
     private static ChangeImageStorage instance;
     private List<Effect> effects = new ArrayList<>();
+    private List<Gradient> gradients=new ArrayList<>();
     private List<Property> properties = new ArrayList<>();
     private List<com.example.darkmaleficent.effectstudio.filter.Filter> filters = new ArrayList<>();
 
@@ -52,6 +55,7 @@ public class ChangeImageStorage {
        return filters;
 
     }
+
     public List<Effect> getEffects() {
         fiilEffects();
         return effects;
@@ -63,6 +67,15 @@ public class ChangeImageStorage {
 
     }
 
+    public List<Gradient> getGradients() {
+        fillGradients();
+        return gradients;
+
+    }
+    private void fillGradients(){
+        gradients.clear();
+        gradients.add(new GradientPacificOcean());
+    }
     private void fillProperties() {
         properties.clear();
         properties.add(new BrightnessProperty());

@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import com.example.darkmaleficent.effectstudio.R;
 import com.example.darkmaleficent.effectstudio.adapter.EffectsListAdapter;
 import com.example.darkmaleficent.effectstudio.adapter.FiltersListAdapter;
+import com.example.darkmaleficent.effectstudio.adapter.GradientsListAdapter;
 import com.example.darkmaleficent.effectstudio.data.ImageStorage;
 import com.example.darkmaleficent.effectstudio.interfaces.IObserveRecyclerTools;
 import com.example.darkmaleficent.effectstudio.interfaces.IObserveWorkingImage;
@@ -94,7 +95,6 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
     private void setToolsBar(int position) {
 
         switch (position) {
-
             case 0:
                 EffectsListAdapter effectsListAdapter = new EffectsListAdapter(getActivity());
                 barToolsEffect.setAdapter(effectsListAdapter);
@@ -104,8 +104,8 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
                 barToolsEffect.setAdapter(filtersListAdapter);
                 break;
             case 2:
-//                PropertiesAdapter propertiseAdapter = new PropertiesAdapter(getActivity());
-//                barToolsEffect.setAdapter(propertiseAdapter);
+                GradientsListAdapter gradientsListAdapter=new GradientsListAdapter(getActivity());
+                barToolsEffect.setAdapter(gradientsListAdapter);
                 break;
 
         }
