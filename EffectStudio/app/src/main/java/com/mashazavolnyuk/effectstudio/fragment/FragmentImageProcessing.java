@@ -1,16 +1,21 @@
 package com.mashazavolnyuk.effectstudio.fragment;
 
 import android.app.Fragment;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -35,6 +40,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Dark Maleficent on 12.06.2016.
@@ -48,18 +56,18 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
     int positionBar = 0;
     ViewGroup group;
     String m_chosen;
+    Handler handler;
+    ProgressDialog progressDialog;
+
+    final int STATUS_NONE = 0; // нет подключения
+    final int STATUS_CONNECTING = 1; // подключаемся
+    final int STATUS_CONNECTED = 2; // подключено
 
     @Override
     public void onStart() {
         super.onStart();
     }
 
-    @Override
-    public void onDestroyView() {
-//        ViewGroup mContainer = (ViewGroup) getActivity().findViewById(R.id.mainContent);
-//        mContainer.removeAllViewsInLayout();
-        super.onDestroyView();
-    }
 
     @Nullable
     @Override
@@ -136,71 +144,79 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
                     share();
                 break;
             case R.id.save:
-                galleryAddPic();
+                handler = new Handler() {
+                    @Override
+                    public void handleMessage(Message msg) {
+                        switch (msg.what) {
+                            case STATUS_CONNECTED:
+                                Context context = getActivity();
+                                progressDialog = new ProgressDialog(context);
+                                progressDialog.setMessage("Please,waite");
+                                progressDialog.setIndeterminate(false);
+                                progressDialog.setMax(100);
+                                progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                                progressDialog.setCancelable(true);
+                                progressDialog.show();
+                                Log.d("Handler ", "start");
+                                break;
+                            case STATUS_NONE:
+                                progressDialog.dismiss();
+                                Log.d("Handler ", "dismiss");
+                                break;
+                            case STATUS_CONNECTING:
+                                progressDialog.setMessage("Wrote in DCIM folder");
+                                break;
+                        }
+                    }
+                };
+                startSavePicture();
+                break;
+            case R.id.delete:
+                ImageStorage.getInstance().setBmp(null);
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void galleryAddPic() {
-
-//        Bitmap bitmap = ImageStorage.getInstance().getBmp();
-//        File root = Environment.getExternalStorageDirectory();
-//        File file = new File(root.getAbsolutePath()+"/DCIM/Camera/img.jpg");
-//        try
-//        {
-//            file.createNewFile();
-//            FileOutputStream ostream = new FileOutputStream(file);
-//            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, ostream);
-//            ostream.close();
-//        }
-//        catch (Exception e)
-//        {
-//            e.printStackTrace();
-//        }
-//        SimpleFileDialog FileOpenDialog =  new SimpleFileDialog(getActivity(), "FileOpen",
-//                new SimpleFileDialog.SimpleFileDialogListener() {
-//                    @Override
-//                    public void onChosenDir(String chosenDir) {
-//                        // The code in this function will be executed when the dialog OK button is pushed
-//                        m_chosen = chosenDir;
-//                        Toast.makeText(getActivity(), "Chosen FileOpenDialog File: " +
-//                                m_chosen, Toast.LENGTH_LONG).show();
-//                    }
-//
-//                });
-//        FileOpenDialog.Default_File_Name = "";
-//        FileOpenDialog.chooseFile_or_Dir();
+    private void startSavePicture() {
+        Thread t = new Thread(new Runnable() {
+            public void run() {
+                handler.sendEmptyMessage(STATUS_CONNECTED);
+                try {
+                    TimeUnit.SECONDS.sleep(1);
+                    Log.d("Thread ", "start");
+                    save();
+                    handler.sendEmptyMessage(STATUS_CONNECTING);
+                    TimeUnit.SECONDS.sleep(1);
+                    handler.sendEmptyMessage(STATUS_NONE);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        t.start();
+    }
 
 
-//        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-//        File f = new File(m_chosen);
-//        Uri contentUri = Uri.fromFile(f);
-//        mediaScanIntent.setData(contentUri);
-//        getActivity().sendBroadcast(mediaScanIntent);
-
-        OutputStream outputStream;
-        Bitmap source = ImageStorage.getInstance().getBmp();
-        File extStorageDirectory = Environment.getExternalStorageDirectory();
-        File dir = new File(extStorageDirectory.getAbsoluteFile() + "/DCIM/Camera/img.jpg");
-        //File file = new File(root.getAbsolutePath()+"/DCIM/Camera/img.jpg");
-        dir.mkdir();
-       // File myBmp = new File(dir, source.toString() + ".jpg");
-
+    private void save() {
+        String filename;
+        Date date = new Date(0);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+        filename = sdf.format(date);
         try {
-            dir.createNewFile();
-            outputStream = new FileOutputStream(dir);
-            source.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
-            outputStream.flush();
-            outputStream.close();
-            Snackbar.make(barToolsEffect,"Save to storage ",Snackbar.LENGTH_SHORT).show();
-
+            String path = Environment.getExternalStorageDirectory().toString();
+            OutputStream fOut = null;
+            File file = new File(path, "/DCIM/" + filename + ".jpg");
+            fOut = new FileOutputStream(file);
+            Bitmap mBitmap = ImageStorage.getInstance().getBmp();
+            mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fOut);
+            fOut.flush();
+            fOut.close();
+            MediaStore.Images.Media.insertImage(getActivity().getContentResolver()
+                    , file.getAbsolutePath(), file.getName(), file.getName());
         } catch (Exception e) {
-
             e.printStackTrace();
         }
-
-
     }
 
 

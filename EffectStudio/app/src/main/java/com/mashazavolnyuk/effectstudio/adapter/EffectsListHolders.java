@@ -22,7 +22,7 @@ public class EffectsListHolders extends RecyclerView.ViewHolder {
     int position;
     Bitmap bitmap = ImageStorage.getInstance().getBmp();
     Bitmap temp;
-
+    ProgressDialog progressDialog;
 
     public EffectsListHolders(View itemView) {
         super(itemView);
