@@ -5,9 +5,9 @@ android {
     buildToolsVersion '24.0.0'
 
     defaultConfig {
-        applicationId "com.example.darkmaleficent.effectstudio"
+        applicationId "com.mashazavolnyuk.effectstudio"
         minSdkVersion 16
-        targetSdkVersion 23
+        targetSdkVersion 24
         versionCode 1
         versionName "1.0"
         renderscriptTargetApi 18
@@ -35,7 +35,7 @@ dependencies {
     compile 'com.mukesh:photofilter:1.0.0'
     compile 'com.vk:androidsdk:1.6.5'
     compile 'com.weiwangcn.betterspinner:library-material:1.1.0'
-    compile 'com.android.support:palette-v7:23.1.1'
+    compile 'com.android.support:palette-v7:24.1.1'
 }
 
 

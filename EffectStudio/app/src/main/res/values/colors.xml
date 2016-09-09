@@ -7,8 +7,13 @@
     <color name="Aqua">#92FE9D </color>
     <color name="BlueSea">#00C9FF</color>
     <color name="Pink">#EF629F</color>
+    <color name="Fuchsia">#A80077</color>
     <color name="Sand">#EECDA3</color>
     <color name="RoseWater">#f59bbf</color>
     <color name="Mysticism">#570526</color>
+    <color name="Mint">#80E9CA</color>
+    <color name="Cacao">#554343</color>
+    <color name="Poppy">#A40707</color>
+    <color name="GreenField">#139B03</color>
 
 </resources>
