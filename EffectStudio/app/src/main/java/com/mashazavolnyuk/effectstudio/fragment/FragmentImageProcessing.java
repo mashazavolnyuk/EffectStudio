@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -33,6 +34,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
 /**
  * Created by Dark Maleficent on 12.06.2016.
@@ -45,6 +47,7 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
     String[] SPINNERLIST = {"Effect", "Filters", "Gradient"};
     int positionBar = 0;
     ViewGroup group;
+    String m_chosen;
 
     @Override
     public void onStart() {
@@ -104,7 +107,7 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
                 barToolsEffect.setAdapter(filtersListAdapter);
                 break;
             case 2:
-                GradientsListAdapter gradientsListAdapter=new GradientsListAdapter(getActivity());
+                GradientsListAdapter gradientsListAdapter = new GradientsListAdapter(getActivity());
                 barToolsEffect.setAdapter(gradientsListAdapter);
                 break;
 
@@ -119,7 +122,7 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
         menuInflater.inflate(R.menu.choose_filters, menu);
         for (int j = 0; j < menu.size(); j++) {
             MenuItem item = menu.getItem(j);
-            if (item.getItemId() == R.id.save)
+            if (item.getItemId() == R.id.checkDone)
                 item.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS);
             item.setIcon(R.mipmap.ic_check_grey600_36dp);
         }
@@ -132,9 +135,74 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
                 if (ImageStorage.getInstance().getBmp() != null)
                     share();
                 break;
+            case R.id.save:
+                galleryAddPic();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private void galleryAddPic() {
+
+//        Bitmap bitmap = ImageStorage.getInstance().getBmp();
+//        File root = Environment.getExternalStorageDirectory();
+//        File file = new File(root.getAbsolutePath()+"/DCIM/Camera/img.jpg");
+//        try
+//        {
+//            file.createNewFile();
+//            FileOutputStream ostream = new FileOutputStream(file);
+//            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, ostream);
+//            ostream.close();
+//        }
+//        catch (Exception e)
+//        {
+//            e.printStackTrace();
+//        }
+//        SimpleFileDialog FileOpenDialog =  new SimpleFileDialog(getActivity(), "FileOpen",
+//                new SimpleFileDialog.SimpleFileDialogListener() {
+//                    @Override
+//                    public void onChosenDir(String chosenDir) {
+//                        // The code in this function will be executed when the dialog OK button is pushed
+//                        m_chosen = chosenDir;
+//                        Toast.makeText(getActivity(), "Chosen FileOpenDialog File: " +
+//                                m_chosen, Toast.LENGTH_LONG).show();
+//                    }
+//
+//                });
+//        FileOpenDialog.Default_File_Name = "";
+//        FileOpenDialog.chooseFile_or_Dir();
+
+
+//        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+//        File f = new File(m_chosen);
+//        Uri contentUri = Uri.fromFile(f);
+//        mediaScanIntent.setData(contentUri);
+//        getActivity().sendBroadcast(mediaScanIntent);
+
+        OutputStream outputStream;
+        Bitmap source = ImageStorage.getInstance().getBmp();
+        File extStorageDirectory = Environment.getExternalStorageDirectory();
+        File dir = new File(extStorageDirectory.getAbsoluteFile() + "/DCIM/Camera/img.jpg");
+        //File file = new File(root.getAbsolutePath()+"/DCIM/Camera/img.jpg");
+        dir.mkdir();
+       // File myBmp = new File(dir, source.toString() + ".jpg");
+
+        try {
+            dir.createNewFile();
+            outputStream = new FileOutputStream(dir);
+            source.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+            outputStream.flush();
+            outputStream.close();
+            Snackbar.make(barToolsEffect,"Save to storage ",Snackbar.LENGTH_SHORT).show();
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+
+
+    }
+
 
     @Override
     public void newState(boolean state) {
@@ -156,7 +224,7 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
         final Intent share = new Intent(Intent.ACTION_SEND);
         share.setType("image/jpg");
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        bmp.compress(Bitmap.CompressFormat.PNG, 100, bytes);
         File f = new File(Environment.getExternalStorageDirectory() + File.separator + "temporary_file.jpg");
         try {
             f.createNewFile();
