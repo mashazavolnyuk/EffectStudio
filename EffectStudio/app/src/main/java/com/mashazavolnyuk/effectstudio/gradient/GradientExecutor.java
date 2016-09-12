@@ -37,6 +37,12 @@ public class GradientExecutor implements IExecutor {
             case Gradient.MintTea:
                 effect=new GradientMintTea();
                 break;
+            case Gradient.BarbieDoll:
+                effect=new GradientBarbieDoll();
+                break;
+            case Gradient.GreenDay:
+                effect=new GradientGreenDay();
+                break;
         }
         if (effect != null)
             bmp = effect.apply(bitmap);

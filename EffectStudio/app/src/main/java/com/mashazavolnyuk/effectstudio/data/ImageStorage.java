@@ -5,18 +5,13 @@ import android.graphics.Bitmap;
 import com.mashazavolnyuk.effectstudio.interfaces.IObservableWorkingImage;
 import com.mashazavolnyuk.effectstudio.interfaces.IObserveWorkingImage;
 
-import java.io.Serializable;
 
-/**
- * Created by Dark Maleficent on 09.06.2016.
- */
-public class ImageStorage implements IObservableWorkingImage, Serializable {
+public class ImageStorage implements IObservableWorkingImage {
     private static ImageStorage intance;
     private Bitmap bmp;
     private IObserveWorkingImage observeWorkingImage;
 
-    private ImageStorage() {
-    }
+    private ImageStorage() {}
 
     public static ImageStorage getInstance() {
         if (intance == null)
@@ -35,6 +30,9 @@ public class ImageStorage implements IObservableWorkingImage, Serializable {
     public Bitmap getBmp() {
         return bmp;
     }
+
+
+
 
     @Override
     public void setObserver(IObserveWorkingImage observer) {

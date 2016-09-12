@@ -26,7 +26,7 @@ public class GradientMintTea extends Gradient {
     public Bitmap apply(Bitmap bitmap) {
         int color1 = ContextCompat.getColor(MainActivity.getContext(), R.color.Mint);
         int color2 = ContextCompat.getColor(MainActivity.getContext(), R.color.Cacao);
-        Bitmap bmp = addGradient(bitmap, color1, color2);
+        Bitmap bmp = addGradient(bitmap, color1, color2,Gradient.TYPE_GRADIENT_LINEAR);
         return bmp;
     }
 }

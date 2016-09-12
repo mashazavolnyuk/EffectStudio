@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
@@ -69,6 +70,7 @@ public class MainActivity extends AppCompatActivity
     float x, y;
     Bitmap ball;
     Bitmap bmpDraw;
+    Intent receivedIntent;
 
     static {
         System.loadLibrary("NativeImageProcessor");
@@ -83,6 +85,10 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         context = this;
@@ -94,11 +100,34 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        // Get intent, action and MIME type
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        String type = intent.getType();
+
+        if (Intent.ACTION_SEND.equals(action) && type != null) {
+            if (type.startsWith("image/")) {
+                handleSendImage(intent); // Handle single image being sent
+            }
+        }
         toModifyImage();
 
 
     }
-
+    private void handleSendImage(Intent intent) {
+        Uri imageUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
+        if (imageUri != null) {
+            Bitmap bitmap = null;
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Bitmap bmp = shrinkBitmap(bitmap);
+            ImageStorage.getInstance().setBmp(bmp);
+        }
+    }
 
     private void setMainNavigationState(boolean state) {
         if (state)
@@ -184,9 +213,12 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void loadImagefromGallery() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
+        Intent intent = new Intent(Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        //Var #2
+//        Intent intent = new Intent();
+//        intent.setType("image/*");
+//        intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
 
     }
@@ -210,20 +242,48 @@ public class MainActivity extends AppCompatActivity
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             Uri uri = data.getData();
+            Bitmap bitmap = null;
             try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                ImageStorage.getInstance().setBmp(bitmap);
-                toModifyImage();
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            Bitmap bmp = shrinkBitmap(bitmap);
+            ImageStorage.getInstance().setBmp(bmp);
+            toModifyImage();
         }
         if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
             Bitmap photo = (Bitmap) data.getExtras().get("data");
-            ImageStorage.getInstance().setBmp(photo);
+            Bitmap bmp = shrinkBitmap(photo);
+            ImageStorage.getInstance().setBmp(bmp);
             toModifyImage();
         }
 
+
+    }
+
+
+    private Bitmap shrinkBitmap(Bitmap bmp) {
+        int newWidth = 1024;
+        int newHeight = 600;
+        float scaleWidth = 1;
+        float scaleHeight = 1;
+
+        int width = bmp.getWidth();
+        int height = bmp.getHeight();
+        Log.d("w","= "+width);
+        Log.d("h","= "+height);
+        if ((width > 1024 && height > 600) || (height > 1024 && width > 600)) {
+            scaleWidth = ((float) newWidth) / width;
+            scaleHeight = ((float) newHeight) / height;
+        }
+        Matrix matrix = new Matrix();
+        matrix.postScale(scaleWidth, scaleHeight);
+        Bitmap resizedBitmap = Bitmap.createBitmap(bmp, 0, 0,
+                width, height, matrix, true);
+        Log.d("new w","= "+resizedBitmap.getWidth());
+        Log.d("new h","= "+resizedBitmap.getHeight());
+        return resizedBitmap;
     }
 
     @Override

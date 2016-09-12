@@ -15,7 +15,7 @@
         android:id="@+id/tvDescriptionEffectTools"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/mainBackground"
         android:layout_gravity="center"
         />
 </LinearLayout>
