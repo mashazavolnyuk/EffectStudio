@@ -65,7 +65,9 @@ public class FiltersListHolders extends RecyclerView.ViewHolder {
         @Override
         protected void onPreExecute() {
             i = (int) description.getTag();
+            progressDialog.setCancelable(false);
             progressDialog.show();
+
 
         }
         @Override

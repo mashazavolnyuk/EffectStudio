@@ -64,6 +64,7 @@ public class EffectsListHolders extends RecyclerView.ViewHolder {
         protected void onPreExecute() {
             i = (int) description.getTag();
             progressDialog.show();
+            progressDialog.setCancelable(false);
         }
 
         @Override

@@ -4,7 +4,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="mainBackground">#FFFFFF</color>
-    <color name="Aqua">#92FE9D </color>
+    <color name="Aqua">#92FE9D</color>
     <color name="BlueSea">#00C9FF</color>
     <color name="Pink">#EF629F</color>
     <color name="Fuchsia">#A80077</color>
@@ -15,5 +15,11 @@
     <color name="Cacao">#554343</color>
     <color name="Poppy">#A40707</color>
     <color name="GreenField">#139B03</color>
+    <color name="Appricot">#FFAF47</color>
+    <color name="Lime">#7dff52</color>
+    <color name="Lagoon">#00ffff</color>
+    <color name="PalePink">#FBD3E9</color>
+    <color name="PinkCherry">#BB377D</color>
+
 
 </resources>

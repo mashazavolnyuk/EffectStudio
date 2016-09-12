@@ -84,7 +84,7 @@ public abstract class TintFilter extends Filter {
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setStyle(Paint.Style.FILL);
         //bitmap = BitmapFactory.decodeResource(getResources(),
-        //  R.drawable.ic_launcher);
+        //  R.drawable.dots);
 
         BitmapShader shader = new BitmapShader(mask,
                 Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);

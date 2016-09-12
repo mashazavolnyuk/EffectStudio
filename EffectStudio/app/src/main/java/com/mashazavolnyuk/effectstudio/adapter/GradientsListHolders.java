@@ -64,6 +64,7 @@ public class GradientsListHolders extends RecyclerView.ViewHolder {
         @Override
         protected void onPreExecute() {
             i = (int) description.getTag();
+            progressDialog.setCancelable(false);
             progressDialog.show();
         }
 

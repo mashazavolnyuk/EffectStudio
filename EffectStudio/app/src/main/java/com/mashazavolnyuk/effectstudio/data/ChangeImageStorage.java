@@ -20,8 +20,10 @@ import com.mashazavolnyuk.effectstudio.filter.RoseWaterFilter;
 import com.mashazavolnyuk.effectstudio.filter.Sand;
 import com.mashazavolnyuk.effectstudio.gradient.Gradient;
 import com.mashazavolnyuk.effectstudio.gradient.GradientBarbieDoll;
+import com.mashazavolnyuk.effectstudio.gradient.GradientCherryBlossoms;
 import com.mashazavolnyuk.effectstudio.gradient.GradientFuchsia;
 import com.mashazavolnyuk.effectstudio.gradient.GradientGreenDay;
+import com.mashazavolnyuk.effectstudio.gradient.GradientMiamiBeach;
 import com.mashazavolnyuk.effectstudio.gradient.GradientMintTea;
 import com.mashazavolnyuk.effectstudio.gradient.GradientPacificOcean;
 import com.mashazavolnyuk.effectstudio.property.BrightnessProperty;
@@ -83,6 +85,8 @@ public class ChangeImageStorage {
         gradients.add(new GradientMintTea());
         gradients.add(new GradientBarbieDoll());
         gradients.add(new GradientGreenDay());
+        gradients.add(new GradientMiamiBeach());
+        gradients.add(new GradientCherryBlossoms());
     }
     private void fillProperties() {
         properties.clear();

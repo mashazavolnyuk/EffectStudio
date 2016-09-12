@@ -41,7 +41,7 @@ public class GradientPacificOcean extends Gradient {
 //        paint.setStyle(Paint.Style.FILL);
 //         paint.setAlpha(190);
 //        //bitmap = BitmapFactory.decodeResource(getResources(),
-//              //  R.drawable.ic_launcher);
+//              //  R.drawable.dots);
 //        BitmapShader shader = new BitmapShader(mask,
 //                Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
 //      //  Shader shader = new LinearGradient(0, 0, 0, h, color1, color2, Shader.TileMode.CLAMP);

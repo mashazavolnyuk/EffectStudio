@@ -132,7 +132,7 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
             MenuItem item = menu.getItem(j);
             if (item.getItemId() == R.id.checkDone)
                 item.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS);
-            item.setIcon(R.mipmap.ic_check_grey600_36dp);
+            item.setIcon(R.mipmap.ic_check_white_36dp);
         }
     }
 
