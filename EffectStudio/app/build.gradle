@@ -36,6 +36,7 @@ dependencies {
     compile 'com.vk:androidsdk:1.6.5'
     compile 'com.weiwangcn.betterspinner:library-material:1.1.0'
     compile 'com.android.support:palette-v7:24.1.1'
+    compile 'com.facebook.android:facebook-android-sdk:[4,5)'
 }
 
 

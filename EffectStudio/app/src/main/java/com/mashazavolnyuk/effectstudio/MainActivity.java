@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ShareCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -71,6 +72,7 @@ public class MainActivity extends AppCompatActivity
     Bitmap ball;
     Bitmap bmpDraw;
     Intent receivedIntent;
+
 
     static {
         System.loadLibrary("NativeImageProcessor");
@@ -333,9 +335,14 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_gallery:
                 loadImagefromGallery();
                 break;
-//            case R.id.nav_vk:
-//                getAlbumsVK();
-//                break;
+            case R.id.nav_share:
+                ShareCompat.IntentBuilder
+                        .from(this) // getActivity() or activity field if within Fragment
+                        .setText("https://play.google.com/apps/testing/com.mashazavolnyuk.effectstudio")
+                        .setType("text/plain") // most general text sharing MIME type
+                        .setChooserTitle("Effect Studio")
+                        .startChooser();
+                break;
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -525,5 +532,43 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+//    public void test()
+//    {
+//
+//
+//         ArrayList<FacebookAlbum> alFBAlbum = new ArrayList<>();
+///*make API call*/
+//        new GraphRequest(
+//                AccessToken.getCurrentAccessToken(),  //your fb AccessToken
+//                "/" + AccessToken.getCurrentAccessToken().getUserId() + "/albums",//user id of login user
+//                null,
+//                HttpMethod.GET,
+//                new GraphRequest.Callback() {
+//                    public void onCompleted(GraphResponse response) {
+//                        Log.d("TAG", "Facebook Albums: " + response.toString());
+//                        try {
+//                            if (response.getError() == null) {
+//                                JSONObject joMain = response.getJSONObject(); //convert GraphResponse response to JSONObject
+//                                if (joMain.has("data")) {
+//                                    JSONArray jaData = joMain.optJSONArray("data"); //find JSONArray from JSONObject
+//                                    alFBAlbum = new ArrayList<>();
+//                                    for (int i = 0; i < jaData.length(); i++) {//find no. of album using jaData.length()
+//                                        JSONObject joAlbum = jaData.getJSONObject(i); //convert perticular album into JSONObject
+//                                        GetFacebookImages(joAlbum.optString("id")); //find Album ID and get All Images from album
+//                                    }
+//                                }
+//                            } else {
+//                                Log.d("Test", response.getError().toString());
+//                            }
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                }
+//        ).executeAsync();
+//
+//
+//
+//}
 
-}
+}//Main Avtivity

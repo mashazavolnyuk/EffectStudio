@@ -127,7 +127,7 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.clear();
         MenuInflater menuInflater = (getActivity()).getMenuInflater();
-        menuInflater.inflate(R.menu.choose_filters, menu);
+        menuInflater.inflate(R.menu.menu_image, menu);
         for (int j = 0; j < menu.size(); j++) {
             MenuItem item = menu.getItem(j);
             if (item.getItemId() == R.id.checkDone)
