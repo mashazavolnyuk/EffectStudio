@@ -25,6 +25,7 @@ public class GradientsListAdapter extends RecyclerView.Adapter<GradientsListHold
         data = ChangeImageStorage.getInstance().getGradients();
 
     }
+
     @Override
     public GradientsListHolders onCreateViewHolder(ViewGroup parent, int viewType) {
         View layoutView = LayoutInflater.from(context).inflate(R.layout.item_list_effect_tools, null);
@@ -35,7 +36,7 @@ public class GradientsListAdapter extends RecyclerView.Adapter<GradientsListHold
     @Override
     public void onBindViewHolder(GradientsListHolders holder, int position) {
         holder.description.setText(data.get(position).getName());
-        holder.description.setTag(data.get(position).getId());
+        holder.imageChange = data.get(position).getClass().getName();
         holder.effect.setImageBitmap(data.get(position).getPreview());
         holder.position = position;
     }

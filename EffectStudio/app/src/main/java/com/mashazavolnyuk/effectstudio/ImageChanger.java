@@ -3,11 +3,11 @@ package com.mashazavolnyuk.effectstudio;
 /**
  * Created by Dark Maleficent on 31.07.2016.
  */
-public abstract class ChangeImage {
+public abstract class ImageChanger {
     int id;
     String name;
 
-    public ChangeImage(int id, String name){
+    public ImageChanger(int id, String name){
         this.id = id;
         this.name = name;
     }

@@ -13,13 +13,13 @@ import android.graphics.RadialGradient;
 import android.graphics.Shader;
 import android.graphics.SweepGradient;
 
-import com.mashazavolnyuk.effectstudio.ChangeImage;
+import com.mashazavolnyuk.effectstudio.ImageChanger;
 import com.mashazavolnyuk.effectstudio.MainActivity;
 import com.mashazavolnyuk.effectstudio.R;
 import com.mashazavolnyuk.effectstudio.interfaces.ISimpleChangeImage;
 
 
-public abstract class Gradient extends ChangeImage implements ISimpleChangeImage {
+public abstract class Gradient extends ImageChanger implements ISimpleChangeImage {
 
     Context context = MainActivity.getContext();
     private Bitmap originalPreview = BitmapFactory.decodeResource(context.getResources(), R.mipmap.preview);
@@ -33,13 +33,13 @@ public abstract class Gradient extends ChangeImage implements ISimpleChangeImage
         super(id, name);
     }
 
-    static final int PacificOcean = 1;
-    static final int Fuchsia = 2;
-    static final int MintTea = 3;
-    static final int BarbieDoll = 4;
-    static final int GreenDay=5;
-    static final int MiamiBeach=6;
-    static final int CherryBlossoms=7;
+    static final int PACIFIC_OCEAN = 1;
+    static final int FUCHSIA = 2;
+    static final int MINT_TEA = 3;
+    static final int BARBIE_DOLL = 4;
+    static final int GREEN_DAY =5;
+    static final int MIAMI_BEACH =6;
+    static final int CHERRY_BLOSSOMS =7;
 
     static final int TYPE_GRADIENT_LINEAR = 1;
     static final int TYPE_GRADIENT_RADIAL = 2;

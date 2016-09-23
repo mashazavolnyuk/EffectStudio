@@ -1,6 +1,5 @@
 package com.mashazavolnyuk.effectstudio.data;
 
-import com.mashazavolnyuk.effectstudio.effect.BlurEffect;
 import com.mashazavolnyuk.effectstudio.effect.BlurPixelEffect;
 import com.mashazavolnyuk.effectstudio.effect.Effect;
 import com.mashazavolnyuk.effectstudio.effect.FleaEffect;
@@ -63,7 +62,7 @@ public class ChangeImageStorage {
     }
 
     public List<Effect> getEffects() {
-        fiilEffects();
+        fillEffects();
         return effects;
     }
 
@@ -96,9 +95,8 @@ public class ChangeImageStorage {
 
     }
 
-    private void fiilEffects() {
+    private void fillEffects() {
         effects.clear();
-        effects.add(new BlurEffect());
         effects.add(new GrayScaleEffect());
         effects.add(new BlurPixelEffect());
         effects.add(new ReflectionEffect());

@@ -1,11 +1,11 @@
 package com.mashazavolnyuk.effectstudio.collage;
 
-import com.mashazavolnyuk.effectstudio.ChangeImage;
+import com.mashazavolnyuk.effectstudio.ImageChanger;
 
 /**
  * Created by Dark Maleficent on 16.08.2016.
  */
-public abstract class  Collage extends ChangeImage {
+public abstract class  Collage extends ImageChanger {
 
 
     public Collage(int id, String name) {

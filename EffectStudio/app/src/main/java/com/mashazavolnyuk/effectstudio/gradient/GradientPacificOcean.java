@@ -13,8 +13,8 @@ public class GradientPacificOcean extends Gradient {
     private int id;
 
     public GradientPacificOcean() {
-        super(Gradient.PacificOcean, "Pacific Ocean");
-        id = Gradient.PacificOcean;
+        super(Gradient.PACIFIC_OCEAN, "Pacific Ocean");
+        id = Gradient.PACIFIC_OCEAN;
     }
 
     @Override

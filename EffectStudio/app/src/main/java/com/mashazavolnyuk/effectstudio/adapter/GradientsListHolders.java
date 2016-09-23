@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.mashazavolnyuk.effectstudio.R;
 import com.mashazavolnyuk.effectstudio.data.ImageStorage;
-import com.mashazavolnyuk.effectstudio.gradient.GradientExecutor;
+import com.mashazavolnyuk.effectstudio.effect.ImageChangerExecutor;
 
 /**
  * Created by Dark Maleficent on 07.09.2016.
@@ -20,6 +20,7 @@ import com.mashazavolnyuk.effectstudio.gradient.GradientExecutor;
 public class GradientsListHolders extends RecyclerView.ViewHolder {
     TextView description;
     ImageView effect;
+    String imageChange;
     View.OnClickListener listener;
     int position;
     Bitmap bitmap = ImageStorage.getInstance().getBmp();
@@ -47,7 +48,7 @@ public class GradientsListHolders extends RecyclerView.ViewHolder {
 
     class ExecuteGradientTask extends AsyncTask<Void, Void, Bitmap> {
 
-        int i;
+
         Context context;
         ProgressDialog progressDialog;
 
@@ -63,7 +64,6 @@ public class GradientsListHolders extends RecyclerView.ViewHolder {
 
         @Override
         protected void onPreExecute() {
-            i = (int) description.getTag();
             progressDialog.setCancelable(false);
             progressDialog.show();
         }
@@ -72,7 +72,7 @@ public class GradientsListHolders extends RecyclerView.ViewHolder {
         protected Bitmap doInBackground(Void... voids) {
             try {
                 temp = ImageStorage.getInstance().getBmp();
-                temp = GradientExecutor.getInstance().execute(i, bitmap, context);
+                temp = ImageChangerExecutor.getInstance().execute(imageChange, bitmap, context);
             } catch (Exception e) {
                 e.printStackTrace();
             }

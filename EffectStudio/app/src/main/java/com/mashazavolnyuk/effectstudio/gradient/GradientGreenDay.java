@@ -14,8 +14,8 @@ public class GradientGreenDay extends Gradient {
     int id;
 
     public GradientGreenDay() {
-        super(Gradient.GreenDay, "Green Day");
-        id=GreenDay;
+        super(Gradient.GREEN_DAY, "Green Day");
+        id= GREEN_DAY;
     }
 
     @Override

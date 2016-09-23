@@ -4,7 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-import com.mashazavolnyuk.effectstudio.ChangeImage;
+import com.mashazavolnyuk.effectstudio.ImageChanger;
 import com.mashazavolnyuk.effectstudio.MainActivity;
 import com.mashazavolnyuk.effectstudio.R;
 import com.mashazavolnyuk.effectstudio.interfaces.ISimpleChangeImage;
@@ -12,7 +12,7 @@ import com.mashazavolnyuk.effectstudio.interfaces.ISimpleChangeImage;
 /**
  * Created by Dark Maleficent on 31.07.2016.
  */
-public abstract class Filter extends ChangeImage implements ISimpleChangeImage {
+public abstract class Filter extends ImageChanger implements ISimpleChangeImage {
 
     Context context= MainActivity.getContext();
     private  Bitmap originalPreview =BitmapFactory.decodeResource(context.getResources(), R.mipmap.preview);

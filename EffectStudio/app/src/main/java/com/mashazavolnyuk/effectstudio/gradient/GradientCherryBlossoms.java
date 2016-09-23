@@ -13,8 +13,8 @@ public class GradientCherryBlossoms extends Gradient {
 
     int id;
     public GradientCherryBlossoms() {
-        super(Gradient.CherryBlossoms, "Cherry blossoms");
-        id=CherryBlossoms;
+        super(Gradient.CHERRY_BLOSSOMS, "Cherry blossoms");
+        id= CHERRY_BLOSSOMS;
     }
 
     @Override

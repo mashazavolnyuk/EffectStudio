@@ -12,11 +12,12 @@ import android.widget.TextView;
 
 import com.mashazavolnyuk.effectstudio.data.ImageStorage;
 import com.mashazavolnyuk.effectstudio.R;
-import com.mashazavolnyuk.effectstudio.effect.EffectExecutor;
+import com.mashazavolnyuk.effectstudio.effect.ImageChangerExecutor;
 
 
 public class EffectsListHolders extends RecyclerView.ViewHolder {
     TextView description;
+    String effectName;
     ImageView effect;
     View.OnClickListener listener;
     int position;
@@ -46,14 +47,13 @@ public class EffectsListHolders extends RecyclerView.ViewHolder {
 
     class ExecuteEffectTask extends AsyncTask<Void, Void, Bitmap> {
 
-        int i;
         Context context;
         ProgressDialog progressDialog;
 
         public ExecuteEffectTask(Context context) {
             this.context = context;
             progressDialog = new ProgressDialog(context);
-            progressDialog.setMessage("Please,waite");
+            progressDialog.setMessage("Please,wait");
             progressDialog.setIndeterminate(false);
             progressDialog.setMax(100);
             progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -62,7 +62,6 @@ public class EffectsListHolders extends RecyclerView.ViewHolder {
 
         @Override
         protected void onPreExecute() {
-            i = (int) description.getTag();
             progressDialog.show();
             progressDialog.setCancelable(false);
         }
@@ -71,7 +70,7 @@ public class EffectsListHolders extends RecyclerView.ViewHolder {
         protected Bitmap doInBackground(Void... voids) {
             try {
                 temp = ImageStorage.getInstance().getBmp();
-                temp = EffectExecutor.getInstance().execute(i, bitmap, context);
+                temp = ImageChangerExecutor.getInstance().execute(effectName, bitmap, context);
 
             } catch (Exception e) {
                 e.printStackTrace();

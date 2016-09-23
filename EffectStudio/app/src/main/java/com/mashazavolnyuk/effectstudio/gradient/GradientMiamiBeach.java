@@ -12,8 +12,8 @@ import com.mashazavolnyuk.effectstudio.R;
 public class GradientMiamiBeach extends Gradient {
     int id;
     public GradientMiamiBeach() {
-        super(Gradient.MiamiBeach, "Miami Beach");
-        id=MiamiBeach;
+        super(Gradient.MIAMI_BEACH, "Miami Beach");
+        id= MIAMI_BEACH;
     }
 
     @Override

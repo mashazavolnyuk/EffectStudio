@@ -12,8 +12,8 @@ import com.mashazavolnyuk.effectstudio.R;
 public class GradientFuchsia extends Gradient {
     int id;
     public GradientFuchsia() {
-        super(Gradient.Fuchsia, "Fuchsia in water");
-        id=Gradient.Fuchsia;
+        super(Gradient.FUCHSIA, "FUCHSIA in water");
+        id=Gradient.FUCHSIA;
     }
 
     @Override

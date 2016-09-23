@@ -27,7 +27,7 @@ public class PropertyExecutor implements IExecutor {
     }
 
 
-    @Override
+
     public Bitmap execute(int id, Bitmap bitmap, Context context) {
 
         IRegulator regulator = null;
@@ -51,4 +51,8 @@ public class PropertyExecutor implements IExecutor {
         return bmp;
 }
 
+    @Override
+    public Bitmap execute(String effectName, Bitmap bitmap, Context context) {
+        return null;
+    }
 }

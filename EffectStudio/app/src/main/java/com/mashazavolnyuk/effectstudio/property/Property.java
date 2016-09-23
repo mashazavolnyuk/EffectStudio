@@ -1,11 +1,11 @@
 package com.mashazavolnyuk.effectstudio.property;
 
-import com.mashazavolnyuk.effectstudio.ChangeImage;
+import com.mashazavolnyuk.effectstudio.ImageChanger;
 
 /**
  * Created by Dark Maleficent on 31.07.2016.
  */
-public abstract class Property extends ChangeImage {
+public abstract class Property extends ImageChanger {
 
     static final int Brightness=1;
     static final int Contrast=2;

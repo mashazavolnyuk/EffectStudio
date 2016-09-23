@@ -89,8 +89,6 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
 
-
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         context = this;
@@ -117,6 +115,7 @@ public class MainActivity extends AppCompatActivity
 
 
     }
+
     private void handleSendImage(Intent intent) {
         Uri imageUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
         if (imageUri != null) {
@@ -273,8 +272,8 @@ public class MainActivity extends AppCompatActivity
 
         int width = bmp.getWidth();
         int height = bmp.getHeight();
-        Log.d("w","= "+width);
-        Log.d("h","= "+height);
+        Log.d("w", "= " + width);
+        Log.d("h", "= " + height);
         if ((width > 1024 && height > 600) || (height > 1024 && width > 600)) {
             scaleWidth = ((float) newWidth) / width;
             scaleHeight = ((float) newHeight) / height;
@@ -283,8 +282,8 @@ public class MainActivity extends AppCompatActivity
         matrix.postScale(scaleWidth, scaleHeight);
         Bitmap resizedBitmap = Bitmap.createBitmap(bmp, 0, 0,
                 width, height, matrix, true);
-        Log.d("new w","= "+resizedBitmap.getWidth());
-        Log.d("new h","= "+resizedBitmap.getHeight());
+        Log.d("new w", "= " + resizedBitmap.getWidth());
+        Log.d("new h", "= " + resizedBitmap.getHeight());
         return resizedBitmap;
     }
 
@@ -336,12 +335,7 @@ public class MainActivity extends AppCompatActivity
                 loadImagefromGallery();
                 break;
             case R.id.nav_share:
-                ShareCompat.IntentBuilder
-                        .from(this) // getActivity() or activity field if within Fragment
-                        .setText("https://play.google.com/apps/testing/com.mashazavolnyuk.effectstudio")
-                        .setType("text/plain") // most general text sharing MIME type
-                        .setChooserTitle("Effect Studio")
-                        .startChooser();
+                shareLink();
                 break;
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -370,6 +364,14 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    private void shareLink() {
+        ShareCompat.IntentBuilder
+                .from(this) // getActivity() or activity field if within Fragment
+                .setText("https://play.google.com/apps/testing/com.mashazavolnyuk.effectstudio")
+                .setType("text/plain") // most general text sharing MIME type
+                .setChooserTitle("Effect Studio")
+                .startChooser();
+    }
 
     @Override
     public void switchOnCanvas(boolean flag, Bitmap bmp, ViewGroup group) {

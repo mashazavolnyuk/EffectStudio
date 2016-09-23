@@ -12,5 +12,4 @@ public class Application extends android.app.Application {
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
     }
-
 }

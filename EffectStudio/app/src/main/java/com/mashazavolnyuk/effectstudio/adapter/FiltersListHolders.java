@@ -10,9 +10,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.mashazavolnyuk.effectstudio.filter.FilterExecutor;
 import com.mashazavolnyuk.effectstudio.R;
 import com.mashazavolnyuk.effectstudio.data.ImageStorage;
+import com.mashazavolnyuk.effectstudio.effect.ImageChangerExecutor;
 
 /**
  * Created by Dark Maleficent on 12.08.2016.
@@ -20,6 +20,7 @@ import com.mashazavolnyuk.effectstudio.data.ImageStorage;
 public class FiltersListHolders extends RecyclerView.ViewHolder {
     TextView description;
     ImageView effect;
+    String imageChange;
     View.OnClickListener listener;
     int position;
     Bitmap bitmap= ImageStorage.getInstance().getBmp();
@@ -74,8 +75,7 @@ public class FiltersListHolders extends RecyclerView.ViewHolder {
         protected Bitmap doInBackground(Void... voids) {
             try {
                 temp = ImageStorage.getInstance().getBmp();
-                temp = FilterExecutor.getInstance().execute(i, bitmap,context);
-
+                temp = ImageChangerExecutor.getInstance().execute(imageChange, bitmap,context);
             } catch (Exception e) {
                 e.printStackTrace();
             }

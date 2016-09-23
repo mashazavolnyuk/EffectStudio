@@ -11,10 +11,9 @@ import com.mashazavolnyuk.effectstudio.R;
  */
 public class GradientBarbieDoll extends Gradient {
 
-    int id;
+    static int id = Gradient.BARBIE_DOLL;
     public GradientBarbieDoll() {
-        super(Gradient.BarbieDoll, "BarbieDoll");
-        id=Gradient.BarbieDoll;
+        super(id, "BARBIE_DOLL");
     }
 
     @Override
