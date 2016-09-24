@@ -37,7 +37,6 @@ public class GradientsListHolders extends RecyclerView.ViewHolder {
                 try {
                     ExecuteGradientTask task = new ExecuteGradientTask(v.getContext());
                     task.execute();
-                    Snackbar.make(v, "well done", Snackbar.LENGTH_LONG).show();
                 } catch (Exception e) {
                     Snackbar.make(v, "sorry,your phone can't does this operation", Snackbar.LENGTH_LONG).show();
                 }

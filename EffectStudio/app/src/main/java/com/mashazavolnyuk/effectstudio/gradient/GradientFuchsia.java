@@ -12,7 +12,7 @@ import com.mashazavolnyuk.effectstudio.R;
 public class GradientFuchsia extends Gradient {
     int id;
     public GradientFuchsia() {
-        super(Gradient.FUCHSIA, "FUCHSIA in water");
+        super(Gradient.FUCHSIA, "fuchsia &water");
         id=Gradient.FUCHSIA;
     }
 

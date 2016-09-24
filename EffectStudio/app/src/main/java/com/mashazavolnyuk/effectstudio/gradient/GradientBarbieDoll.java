@@ -13,7 +13,7 @@ public class GradientBarbieDoll extends Gradient {
 
     static int id = Gradient.BARBIE_DOLL;
     public GradientBarbieDoll() {
-        super(id, "BARBIE_DOLL");
+        super(id, "barbie doll");
     }
 
     @Override

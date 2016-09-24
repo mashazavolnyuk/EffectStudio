@@ -8,7 +8,7 @@ import android.graphics.Color;
  */
 public class RemovalEffect extends Effect {
     public RemovalEffect() {
-        super(5, "RemovalEffect");
+        super(5, "Removal");
 
     }
 

@@ -21,7 +21,9 @@ public abstract class ImageChanger {
     }
 
     public String getName() {
-        return name;
+
+
+        return name  = name.replace(" ","\n");
     }
 
     public void setName(String name) {

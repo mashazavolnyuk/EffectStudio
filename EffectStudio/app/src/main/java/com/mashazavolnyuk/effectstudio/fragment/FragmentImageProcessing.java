@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -80,7 +81,7 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
         ImageStorage.getInstance().setObserver(this);
         setToolsBar(positionBar);
         Bitmap bitmap = ImageStorage.getInstance().getBmp();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Effect");
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Effect Studio");
         if (bitmap != null) {
             imageView.setImageBitmap(bitmap);
         } else {
@@ -109,20 +110,27 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
             case 0:
                 EffectsListAdapter effectsListAdapter = new EffectsListAdapter(getActivity());
                 barToolsEffect.setAdapter(effectsListAdapter);
+              //  resetImage();
                 break;
             case 1:
                 FiltersListAdapter filtersListAdapter = new FiltersListAdapter(getActivity());
                 barToolsEffect.setAdapter(filtersListAdapter);
+                //resetImage();
                 break;
             case 2:
                 GradientsListAdapter gradientsListAdapter = new GradientsListAdapter(getActivity());
                 barToolsEffect.setAdapter(gradientsListAdapter);
+              //  resetImage();
                 break;
 
         }
 
     }
-
+    private void resetImage(){
+        Bitmap bmp = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+        if(bmp!=null)
+        ImageStorage.getInstance().setBmp(bmp);
+    }
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.clear();
@@ -139,6 +147,10 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.checkDone:
+                Bitmap bmp = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+                ImageStorage.getInstance().setBmp(bmp);
+                break;
             case R.id.share:
                 if (ImageStorage.getInstance().getBmp() != null)
                     share();

@@ -7,7 +7,6 @@ import com.mashazavolnyuk.effectstudio.effect.GrayScaleEffect;
 import com.mashazavolnyuk.effectstudio.effect.ReflectionEffect;
 import com.mashazavolnyuk.effectstudio.effect.RemovalEffect;
 import com.mashazavolnyuk.effectstudio.effect.ShowEffect;
-import com.mashazavolnyuk.effectstudio.effect.TestEffect;
 import com.mashazavolnyuk.effectstudio.filter.AquaFilter;
 import com.mashazavolnyuk.effectstudio.filter.DecreaseFilter;
 import com.mashazavolnyuk.effectstudio.filter.Filter;
@@ -103,7 +102,6 @@ public class ChangeImageStorage {
         effects.add(new RemovalEffect());
         effects.add(new FleaEffect());
         effects.add(new ShowEffect());
-        effects.add(new TestEffect());
     }
 
     private void fillFilters() {

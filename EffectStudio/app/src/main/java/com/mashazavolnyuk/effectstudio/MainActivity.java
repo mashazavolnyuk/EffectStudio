@@ -14,6 +14,7 @@ import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -36,6 +37,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.mashazavolnyuk.effectstudio.data.ImageStorage;
 import com.mashazavolnyuk.effectstudio.fragment.FragmentImageProcessing;
@@ -87,8 +89,6 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         context = this;
@@ -115,6 +115,7 @@ public class MainActivity extends AppCompatActivity
 
 
     }
+
 
     private void handleSendImage(Intent intent) {
         Uri imageUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
@@ -147,7 +148,13 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void enableHomeButton() {
+        Typeface type = Typeface.createFromAsset(context.getAssets(),"Roboto-BlackItalic.ttf");
+        TextView view=new TextView(this);
+        view.setText("Effect Studio");
+        view.setTypeface(type);
         final ActionBar supportActionBar = getSupportActionBar();
+        supportActionBar.setCustomView(view);
+
         toggle.setDrawerIndicatorEnabled(false);
         if (supportActionBar != null) {
             supportActionBar.setDisplayHomeAsUpEnabled(true);
@@ -367,7 +374,7 @@ public class MainActivity extends AppCompatActivity
     private void shareLink() {
         ShareCompat.IntentBuilder
                 .from(this) // getActivity() or activity field if within Fragment
-                .setText("https://play.google.com/apps/testing/com.mashazavolnyuk.effectstudio")
+                .setText("https://play.google.com/store/apps/details?id=com.mashazavolnyuk.effectstudio")
                 .setType("text/plain") // most general text sharing MIME type
                 .setChooserTitle("Effect Studio")
                 .startChooser();

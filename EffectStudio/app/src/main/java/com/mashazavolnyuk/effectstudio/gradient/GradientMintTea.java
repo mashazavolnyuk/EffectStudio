@@ -13,7 +13,7 @@ public class GradientMintTea extends Gradient {
     int id;
 
     public GradientMintTea() {
-        super(Gradient.MINT_TEA, "Tea with Mint");
+        super(Gradient.MINT_TEA, "Tea &Mint");
         id= MINT_TEA;
     }
 

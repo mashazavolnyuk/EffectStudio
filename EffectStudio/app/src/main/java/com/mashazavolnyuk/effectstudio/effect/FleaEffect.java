@@ -9,7 +9,7 @@ import com.mukesh.image_processing.ImageProcessor;
  */
 public class FleaEffect extends Effect {
     public FleaEffect() {
-        super(6, "FleaEffect");
+        super(6, "Flea");
 
     }
 

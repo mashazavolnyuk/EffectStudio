@@ -17,7 +17,7 @@ public class TestEffect extends Effect {
 
 
      public TestEffect() {
-        super(8, "TestEffect");
+        super(8, "Test");
     }
 
 

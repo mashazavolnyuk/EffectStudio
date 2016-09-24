@@ -36,7 +36,6 @@ public class FiltersListHolders extends RecyclerView.ViewHolder {
                 try{
                     ExecuteFilterTask executeFilterTask=new ExecuteFilterTask(v.getContext());
                     executeFilterTask.execute();
-                    Snackbar.make(v,"well done",Snackbar.LENGTH_LONG).show();
                 }catch(Exception e){
                     Snackbar.make(v,"sorry,your phone can't does this operation",Snackbar.LENGTH_LONG).show();
                 }
@@ -48,7 +47,6 @@ public class FiltersListHolders extends RecyclerView.ViewHolder {
 
     class ExecuteFilterTask extends AsyncTask<Void,Void,Bitmap> {
 
-        int i;
         Context context;
         ProgressDialog progressDialog;
 
@@ -65,7 +63,6 @@ public class FiltersListHolders extends RecyclerView.ViewHolder {
         }
         @Override
         protected void onPreExecute() {
-            i = (int) description.getTag();
             progressDialog.setCancelable(false);
             progressDialog.show();
 
