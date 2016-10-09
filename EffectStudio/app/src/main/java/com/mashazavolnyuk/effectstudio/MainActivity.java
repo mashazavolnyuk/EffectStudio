@@ -112,6 +112,7 @@ public class MainActivity extends AppCompatActivity
                 handleSendImage(intent); // Handle single image being sent
             }
         }
+      //  setMainNavigationState(true);
         toModifyImage();
 
 
@@ -195,6 +196,7 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         FragmentImageProcessing fragment = new FragmentImageProcessing();
         ft.add(R.id.mainContent, fragment, "modify");
+
         ft.addToBackStack("modify");
         ft.commit();
 
@@ -251,7 +253,7 @@ public class MainActivity extends AppCompatActivity
 
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         FragmentShowPalette fragment = new FragmentShowPalette();
-        ft.replace(R.id.mainContent, fragment, "palette");
+        ft.add(R.id.mainContent, fragment, "palette");
         setMainNavigationState(false);
         ft.addToBackStack("palette");
         ft.commit();
