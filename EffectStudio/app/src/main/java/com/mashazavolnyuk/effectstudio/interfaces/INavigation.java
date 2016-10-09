@@ -10,4 +10,5 @@ public interface INavigation {
     void toRegulationProperty(Bitmap image,int idProperties);
     void loadImagefromGallery();
     void loadImagefromCamera();
+    void toPallete();
 }

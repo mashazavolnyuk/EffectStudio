@@ -31,4 +31,11 @@
         android:showAsAction="never"
         android:orderInCategory="100"
         />
+    <item
+        android:title="show palette"
+        android:id="@+id/palette"
+        android:icon="@mipmap/ic_delete_grey600_36dp"
+        android:showAsAction="never"
+        android:orderInCategory="100"
+        />
 </menu>

@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -32,6 +31,7 @@ import com.mashazavolnyuk.effectstudio.adapter.EffectsListAdapter;
 import com.mashazavolnyuk.effectstudio.adapter.FiltersListAdapter;
 import com.mashazavolnyuk.effectstudio.adapter.GradientsListAdapter;
 import com.mashazavolnyuk.effectstudio.data.ImageStorage;
+import com.mashazavolnyuk.effectstudio.interfaces.INavigation;
 import com.mashazavolnyuk.effectstudio.interfaces.IObserveRecyclerTools;
 import com.mashazavolnyuk.effectstudio.interfaces.IObserveWorkingImage;
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
@@ -56,7 +56,6 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
     String[] SPINNERLIST = {"Effect", "Filters", "Gradient"};
     int positionBar = 0;
     ViewGroup group;
-    String m_chosen;
     Handler handler;
     ProgressDialog progressDialog;
 
@@ -80,7 +79,7 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
         group = (ViewGroup) v.findViewById(R.id.workingSpace);
         ImageStorage.getInstance().setObserver(this);
         setToolsBar(positionBar);
-        Bitmap bitmap = ImageStorage.getInstance().getBmp();
+        Bitmap bitmap = ImageStorage.getInstance().getBmpOriginal();
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Effect Studio");
         if (bitmap != null) {
             imageView.setImageBitmap(bitmap);
@@ -105,32 +104,36 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
     }
 
     private void setToolsBar(int position) {
-
         switch (position) {
             case 0:
                 EffectsListAdapter effectsListAdapter = new EffectsListAdapter(getActivity());
+                effectsListAdapter.setObserver(this);
                 barToolsEffect.setAdapter(effectsListAdapter);
-              //  resetImage();
+                resetImage();
                 break;
             case 1:
                 FiltersListAdapter filtersListAdapter = new FiltersListAdapter(getActivity());
+                filtersListAdapter.setObserver(this);
                 barToolsEffect.setAdapter(filtersListAdapter);
-                //resetImage();
+                resetImage();
                 break;
             case 2:
                 GradientsListAdapter gradientsListAdapter = new GradientsListAdapter(getActivity());
+                gradientsListAdapter.setObserver(this);
                 barToolsEffect.setAdapter(gradientsListAdapter);
-              //  resetImage();
+                resetImage();
                 break;
 
         }
 
     }
-    private void resetImage(){
-        Bitmap bmp = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-        if(bmp!=null)
-        ImageStorage.getInstance().setBmp(bmp);
+
+    private void resetImage() {
+        Bitmap original = ImageStorage.getInstance().getBmpOriginal();
+        if (original != null)
+            imageView.setImageBitmap(original);
     }
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.clear();
@@ -148,12 +151,14 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.checkDone:
-                Bitmap bmp = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-                ImageStorage.getInstance().setBmp(bmp);
+                newState(true);
                 break;
             case R.id.share:
-                if (ImageStorage.getInstance().getBmp() != null)
+                if (ImageStorage.getInstance().getBmpOriginal() != null)
                     share();
+                break;
+            case R.id.palette:
+                ((INavigation)getActivity()).toPallete();
                 break;
             case R.id.save:
                 handler = new Handler() {
@@ -220,7 +225,7 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
             OutputStream fOut = null;
             File file = new File(path, "/DCIM/" + filename + ".jpg");
             fOut = new FileOutputStream(file);
-            Bitmap mBitmap = ImageStorage.getInstance().getBmp();
+            Bitmap mBitmap = ImageStorage.getInstance().getBmpOriginal();
             mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fOut);
             fOut.flush();
             fOut.close();
@@ -235,20 +240,15 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
     @Override
     public void newState(boolean state) {
         if (state) {
-            Bitmap bitmap = ImageStorage.getInstance().getBmp();
+            Bitmap bitmap = ImageStorage.getInstance().getBmpModify();
+            ImageStorage.getInstance().setBmp(bitmap);
             imageView.setImageBitmap(bitmap);
         }
     }
 
-    @Override
-    public void updateRecycler(boolean flag) {
-        if (flag) {
-            adapter.notifyDataSetChanged();
-        }
-    }
 
     private void share() {
-        Bitmap bmp = ImageStorage.getInstance().getBmp();
+        Bitmap bmp = ImageStorage.getInstance().getBmpOriginal();
         final Intent share = new Intent(Intent.ACTION_SEND);
         share.setType("image/jpg");
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
@@ -263,5 +263,12 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
         }
         share.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///sdcard/temporary_file.jpg"));
         getActivity().startActivity(Intent.createChooser(share, "Share Image"));
+    }
+
+
+    @Override
+    public void updatePicture(boolean flag) {
+        Bitmap bmp = ImageStorage.getInstance().getBmpModify();
+        imageView.setImageBitmap(bmp);
     }
 }

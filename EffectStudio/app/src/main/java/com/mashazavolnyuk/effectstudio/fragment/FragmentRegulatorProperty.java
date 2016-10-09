@@ -48,7 +48,7 @@ public class FragmentRegulatorProperty extends Fragment {
         id = getArguments().getInt("idProperties");
         imgPreview = (ImageView) v.findViewById(R.id.imgPreview);
         setHasOptionsMenu(true);
-        bitmap=ImageStorage.getInstance().getBmp();
+        bitmap=ImageStorage.getInstance().getBmpOriginal();
         imgPreview.setImageBitmap(bitmap);
         seekBarRugelator.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override

@@ -10,16 +10,19 @@ import android.view.ViewGroup;
 import com.mashazavolnyuk.effectstudio.R;
 import com.mashazavolnyuk.effectstudio.data.ChangeImageStorage;
 import com.mashazavolnyuk.effectstudio.gradient.Gradient;
+import com.mashazavolnyuk.effectstudio.interfaces.IObservableRecyclerTools;
+import com.mashazavolnyuk.effectstudio.interfaces.IObserveRecyclerTools;
 
 import java.util.List;
 
 /**
  * Created by Dark Maleficent on 07.09.2016.
  */
-public class GradientsListAdapter extends RecyclerView.Adapter<GradientsListHolders> {
+public class GradientsListAdapter extends RecyclerView.Adapter<GradientsListHolders> implements IObservableRecyclerTools {
 
     private Context context;
     private List<Gradient> data;
+    private IObserveRecyclerTools observer;
 
     public GradientsListAdapter(Context context) {
         this.context = context;
@@ -42,10 +45,16 @@ public class GradientsListAdapter extends RecyclerView.Adapter<GradientsListHold
         holder.imageChange = data.get(position).getClass().getName();
         holder.effect.setImageBitmap(data.get(position).getPreview());
         holder.position = position;
+        holder.observer=this.observer;
     }
 
     @Override
     public int getItemCount() {
         return data.size();
+    }
+
+    @Override
+    public void setObserver(IObserveRecyclerTools observer) {
+        this.observer=observer;
     }
 }

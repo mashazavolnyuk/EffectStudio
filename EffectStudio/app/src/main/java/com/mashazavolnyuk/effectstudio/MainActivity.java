@@ -42,6 +42,7 @@ import android.widget.TextView;
 import com.mashazavolnyuk.effectstudio.data.ImageStorage;
 import com.mashazavolnyuk.effectstudio.fragment.FragmentImageProcessing;
 import com.mashazavolnyuk.effectstudio.fragment.FragmentRegulatorProperty;
+import com.mashazavolnyuk.effectstudio.fragment.FragmentShowPalette;
 import com.mashazavolnyuk.effectstudio.interfaces.INavigation;
 import com.mashazavolnyuk.effectstudio.interfaces.ISwitchCanvas;
 import com.vk.sdk.VKScope;
@@ -246,6 +247,16 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    public void toPallete() {
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        FragmentShowPalette fragment = new FragmentShowPalette();
+        ft.add(R.id.mainContent, fragment, "palette");
+        ft.addToBackStack("palette");
+        ft.commit();
+
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
@@ -384,7 +395,7 @@ public class MainActivity extends AppCompatActivity
     public void switchOnCanvas(boolean flag, Bitmap bmp, ViewGroup group) {
         if (flag) {
 
-            bmpDraw = ImageStorage.getInstance().getBmp();
+            bmpDraw = ImageStorage.getInstance().getBmpOriginal();
             v = new CanvasView(this);
             Drawable d = new BitmapDrawable(getResources(), bmpDraw);
             group.removeAllViewsInLayout();
@@ -408,7 +419,7 @@ public class MainActivity extends AppCompatActivity
         private DrawThread drawThread;
         Canvas canvas;
         Bitmap working;
-        Bitmap original = ImageStorage.getInstance().getBmp();
+        Bitmap original = ImageStorage.getInstance().getBmpOriginal();
         Paint transparentPaint;
 
 

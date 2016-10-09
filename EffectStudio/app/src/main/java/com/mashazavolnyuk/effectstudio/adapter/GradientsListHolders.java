@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.mashazavolnyuk.effectstudio.R;
 import com.mashazavolnyuk.effectstudio.data.ImageStorage;
 import com.mashazavolnyuk.effectstudio.effect.ImageChangerExecutor;
+import com.mashazavolnyuk.effectstudio.interfaces.IObserveRecyclerTools;
 
 /**
  * Created by Dark Maleficent on 07.09.2016.
@@ -23,8 +24,9 @@ public class GradientsListHolders extends RecyclerView.ViewHolder {
     String imageChange;
     View.OnClickListener listener;
     int position;
-    Bitmap bitmap = ImageStorage.getInstance().getBmp();
+    Bitmap bitmap = ImageStorage.getInstance().getBmpOriginal();
     Bitmap temp;
+    IObserveRecyclerTools observer;
 
 
     public GradientsListHolders(View itemView) {
@@ -70,8 +72,9 @@ public class GradientsListHolders extends RecyclerView.ViewHolder {
         @Override
         protected Bitmap doInBackground(Void... voids) {
             try {
-                temp = ImageStorage.getInstance().getBmp();
-                temp = ImageChangerExecutor.getInstance().execute(imageChange, bitmap, context);
+                temp = ImageStorage.getInstance().getBmpOriginal();
+                temp = ImageChangerExecutor.getInstance().execute(imageChange, bitmap,context);
+                ImageStorage.getInstance().setBmpModify(temp);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -87,6 +90,7 @@ public class GradientsListHolders extends RecyclerView.ViewHolder {
         @Override
         protected void onPostExecute(Bitmap bitmap) {
             ImageStorage.getInstance().setBmp(temp);
+            observer.updatePicture(true);
             progressDialog.dismiss();
         }
     }

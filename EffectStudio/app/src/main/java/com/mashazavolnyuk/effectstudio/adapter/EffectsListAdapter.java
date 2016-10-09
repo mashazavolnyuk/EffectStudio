@@ -10,13 +10,16 @@ import android.view.ViewGroup;
 import com.mashazavolnyuk.effectstudio.R;
 import com.mashazavolnyuk.effectstudio.data.ChangeImageStorage;
 import com.mashazavolnyuk.effectstudio.effect.Effect;
+import com.mashazavolnyuk.effectstudio.interfaces.IObservableRecyclerTools;
+import com.mashazavolnyuk.effectstudio.interfaces.IObserveRecyclerTools;
 
 import java.util.List;
 
-public class EffectsListAdapter extends RecyclerView.Adapter<EffectsListHolders> {
+public class EffectsListAdapter extends RecyclerView.Adapter<EffectsListHolders> implements IObservableRecyclerTools {
 
     private Context context;
     private List<Effect> data;
+    private IObserveRecyclerTools observer;
 
     public EffectsListAdapter(Context context) {
         this.context = context;
@@ -34,12 +37,18 @@ public class EffectsListAdapter extends RecyclerView.Adapter<EffectsListHolders>
         holder.description.setText(data.get(position).getName());
         Typeface type = Typeface.createFromAsset(context.getAssets(),"Roboto-BlackItalic.ttf");
         holder.description.setTypeface(type);
-        holder.effectName = data.get(position).getClass().getName();
+        holder.imageChange = data.get(position).getClass().getName();
         holder.effect.setImageBitmap(data.get(position).getPreview());
         holder.position = position;
+        holder.observer=this.observer;
     }
     @Override
     public int getItemCount() {
         return data.size();
+    }
+
+    @Override
+    public void setObserver(IObserveRecyclerTools observer) {
+        this.observer=observer;
     }
 }

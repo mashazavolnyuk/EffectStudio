@@ -9,9 +9,11 @@ import com.mashazavolnyuk.effectstudio.interfaces.IObserveWorkingImage;
 public class ImageStorage implements IObservableWorkingImage {
     private static ImageStorage intance;
     private Bitmap bmp;
+    private Bitmap bmpModify;
     private IObserveWorkingImage observeWorkingImage;
 
-    private ImageStorage() {}
+    private ImageStorage() {
+    }
 
     public static ImageStorage getInstance() {
         if (intance == null)
@@ -24,14 +26,21 @@ public class ImageStorage implements IObservableWorkingImage {
 
     public void setBmp(Bitmap bmp) {
         this.bmp = bmp;
-        observeWorkingImage.newState(true);
     }
 
-    public Bitmap getBmp() {
+    public void setBmpModify(Bitmap bmp) {
+        this.bmpModify = bmp;
+
+    }
+
+    public Bitmap getBmpModify() {
+        return bmpModify;
+
+    }
+
+    public Bitmap getBmpOriginal() {
         return bmp;
     }
-
-
 
 
     @Override

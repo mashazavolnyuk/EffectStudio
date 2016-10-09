@@ -13,17 +13,19 @@ import android.widget.TextView;
 import com.mashazavolnyuk.effectstudio.data.ImageStorage;
 import com.mashazavolnyuk.effectstudio.R;
 import com.mashazavolnyuk.effectstudio.effect.ImageChangerExecutor;
+import com.mashazavolnyuk.effectstudio.interfaces.IObserveRecyclerTools;
 
 
 public class EffectsListHolders extends RecyclerView.ViewHolder {
     TextView description;
-    String effectName;
+    String imageChange;
     ImageView effect;
     View.OnClickListener listener;
     int position;
-    Bitmap bitmap = ImageStorage.getInstance().getBmp();
+    Bitmap bitmap= ImageStorage.getInstance().getBmpOriginal();
     Bitmap temp;
     ProgressDialog progressDialog;
+    IObserveRecyclerTools observer;
 
     public EffectsListHolders(View itemView) {
         super(itemView);
@@ -68,8 +70,10 @@ public class EffectsListHolders extends RecyclerView.ViewHolder {
         @Override
         protected Bitmap doInBackground(Void... voids) {
             try {
-                temp = ImageStorage.getInstance().getBmp();
-                temp = ImageChangerExecutor.getInstance().execute(effectName, bitmap, context);
+
+                temp = ImageStorage.getInstance().getBmpOriginal();
+                temp = ImageChangerExecutor.getInstance().execute(imageChange, bitmap,context);
+                ImageStorage.getInstance().setBmpModify(temp);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -85,7 +89,8 @@ public class EffectsListHolders extends RecyclerView.ViewHolder {
 
         @Override
         protected void onPostExecute(Bitmap bitmap) {
-            ImageStorage.getInstance().setBmp(temp);
+            ImageStorage.getInstance().setBmpModify(temp);
+            observer.updatePicture(true);
             progressDialog.dismiss();
         }
     }

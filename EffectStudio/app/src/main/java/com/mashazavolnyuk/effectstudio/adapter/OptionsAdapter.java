@@ -75,7 +75,7 @@ public class OptionsAdapter extends BaseAdapter {
     };
 
     private void share() {
-        Bitmap bmp=ImageStorage.getInstance().getBmp();
+        Bitmap bmp=ImageStorage.getInstance().getBmpOriginal();
         final Intent share = new Intent(Intent.ACTION_SEND);
         share.setType("image/jpg");
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();

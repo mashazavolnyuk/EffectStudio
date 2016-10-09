@@ -13,18 +13,20 @@ import android.widget.TextView;
 import com.mashazavolnyuk.effectstudio.R;
 import com.mashazavolnyuk.effectstudio.data.ImageStorage;
 import com.mashazavolnyuk.effectstudio.effect.ImageChangerExecutor;
+import com.mashazavolnyuk.effectstudio.interfaces.IObserveRecyclerTools;
 
 /**
  * Created by Dark Maleficent on 12.08.2016.
  */
-public class FiltersListHolders extends RecyclerView.ViewHolder {
+public class FiltersListHolders extends RecyclerView.ViewHolder{
     TextView description;
     ImageView effect;
     String imageChange;
     View.OnClickListener listener;
     int position;
-    Bitmap bitmap= ImageStorage.getInstance().getBmp();
+    Bitmap bitmap= ImageStorage.getInstance().getBmpOriginal();
     Bitmap temp;
+    IObserveRecyclerTools observer;
 
     public FiltersListHolders(View itemView) {
         super(itemView);
@@ -44,6 +46,7 @@ public class FiltersListHolders extends RecyclerView.ViewHolder {
         itemView.setOnClickListener(listener);
 
     }
+
 
     class ExecuteFilterTask extends AsyncTask<Void,Void,Bitmap> {
 
@@ -71,8 +74,9 @@ public class FiltersListHolders extends RecyclerView.ViewHolder {
         @Override
         protected Bitmap doInBackground(Void... voids) {
             try {
-                temp = ImageStorage.getInstance().getBmp();
+                temp = ImageStorage.getInstance().getBmpOriginal();
                 temp = ImageChangerExecutor.getInstance().execute(imageChange, bitmap,context);
+                ImageStorage.getInstance().setBmpModify(temp);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -87,7 +91,8 @@ public class FiltersListHolders extends RecyclerView.ViewHolder {
 
         @Override
         protected void onPostExecute(Bitmap bitmap) {
-            ImageStorage.getInstance().setBmp(temp);
+            ImageStorage.getInstance().setBmpModify(temp);
+            observer.updatePicture(true);
             progressDialog.dismiss();
         }
     }

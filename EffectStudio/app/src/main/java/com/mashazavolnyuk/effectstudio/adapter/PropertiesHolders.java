@@ -32,7 +32,7 @@ public class PropertiesHolders  extends RecyclerView.ViewHolder {
                 try{
 
                     int i = (int) description.getTag();
-                    bitmap = ImageStorage.getInstance().getBmp();
+                    bitmap = ImageStorage.getInstance().getBmpOriginal();
                     ((INavigation) c).toRegulationProperty(bitmap, i);
 
                 }catch(Exception e){
