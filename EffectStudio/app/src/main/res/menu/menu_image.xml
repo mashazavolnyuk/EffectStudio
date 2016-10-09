@@ -25,7 +25,7 @@
         android:orderInCategory="100"
         />
     <item
-        android:title="delete"
+        android:title="clean"
         android:id="@+id/delete"
         android:icon="@mipmap/ic_delete_grey600_36dp"
         android:showAsAction="never"

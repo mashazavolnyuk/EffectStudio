@@ -10,7 +10,7 @@ import com.mukesh.image_processing.ImageProcessor;
 public class ShowEffect extends Effect {
 
     public ShowEffect() {
-        super(7, "Show");
+        super("Show");
     }
 
     @Override

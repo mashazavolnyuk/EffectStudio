@@ -11,8 +11,8 @@ public class HotSunFilter extends Filter {
     int id;
 
     public HotSunFilter() {
-        super(Filter.HotSun, "Hot Sun");
-        id = Filter.HotSun;
+        super("Hot Sun");
+
     }
 
     @Override

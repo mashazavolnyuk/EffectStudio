@@ -10,16 +10,13 @@ import com.mashazavolnyuk.effectstudio.R;
  * Created by Dark Maleficent on 12.09.2016.
  */
 public class GradientMiamiBeach extends Gradient {
-    int id;
+
     public GradientMiamiBeach() {
-        super(Gradient.MIAMI_BEACH, "Miami Beach");
-        id= MIAMI_BEACH;
+        super("Miami Beach");
+
     }
 
-    @Override
-    public int getId() {
-        return id;
-    }
+
 
     @Override
     public Bitmap apply(Bitmap bitmap) {

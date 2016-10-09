@@ -29,7 +29,7 @@ public abstract class TintFilter extends Filter {
 
 
     public TintFilter(int id, String name) {
-        super(id, name);
+        super( name);
 
     }
 

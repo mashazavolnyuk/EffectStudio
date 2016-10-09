@@ -7,8 +7,7 @@ public abstract class ImageChanger {
     int id;
     String name;
 
-    public ImageChanger(int id, String name){
-        this.id = id;
+    public ImageChanger(String name){
         this.name = name;
     }
 

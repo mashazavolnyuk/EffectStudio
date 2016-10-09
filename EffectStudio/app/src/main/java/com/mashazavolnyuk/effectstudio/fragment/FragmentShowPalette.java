@@ -41,7 +41,7 @@ public class FragmentShowPalette extends Fragment {
     public void onDestroyView() {
 //        ViewGroup mContainer = (ViewGroup) getActivity().findViewById(R.id.mainContent);
 //        mContainer.removeAllViewsInLayout();
-        ((INavigation) getActivity()).toModifyImage();
+        ((INavigation)getActivity()).toModifyImage();
         super.onDestroyView();
     }
 
@@ -96,18 +96,16 @@ public class FragmentShowPalette extends Fragment {
         switch (item.getItemId()) {
             case R.id.copyPalette:
                 copyColorsMemory();
-                Toast.makeText(getActivity(), "text has been copied", Toast.LENGTH_LONG).show();
-                break;
-        }
+                Toast.makeText(getActivity(),"text has been copied",Toast.LENGTH_LONG).show();
+                break;}
         return super.onOptionsItemSelected(item);
     }
-
-    private void copyColorsMemory() {
+    private void copyColorsMemory(){
         ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(CLIPBOARD_SERVICE);
-        StringBuilder colorsText = new StringBuilder();
+        StringBuilder colorsText=new StringBuilder();
         String temp;
-        for (Integer c : colors) {
-            int color = c;
+        for(Integer c:colors){
+            int color=c;
             temp = String.format("#%06X", (0xFFFFFF & color));
             colorsText.append(temp);
             colorsText.append(" ");

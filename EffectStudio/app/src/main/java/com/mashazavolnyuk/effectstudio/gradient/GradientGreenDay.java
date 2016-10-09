@@ -11,17 +11,14 @@ import com.mashazavolnyuk.effectstudio.R;
  */
 public class GradientGreenDay extends Gradient {
 
-    int id;
+
 
     public GradientGreenDay() {
-        super(Gradient.GREEN_DAY, "Green Day");
-        id= GREEN_DAY;
+        super( "Green Day");
+
     }
 
-    @Override
-    public int getId() {
-        return id;
-    }
+
 
     @Override
     public Bitmap apply(Bitmap bitmap) {

@@ -11,16 +11,13 @@ import com.mashazavolnyuk.effectstudio.R;
  */
 public class GradientCherryBlossoms extends Gradient {
 
-    int id;
+
     public GradientCherryBlossoms() {
-        super(Gradient.CHERRY_BLOSSOMS, "Cherry blossoms");
-        id= CHERRY_BLOSSOMS;
+        super( "Cherry blossoms");
+
     }
 
-    @Override
-    public int getId() {
-        return id;
-    }
+
 
     @Override
     public Bitmap apply(Bitmap bitmap) {

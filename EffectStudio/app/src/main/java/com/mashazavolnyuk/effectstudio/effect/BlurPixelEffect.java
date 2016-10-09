@@ -9,7 +9,7 @@ public class BlurPixelEffect extends Effect {
 
 
     public BlurPixelEffect() {
-        super(3, "Blur Pixels");
+        super("Blur Pixels");
 
 
 

@@ -10,7 +10,7 @@ import com.mukesh.image_processing.ImageProcessor;
 public class ReflectionEffect extends Effect {
 
     public ReflectionEffect() {
-        super(4, " Reflection");
+        super(" Reflection");
 
     }
 

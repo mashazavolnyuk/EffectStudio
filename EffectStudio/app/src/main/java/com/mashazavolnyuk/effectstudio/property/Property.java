@@ -12,7 +12,7 @@ public abstract class Property extends ImageChanger {
     static final int Opacity=3;
     public abstract int getId();
 
-    public Property(int id, String name, int image) {
-        super(id, name);
+    public Property(String name, int image) {
+        super( name);
     }
 }

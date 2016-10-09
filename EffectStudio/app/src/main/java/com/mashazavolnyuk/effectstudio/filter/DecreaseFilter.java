@@ -20,8 +20,8 @@ public class DecreaseFilter extends Filter  {
     Context context;
 
     public DecreaseFilter() {
-        super(Filter.DescreaseColor, "Vibrant");
-        id = Filter.DescreaseColor;
+        super("Vibrant");
+
     }
 
     @Override

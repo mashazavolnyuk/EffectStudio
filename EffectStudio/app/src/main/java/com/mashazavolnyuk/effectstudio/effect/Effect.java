@@ -13,17 +13,18 @@ import com.mashazavolnyuk.effectstudio.interfaces.ISimpleChangeImage;
  * Created by Dark Maleficent on 17.06.2016.
  */
 public abstract class Effect extends ImageChanger implements ISimpleChangeImage {
-    Context context= MainActivity.getContext();
-    private  Bitmap originalPreview =BitmapFactory.decodeResource(context.getResources(), R.mipmap.preview);
-    Bitmap mutableBitmap=originalPreview.copy(Bitmap.Config.ARGB_8888, true);
-
+    Context context = MainActivity.getContext();
+    private Bitmap originalPreview = BitmapFactory.decodeResource(context.getResources(), R.mipmap.preview);
+    Bitmap mutableBitmap = originalPreview.copy(Bitmap.Config.ARGB_8888, true);
     private Bitmap preview;
-    public Effect(int id, String name) {
-        super(id, name);
+
+    public Effect(String name) {
+        super(name);
 
     }
+
     public Bitmap getPreview() {
-        return preview=apply(mutableBitmap);
+        return preview = apply(mutableBitmap);
     }
 
 }

@@ -1,14 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:background="@color/mainBackground"
+    android:background="@color/colorPrimary"
     android:layout_height="match_parent">
 
 
-   <ImageView
-       android:id="@+id/imgPalette"
-       android:layout_width="40dp"
-       android:layout_height="40dp" />
+   <!--<ImageView-->
+       <!--android:id="@+id/imgPalette"-->
+       <!--android:layout_width="58dp"-->
+       <!--android:layout_height="58dp" />-->
+    <com.makeramen.roundedimageview.RoundedImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/imgPalette"
+        android:scaleType="fitCenter"
+        app:riv_corner_radius="30dip"
+        app:riv_border_width="1dip"
+        app:riv_border_color="@color/mainBackground"
+        app:riv_mutate_background="true"
+        app:riv_tile_mode="repeat"
+        app:riv_oval="true"
+        android:layout_height="58dp"
+        android:layout_width="58dp" />
     <TextView
         android:text="text"
         android:layout_marginLeft="4dp"
@@ -17,7 +29,7 @@
         android:id="@+id/tvColorRGB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="@color/mainBackground"
         android:textSize="14dp"
         android:gravity="center"
         />

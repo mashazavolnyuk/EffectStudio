@@ -12,8 +12,8 @@ public class AquaFilter extends Filter {
     int id;
 
     public AquaFilter() {
-        super(Filter.AquaFilter, "Aqua");
-        id = Filter.AquaFilter;
+        super( "Aqua");
+
     }
 
     @Override

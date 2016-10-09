@@ -15,7 +15,7 @@ public class ContrastProperty extends Property implements ISimpleChangeImage, IR
     int id;
 
     public ContrastProperty() {
-        super(Property.Contrast, "Contrast", R.mipmap.ic_mode_edit_white_48dp);
+        super( "Contrast", R.mipmap.ic_mode_edit_white_48dp);
         id = Property.Contrast;
     }
 

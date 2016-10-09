@@ -30,8 +30,8 @@ public abstract class Filter extends ImageChanger implements ISimpleChangeImage 
 
     public abstract int getId();
 
-    public Filter(int id, String name) {
-        super(id, name);
+    public Filter(String name) {
+        super( name);
     }
     public Bitmap getPreview() {
         return preview=apply(mutableBitmap);

@@ -24,9 +24,10 @@
                 android:background="@color/mainBackground" />
 
             <android.support.v7.widget.RecyclerView
+                android:backgroundTint="@color/colorPrimary"
                 android:id="@+id/rcvColorPalette"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="80dp"
                 android:layout_alignParentBottom="true"
                 android:background="@color/mainBackground"
                 android:orientation="horizontal"

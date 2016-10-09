@@ -11,7 +11,7 @@ import android.os.Build;
 public class BlurEffect extends Effect  {
 
     public BlurEffect() {
-        super(2, "Blur");
+        super("Blur");
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)

@@ -14,7 +14,7 @@ public class BrightnessProperty extends Property implements IRegulator {
     int id;
 
     public BrightnessProperty() {
-        super(Property.Brightness, "Brightness", R.mipmap.ic_monochrome_photos_white_36dp);
+        super("Brightness", R.mipmap.ic_monochrome_photos_white_36dp);
         id=Property.Brightness;
     }
 

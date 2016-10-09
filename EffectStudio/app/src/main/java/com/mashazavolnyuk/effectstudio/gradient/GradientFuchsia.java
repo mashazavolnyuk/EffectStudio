@@ -10,16 +10,13 @@ import com.mashazavolnyuk.effectstudio.R;
  * Created by Dark Maleficent on 08.09.2016.
  */
 public class GradientFuchsia extends Gradient {
-    int id;
+
     public GradientFuchsia() {
-        super(Gradient.FUCHSIA, "fuchsia &water");
-        id=Gradient.FUCHSIA;
+        super( "fuchsia &water");
+
     }
 
-    @Override
-    public int getId() {
-        return id;
-    }
+
 
     @Override
     public Bitmap apply(Bitmap bitmap) {

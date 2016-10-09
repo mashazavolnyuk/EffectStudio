@@ -15,7 +15,7 @@ public class OpacityProperty extends Property implements IRegulator {
     int id=Property.Opacity;
     int value;
     public OpacityProperty() {
-        super(Property.Opacity, "Opacity", R.mipmap.ic_mode_edit_white_48dp);
+        super( "Opacity", R.mipmap.ic_mode_edit_white_48dp);
     }
 
     @Override

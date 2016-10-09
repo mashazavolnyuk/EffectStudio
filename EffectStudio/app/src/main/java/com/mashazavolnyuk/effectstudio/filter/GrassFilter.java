@@ -9,16 +9,16 @@ import com.mukesh.image_processing.ImageProcessor;
  * Created by Dark Maleficent on 13.08.2016.
  */
 public class GrassFilter extends Filter  {
-    int id;
+
 
     public GrassFilter() {
-        super(Filter.Grass, "Grass");
-        id = Filter.Grass;
+        super( "Grass");
+
     }
 
     @Override
     public int getId() {
-        return id;
+        return 0;
     }
 
     @Override

@@ -8,7 +8,7 @@ import com.mashazavolnyuk.effectstudio.ImageChanger;
 public abstract class  Collage extends ImageChanger {
 
 
-    public Collage(int id, String name) {
-        super(id, name);
+    public Collage(String name) {
+        super( name);
     }
 }

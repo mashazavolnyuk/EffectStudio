@@ -10,17 +10,14 @@ import com.mashazavolnyuk.effectstudio.R;
  * Created by Dark Maleficent on 08.09.2016.
  */
 public class GradientMintTea extends Gradient {
-    int id;
+
 
     public GradientMintTea() {
-        super(Gradient.MINT_TEA, "Tea &Mint");
-        id= MINT_TEA;
+        super( "Tea &Mint");
+
     }
 
-    @Override
-    public int getId() {
-        return id;
-    }
+
 
     @Override
     public Bitmap apply(Bitmap bitmap) {

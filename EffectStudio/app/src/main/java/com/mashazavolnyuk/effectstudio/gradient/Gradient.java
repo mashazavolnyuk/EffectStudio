@@ -29,8 +29,8 @@ public abstract class Gradient extends ImageChanger implements ISimpleChangeImag
     private int h;
 
 
-    public Gradient(int id, String name) {
-        super(id, name);
+    public Gradient(String name) {
+        super(name);
     }
 
     static final int PACIFIC_OCEAN = 1;
@@ -61,9 +61,6 @@ public abstract class Gradient extends ImageChanger implements ISimpleChangeImag
         this.h=h;
 
     }
-
-    public abstract int getId();
-
     public Bitmap getPreview() {
 
         return preview = apply(mutableBitmap);

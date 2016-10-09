@@ -9,7 +9,7 @@ import android.graphics.Color;
 public class GrayScaleEffect extends Effect {
 
     public GrayScaleEffect() {
-        super(1, "Gray Scale");
+        super( "Gray Scale");
 
     }
 
