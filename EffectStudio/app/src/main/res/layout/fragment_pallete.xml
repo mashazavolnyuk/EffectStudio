@@ -15,32 +15,18 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <android.support.v7.widget.Toolbar
-                android:background="@color/mainBackground"
-                android:id="@+id/tbPalette"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize" />
-
-            <View
-                android:id="@+id/vDivider"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@+id/tbPalette"
-                android:alpha="0.12"
-                android:background="@android:color/black" />
-
             <ImageView
                 android:layout_above="@+id/rcvColorPalette"
                 android:id="@+id/imgPicturePalette"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/vDivider"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
                 android:background="@color/mainBackground" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rcvColorPalette"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
                 android:layout_alignParentBottom="true"
                 android:background="@color/mainBackground"
                 android:orientation="horizontal"

@@ -27,10 +27,16 @@ public class FragmentShowPalette extends Fragment {
     ImageView img;
     RecyclerView rcvColorPallete;
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_pallete, null);
+        setHasOptionsMenu(true);
         img = (ImageView) v.findViewById(R.id.imgPicturePalette);
         rcvColorPallete = (RecyclerView) v.findViewById(R.id.rcvColorPalette);
         fillData();
@@ -38,7 +44,7 @@ public class FragmentShowPalette extends Fragment {
     }
 
     private void fillData() {
-        Bitmap mainBmp = ImageStorage.getInstance().getBmpOriginal();
+        mainBmp = ImageStorage.getInstance().getBmpOriginal();
         img.setImageBitmap(mainBmp);
         List<Integer> colors = getColorsFromBitmap();
         PaletteListAdapter adapter = new PaletteListAdapter(getActivity(), colors);

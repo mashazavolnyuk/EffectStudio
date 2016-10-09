@@ -149,8 +149,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void enableHomeButton() {
-        Typeface type = Typeface.createFromAsset(context.getAssets(),"Roboto-BlackItalic.ttf");
-        TextView view=new TextView(this);
+        Typeface type = Typeface.createFromAsset(context.getAssets(), "Roboto-BlackItalic.ttf");
+        TextView view = new TextView(this);
         view.setText("Effect Studio");
         view.setTypeface(type);
         final ActionBar supportActionBar = getSupportActionBar();
@@ -248,9 +248,11 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void toPallete() {
+
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         FragmentShowPalette fragment = new FragmentShowPalette();
-        ft.add(R.id.mainContent, fragment, "palette");
+        ft.replace(R.id.mainContent, fragment, "palette");
+        setMainNavigationState(false);
         ft.addToBackStack("palette");
         ft.commit();
 

@@ -17,29 +17,35 @@ import java.util.List;
 
 public class PaletteListAdapter extends RecyclerView.Adapter<PaletteListHolders> {
     Context context;
-    //    String hexColor = String.format("#%06X", (0xFFFFFF & intColor));
-    private List<Integer> color = new ArrayList<>();
+    private List<Integer> colors = new ArrayList<>();
+    String hexColor;
 
-    public PaletteListAdapter(Context context, List<Integer> color) {
+    public PaletteListAdapter(Context context, List<Integer> colors) {
+        this.colors = colors;
         this.context = context;
-        this.color=color;
     }
+
 
     @Override
     public PaletteListHolders onCreateViewHolder(ViewGroup parent, int viewType) {
-        View layoutView = LayoutInflater.from(context).inflate(R.layout.item_list_effect_tools, null);
+        View layoutView = LayoutInflater.from(context).inflate(R.layout.item_palette_colors, null);
         PaletteListHolders rcv = new PaletteListHolders(layoutView);
         return rcv;
     }
 
     @Override
     public void onBindViewHolder(PaletteListHolders holder, int position) {
+        int color=colors.get(position);
+        holder.name = hexColor = String.format("#%06X", (0xFFFFFF & color));
+        holder.color = colors.get(position);
+        holder.imageView.setBackgroundColor(color);
+        holder.textView.setText(hexColor);
 
     }
 
 
     @Override
     public int getItemCount() {
-        return 0;
+        return colors.size();
     }
 }
