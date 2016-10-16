@@ -4,46 +4,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/vk_white"
+    android:id="@+id/layoutImageProcessing"
     android:orientation="vertical">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rcvToolsEffect"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:layout_alignParentBottom="true"
         android:background="@color/colorPrimary"
         android:orientation="horizontal"
         android:scrollbars="horizontal"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
-
-
-
-    <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
-        android:id="@+id/material_design_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:backgroundTint="@color/mainBackground"
-        android:backgroundTintMode="src_atop"
-        android:hint="Choose you tools"
-        app:met_primaryColor="@color/colorPrimaryDark"
-        android:textColorHint="#FF0011"
-        android:textColorLink="@color/colorPrimaryDark"
-        android:textColorHighlight="@color/colorAccent"
-        android:textColor="@color/colorPrimaryDark"
-        />
-    <RelativeLayout
-        android:id="@+id/workingSpace"
-        android:layout_above="@id/rcvToolsEffect"
-        android:layout_below="@id/material_design_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
     <ImageView
+        android:layout_above="@+id/rcvToolsEffect"
         android:id="@+id/workingImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/mainBackground"
         android:scaleType="centerCrop"
         android:scrollbarStyle="insideInset" />
-    </RelativeLayout>
+
 </RelativeLayout>

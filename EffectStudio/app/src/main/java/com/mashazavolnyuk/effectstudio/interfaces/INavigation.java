@@ -11,4 +11,5 @@ public interface INavigation {
     void loadImagefromGallery();
     void loadImagefromCamera();
     void toPallete();
+    void toStartScreen();
 }

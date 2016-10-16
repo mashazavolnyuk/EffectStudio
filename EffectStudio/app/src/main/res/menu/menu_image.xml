@@ -13,7 +13,7 @@
     <item
         android:title="restore"
         android:id="@+id/restore"
-        android:icon="@mipmap/ic_restore_white_18dp"
+        android:icon="@mipmap/ic_restore_white_36dp"
         android:showAsAction="never"
         android:orderInCategory="100"
         />

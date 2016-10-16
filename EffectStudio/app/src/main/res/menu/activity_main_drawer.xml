@@ -1,17 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Take a photo" />
-        <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:id="@+id/nav_import"
+            android:icon="@mipmap/ic_file_import_white_36dp"
+            android:title="Import" />
     </group>
-
+    <item android:title="choose your tools">
+        <menu>
+        <item
+            android:id="@+id/nav_effects"
+            android:title="Effects" />
+        <item
+            android:id="@+id/nav_filters"
+            android:title="Filters" />
+            <item
+                android:id="@+id/nav_gradients"
+                android:title="Gradients" />
+        </menu>
+    </item>
+    <group android:checkableBehavior="single">
+    </group>
     <item android:title="Communicate">
         <menu>
             <item

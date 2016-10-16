@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
@@ -37,13 +36,17 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mashazavolnyuk.effectstudio.data.ImageStorage;
 import com.mashazavolnyuk.effectstudio.fragment.FragmentImageProcessing;
 import com.mashazavolnyuk.effectstudio.fragment.FragmentRegulatorProperty;
 import com.mashazavolnyuk.effectstudio.fragment.FragmentShowPalette;
+import com.mashazavolnyuk.effectstudio.fragment.FragmentStartScreen;
 import com.mashazavolnyuk.effectstudio.interfaces.INavigation;
+import com.mashazavolnyuk.effectstudio.interfaces.IObrservableChangeTools;
+import com.mashazavolnyuk.effectstudio.interfaces.IObserverChangeTools;
 import com.mashazavolnyuk.effectstudio.interfaces.ISwitchCanvas;
 import com.vk.sdk.VKScope;
 import com.vk.sdk.api.VKApiConst;
@@ -51,17 +54,15 @@ import com.vk.sdk.api.VKParameters;
 import com.vk.sdk.api.VKParser;
 import com.vk.sdk.api.VKRequest;
 import com.vk.sdk.api.VKResponse;
-import com.vk.sdk.api.model.VKApiPhoto;
 import com.vk.sdk.api.model.VKApiPhotoAlbum;
 import com.vk.sdk.api.model.VKList;
 
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, INavigation, ISwitchCanvas {
+        implements NavigationView.OnNavigationItemSelectedListener, INavigation, ISwitchCanvas,IObrservableChangeTools {
     private static final int PICK_IMAGE_REQUEST = 1;
     private static final int CAMERA_REQUEST = 2;
     private String[] scope = new String[]{VKScope.WALL, VKScope.PHOTOS};
@@ -69,12 +70,11 @@ public class MainActivity extends AppCompatActivity
     ActionBarDrawerToggle toggle;
     NavigationView navigationView;
     DrawerLayout drawerLayout;
-    private List<VKApiPhoto> photos;
     CanvasView v;
     float x, y;
     Bitmap ball;
     Bitmap bmpDraw;
-    Intent receivedIntent;
+    IObserverChangeTools observerChangeTools;
 
 
     static {
@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity
             }
         }
       //  setMainNavigationState(true);
-        toModifyImage();
+        toStartScreen();
 
 
     }
@@ -193,10 +193,12 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void toModifyImage() {
         setMainNavigationState(true);
+        RelativeLayout layout = (RelativeLayout) findViewById(R.id.start_layout);
+        layout.removeAllViewsInLayout();
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         FragmentImageProcessing fragment = new FragmentImageProcessing();
-        ft.add(R.id.mainContent, fragment, "modify");
-
+        setObserver(fragment);
+        ft.replace(R.id.mainContent, fragment, "modify");
         ft.addToBackStack("modify");
         ft.commit();
 
@@ -251,13 +253,24 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void toPallete() {
 
+
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         FragmentShowPalette fragment = new FragmentShowPalette();
         ft.add(R.id.mainContent, fragment, "palette");
         setMainNavigationState(false);
         ft.addToBackStack("palette");
         ft.commit();
+    }
 
+    @Override
+    public void toStartScreen() {
+        setMainNavigationState(true);
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        FragmentStartScreen fragment = new FragmentStartScreen();
+        ft.replace(R.id.mainContent, fragment, "start_screen");
+//        setMainNavigationState(false);
+        ft.addToBackStack("start_screen");
+        ft.commit();
     }
 
     @Override
@@ -280,7 +293,11 @@ public class MainActivity extends AppCompatActivity
             Bitmap bmp = shrinkBitmap(photo);
             ImageStorage.getInstance().setBmp(bmp);
             toModifyImage();
+
+
         }
+
+
 
 
     }
@@ -321,7 +338,7 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            toModifyImage();
+           toStartScreen();
             super.onBackPressed();
         }
     }
@@ -350,11 +367,17 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.nav_camera:
-                loadImagefromCamera();
+            case R.id.nav_import:
+                toStartScreen();
                 break;
-            case R.id.nav_gallery:
-                loadImagefromGallery();
+            case R.id.nav_effects:
+              observerChangeTools.changeTools(FragmentImageProcessing.EFFECTS);
+                break;
+            case R.id.nav_filters:
+                observerChangeTools.changeTools(FragmentImageProcessing.FILTERS);
+                break;
+            case R.id.nav_gradients:
+                observerChangeTools.changeTools(FragmentImageProcessing.GRADIENTS);
                 break;
             case R.id.nav_share:
                 shareLink();
@@ -412,10 +435,16 @@ public class MainActivity extends AppCompatActivity
             //v.setKeepScreenOn(true);
             v.getHolder().setFormat(PixelFormat.TRANSPARENT);
             // v.getHolder().setFormat(PixelFormat.RGBA_8888);
-            ball = BitmapFactory.decodeResource(getResources(), R.mipmap.monster);
+           // ball = BitmapFactory.decodeResource(getResources(), R.mipmap.monster);
             x = y = 0;
         }
 
+
+    }
+
+    @Override
+    public void setObserver(IObserverChangeTools observer) {
+        this.observerChangeTools=observer;
 
     }
 

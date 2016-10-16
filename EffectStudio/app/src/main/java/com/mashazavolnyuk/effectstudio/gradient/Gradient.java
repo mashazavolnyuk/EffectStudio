@@ -3,7 +3,6 @@ package com.mashazavolnyuk.effectstudio.gradient;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
@@ -84,16 +83,16 @@ public abstract class Gradient extends ImageChanger implements ISimpleChangeImag
     }
 
 
-    protected Bitmap addTexture(Bitmap src){
-        setW(src.getWidth());
-        setH(src.getHeight());
-        Bitmap texture = BitmapFactory.decodeResource(MainActivity.getContext().getResources(),
-                R.mipmap.star);
-        BitmapShader shader = new BitmapShader(texture,
-                Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
-        Bitmap result=draw(src,shader);
-        return result;
-    }
+//    protected Bitmap addTexture(Bitmap src){
+//        setW(src.getWidth());
+//        setH(src.getHeight());
+//        Bitmap texture = BitmapFactory.decodeResource(MainActivity.getContext().getResources(),
+//                R.mipmap.star);
+//        BitmapShader shader = new BitmapShader(texture,
+//                Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
+//        Bitmap result=draw(src,shader);
+//        return result;
+//    }
 
     private Bitmap draw(Bitmap src, Shader shader) {
         Bitmap result = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);

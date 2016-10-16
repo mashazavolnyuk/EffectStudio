@@ -1,8 +1,6 @@
 package com.mashazavolnyuk.effectstudio.filter;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
 import android.graphics.ColorMatrix;
@@ -13,8 +11,6 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Shader;
-
-import com.mashazavolnyuk.effectstudio.R;
 
 /**
  * Created by Dark Maleficent on 01.09.2016.
@@ -79,15 +75,15 @@ public abstract class TintFilter extends Filter {
         int h = src.getHeight();
         Bitmap result = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(result);
-        Bitmap mask = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_palm);
+      //  Bitmap mask = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_palm);
         canvas.drawBitmap(src, 0, 0, null);
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setStyle(Paint.Style.FILL);
         //bitmap = BitmapFactory.decodeResource(getResources(),
         //  R.drawable.dots);
 
-        BitmapShader shader = new BitmapShader(mask,
-                Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
+//        BitmapShader shader = new BitmapShader(mask,
+//                Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
         //  Shader shader = new LinearGradient(0, 0, 0, h, color1, color2, Shader.TileMode.CLAMP);
         // paint.setColorFilter(new LightingColorFilter(color1,1));//add tint
         paint.setShader(new LinearGradient(0, 0, 0, h, color1, color2, Shader.TileMode.CLAMP));

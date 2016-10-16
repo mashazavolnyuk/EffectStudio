@@ -2,7 +2,6 @@ package com.mashazavolnyuk.effectstudio.property;
 
 import android.graphics.Bitmap;
 
-import com.mashazavolnyuk.effectstudio.R;
 import com.mashazavolnyuk.effectstudio.interfaces.IRegulator;
 import com.mukesh.image_processing.ImageProcessor;
 
@@ -14,8 +13,9 @@ public class BrightnessProperty extends Property implements IRegulator {
     int id;
 
     public BrightnessProperty() {
-        super("Brightness", R.mipmap.ic_monochrome_photos_white_36dp);
-        id=Property.Brightness;
+        super(null,0);
+        //  super("Brightness", R.mipmap.ic_monochrome_photos_white_36dp);
+     //   id=Property.Brightness;
     }
 
     @Override

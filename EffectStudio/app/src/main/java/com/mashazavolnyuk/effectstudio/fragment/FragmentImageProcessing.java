@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -22,8 +21,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -33,9 +30,10 @@ import com.mashazavolnyuk.effectstudio.adapter.FiltersListAdapter;
 import com.mashazavolnyuk.effectstudio.adapter.GradientsListAdapter;
 import com.mashazavolnyuk.effectstudio.data.ImageStorage;
 import com.mashazavolnyuk.effectstudio.interfaces.INavigation;
+import com.mashazavolnyuk.effectstudio.interfaces.IObrservableChangeTools;
 import com.mashazavolnyuk.effectstudio.interfaces.IObserveRecyclerTools;
 import com.mashazavolnyuk.effectstudio.interfaces.IObserveWorkingImage;
-import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
+import com.mashazavolnyuk.effectstudio.interfaces.IObserverChangeTools;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -49,14 +47,13 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by Dark Maleficent on 12.06.2016.
  */
-public class FragmentImageProcessing extends Fragment implements IObserveWorkingImage, IObserveRecyclerTools {
+public class FragmentImageProcessing extends Fragment implements IObserveWorkingImage, IObserveRecyclerTools,IObserverChangeTools {
     ImageView imageView;
     RecyclerView barToolsEffect;
+    public static final int EFFECTS=0;
+    public static final int FILTERS=1;
+    public static final int GRADIENTS=3;
     View v;
-    EffectsListAdapter adapter;
-    String[] SPINNERLIST = {"Effect", "Filters", "Gradient"};
-    int positionBar = 0;
-    ViewGroup group;
     Handler handler;
     ProgressDialog progressDialog;
     boolean changeImage = false;
@@ -65,6 +62,8 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
     final int STATUS_CONNECTED = 2; // подключено
     Menu menu;
     MenuInflater menuInflater;
+    IObrservableChangeTools iObrservableChangeTools = (IObrservableChangeTools) getActivity();
+
 
     @Override
     public void onStart() {
@@ -79,52 +78,32 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
         setHasOptionsMenu(true);
         barToolsEffect = (RecyclerView) v.findViewById(R.id.rcvToolsEffect);
         imageView = (ImageView) v.findViewById(R.id.workingImage);
-        group = (ViewGroup) v.findViewById(R.id.workingSpace);
         ImageStorage.getInstance().setObserver(this);
-        setToolsBar(positionBar);
         Bitmap bitmap = ImageStorage.getInstance().getBmpOriginal();
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Effect Studio");
         if (bitmap != null) {
             imageView.setImageBitmap(bitmap);
-        } else {
-            Bitmap bitmap1 = BitmapFactory.decodeResource(getResources(), R.mipmap.cat);
-            imageView.setImageBitmap(bitmap1);
-            barToolsEffect.setEnabled(false);
         }
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_dropdown_item_1line, SPINNERLIST);
-        final MaterialBetterSpinner materialDesignSpinner = (MaterialBetterSpinner)
-                v.findViewById(R.id.material_design_spinner);
-        materialDesignSpinner.setAdapter(arrayAdapter);
-        materialDesignSpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                setToolsBar(i);
-                positionBar = i;
-            }
-        });
+        setToolsBar(EFFECTS);
         return v;
     }
 
     private void setToolsBar(int position) {
         switch (position) {
-            case 0:
+            case EFFECTS:
                 EffectsListAdapter effectsListAdapter = new EffectsListAdapter(getActivity());
                 effectsListAdapter.setObserver(this);
                 barToolsEffect.setAdapter(effectsListAdapter);
-                resetImage();
                 break;
-            case 1:
+            case FILTERS:
                 FiltersListAdapter filtersListAdapter = new FiltersListAdapter(getActivity());
                 filtersListAdapter.setObserver(this);
                 barToolsEffect.setAdapter(filtersListAdapter);
-                resetImage();
                 break;
-            case 2:
+            case GRADIENTS:
                 GradientsListAdapter gradientsListAdapter = new GradientsListAdapter(getActivity());
                 gradientsListAdapter.setObserver(this);
                 barToolsEffect.setAdapter(gradientsListAdapter);
-                resetImage();
                 break;
 
         }
@@ -302,5 +281,13 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
         onCreateOptionsMenu(menu, menuInflater);
         Bitmap bmp = ImageStorage.getInstance().getBmpModify();
         imageView.setImageBitmap(bmp);
+    }
+
+
+
+    @Override
+    public void changeTools(int tools) {
+        changeImage = false;
+        setToolsBar(tools);;
     }
 }
