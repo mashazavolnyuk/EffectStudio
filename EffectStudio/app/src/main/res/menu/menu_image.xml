@@ -11,6 +11,13 @@
     android:orderInCategory="100"
     />
     <item
+        android:title="restore"
+        android:id="@+id/restore"
+        android:icon="@mipmap/ic_restore_white_18dp"
+        android:showAsAction="never"
+        android:orderInCategory="100"
+        />
+    <item
         android:title="save"
         android:id="@+id/save"
         android:icon="@mipmap/ic_check_white_36dp"

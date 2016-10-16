@@ -25,6 +25,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.mashazavolnyuk.effectstudio.R;
 import com.mashazavolnyuk.effectstudio.adapter.EffectsListAdapter;
@@ -58,10 +59,12 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
     ViewGroup group;
     Handler handler;
     ProgressDialog progressDialog;
-
+    boolean changeImage = false;
     final int STATUS_NONE = 0; // нет подключения
     final int STATUS_CONNECTING = 1; // подключаемся
     final int STATUS_CONNECTED = 2; // подключено
+    Menu menu;
+    MenuInflater menuInflater;
 
     @Override
     public void onStart() {
@@ -132,6 +135,7 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
         Bitmap original = ImageStorage.getInstance().getBmpOriginal();
         if (original != null)
             imageView.setImageBitmap(original);
+        changeImage = false;
     }
 
     @Override
@@ -139,11 +143,27 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
         menu.clear();
         MenuInflater menuInflater = (getActivity()).getMenuInflater();
         menuInflater.inflate(R.menu.menu_image, menu);
+        this.menuInflater = inflater;
+        this.menu = menu;
         for (int j = 0; j < menu.size(); j++) {
             MenuItem item = menu.getItem(j);
-            if (item.getItemId() == R.id.checkDone)
+            if (item.getItemId() == R.id.checkDone) {
                 item.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS);
-            item.setIcon(R.mipmap.ic_check_white_36dp);
+                item.setIcon(R.mipmap.ic_check_white_36dp);
+                if (changeImage)
+                    item.setVisible(true);
+                else
+                    item.setVisible(false);
+            }
+            if (item.getItemId() == R.id.restore) {
+                item.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS);
+                item.setIcon(R.mipmap.ic_restore_white_36dp);
+                if (changeImage)
+                    item.setVisible(true);
+                else
+                    item.setVisible(false);
+            }
+
         }
     }
 
@@ -152,13 +172,20 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
         switch (item.getItemId()) {
             case R.id.checkDone:
                 newState(true);
+                onCreateOptionsMenu(menu, menuInflater);
+                Toast.makeText(getActivity(),"apply",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.share:
                 if (ImageStorage.getInstance().getBmpOriginal() != null)
                     share();
                 break;
             case R.id.palette:
-                ((INavigation)getActivity()).toPallete();
+                ((INavigation) getActivity()).toPallete();
+                break;
+            case R.id.restore:
+                resetImage();
+                onCreateOptionsMenu(menu,menuInflater);
+                Toast.makeText(getActivity(),"undo",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.save:
                 handler = new Handler() {
@@ -243,6 +270,9 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
             Bitmap bitmap = ImageStorage.getInstance().getBmpModify();
             ImageStorage.getInstance().setBmp(bitmap);
             imageView.setImageBitmap(bitmap);
+            changeImage = false;
+
+
         }
     }
 
@@ -268,6 +298,8 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
 
     @Override
     public void updatePicture(boolean flag) {
+        changeImage = true;
+        onCreateOptionsMenu(menu, menuInflater);
         Bitmap bmp = ImageStorage.getInstance().getBmpModify();
         imageView.setImageBitmap(bmp);
     }
