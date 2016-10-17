@@ -20,7 +20,6 @@ import android.widget.Toast;
 import com.mashazavolnyuk.effectstudio.R;
 import com.mashazavolnyuk.effectstudio.adapter.PaletteListAdapter;
 import com.mashazavolnyuk.effectstudio.data.ImageStorage;
-import com.mashazavolnyuk.effectstudio.interfaces.INavigation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,14 +35,6 @@ public class FragmentShowPalette extends Fragment {
     ImageView img;
     RecyclerView rcvColorPallete;
     List<Integer> colors;
-
-    @Override
-    public void onDestroyView() {
-//        ViewGroup mContainer = (ViewGroup) getActivity().findViewById(R.id.mainContent);
-//        mContainer.removeAllViewsInLayout();
-        ((INavigation)getActivity()).toModifyImage();
-        super.onDestroyView();
-    }
 
     @Nullable
     @Override

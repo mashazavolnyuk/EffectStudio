@@ -47,12 +47,13 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by Dark Maleficent on 12.06.2016.
  */
-public class FragmentImageProcessing extends Fragment implements IObserveWorkingImage, IObserveRecyclerTools,IObserverChangeTools {
-    ImageView imageView;
+public class FragmentImageProcessing extends Fragment implements IObserveWorkingImage, IObserveRecyclerTools, IObserverChangeTools {
+    ImageView imageView,btnLeft,btnRight;
+    private int overallXScroll = 0;
     RecyclerView barToolsEffect;
-    public static final int EFFECTS=0;
-    public static final int FILTERS=1;
-    public static final int GRADIENTS=3;
+    public static final int EFFECTS = 0;
+    public static final int FILTERS = 1;
+    public static final int GRADIENTS = 3;
     View v;
     Handler handler;
     ProgressDialog progressDialog;
@@ -78,12 +79,21 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
         setHasOptionsMenu(true);
         barToolsEffect = (RecyclerView) v.findViewById(R.id.rcvToolsEffect);
         imageView = (ImageView) v.findViewById(R.id.workingImage);
+
         ImageStorage.getInstance().setObserver(this);
         Bitmap bitmap = ImageStorage.getInstance().getBmpOriginal();
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Effect Studio");
         if (bitmap != null) {
             imageView.setImageBitmap(bitmap);
         }
+        barToolsEffect.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                overallXScroll = overallXScroll + dx;
+                Log.i("check","overall X  = " + overallXScroll);
+            }
+        });
+
         setToolsBar(EFFECTS);
         return v;
     }
@@ -94,16 +104,20 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
                 EffectsListAdapter effectsListAdapter = new EffectsListAdapter(getActivity());
                 effectsListAdapter.setObserver(this);
                 barToolsEffect.setAdapter(effectsListAdapter);
+                resetImage();
+
                 break;
             case FILTERS:
                 FiltersListAdapter filtersListAdapter = new FiltersListAdapter(getActivity());
                 filtersListAdapter.setObserver(this);
                 barToolsEffect.setAdapter(filtersListAdapter);
+                resetImage();
                 break;
             case GRADIENTS:
                 GradientsListAdapter gradientsListAdapter = new GradientsListAdapter(getActivity());
                 gradientsListAdapter.setObserver(this);
                 barToolsEffect.setAdapter(gradientsListAdapter);
+                resetImage();
                 break;
 
         }
@@ -114,7 +128,8 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
         Bitmap original = ImageStorage.getInstance().getBmpOriginal();
         if (original != null)
             imageView.setImageBitmap(original);
-        changeImage = false;
+        if (menu != null)
+            onCreateOptionsMenu(menu, menuInflater);
     }
 
     @Override
@@ -152,7 +167,7 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
             case R.id.checkDone:
                 newState(true);
                 onCreateOptionsMenu(menu, menuInflater);
-                Toast.makeText(getActivity(),"apply",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "apply", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.share:
                 if (ImageStorage.getInstance().getBmpOriginal() != null)
@@ -162,9 +177,10 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
                 ((INavigation) getActivity()).toPallete();
                 break;
             case R.id.restore:
+                changeImage=false;
                 resetImage();
-                onCreateOptionsMenu(menu,menuInflater);
-                Toast.makeText(getActivity(),"undo",Toast.LENGTH_SHORT).show();
+                onCreateOptionsMenu(menu, menuInflater);
+                Toast.makeText(getActivity(), "undo", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.save:
                 handler = new Handler() {
@@ -193,9 +209,6 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
                     }
                 };
                 startSavePicture();
-                break;
-            case R.id.delete:
-                ImageStorage.getInstance().setBmp(null);
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -284,10 +297,10 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
     }
 
 
-
     @Override
     public void changeTools(int tools) {
         changeImage = false;
-        setToolsBar(tools);;
+        setToolsBar(tools);
+        ;
     }
 }

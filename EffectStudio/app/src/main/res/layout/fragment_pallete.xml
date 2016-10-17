@@ -33,7 +33,6 @@
                 android:orientation="horizontal"
                 android:scrollbars="horizontal"
                 app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
-
         </RelativeLayout>
     </android.support.v7.widget.CardView>
 </RelativeLayout>

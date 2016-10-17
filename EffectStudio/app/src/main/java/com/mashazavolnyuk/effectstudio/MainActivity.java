@@ -7,15 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.graphics.PixelFormat;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
 import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -31,13 +24,10 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mashazavolnyuk.effectstudio.data.ImageStorage;
 import com.mashazavolnyuk.effectstudio.fragment.FragmentImageProcessing;
@@ -47,7 +37,6 @@ import com.mashazavolnyuk.effectstudio.fragment.FragmentStartScreen;
 import com.mashazavolnyuk.effectstudio.interfaces.INavigation;
 import com.mashazavolnyuk.effectstudio.interfaces.IObrservableChangeTools;
 import com.mashazavolnyuk.effectstudio.interfaces.IObserverChangeTools;
-import com.mashazavolnyuk.effectstudio.interfaces.ISwitchCanvas;
 import com.vk.sdk.VKScope;
 import com.vk.sdk.api.VKApiConst;
 import com.vk.sdk.api.VKParameters;
@@ -62,7 +51,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, INavigation, ISwitchCanvas,IObrservableChangeTools {
+        implements NavigationView.OnNavigationItemSelectedListener, INavigation, IObrservableChangeTools {
     private static final int PICK_IMAGE_REQUEST = 1;
     private static final int CAMERA_REQUEST = 2;
     private String[] scope = new String[]{VKScope.WALL, VKScope.PHOTOS};
@@ -70,10 +59,6 @@ public class MainActivity extends AppCompatActivity
     ActionBarDrawerToggle toggle;
     NavigationView navigationView;
     DrawerLayout drawerLayout;
-    CanvasView v;
-    float x, y;
-    Bitmap ball;
-    Bitmap bmpDraw;
     IObserverChangeTools observerChangeTools;
 
 
@@ -96,26 +81,19 @@ public class MainActivity extends AppCompatActivity
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-
         drawerLayout.setDrawerListener(toggle);
         toggle.syncState();
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-        // Get intent, action and MIME type
         Intent intent = getIntent();
         String action = intent.getAction();
         String type = intent.getType();
-
         if (Intent.ACTION_SEND.equals(action) && type != null) {
             if (type.startsWith("image/")) {
                 handleSendImage(intent); // Handle single image being sent
             }
         }
-      //  setMainNavigationState(true);
         toStartScreen();
-
-
     }
 
 
@@ -252,11 +230,9 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void toPallete() {
-
-
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         FragmentShowPalette fragment = new FragmentShowPalette();
-        ft.add(R.id.mainContent, fragment, "palette");
+        ft.replace(R.id.mainContent, fragment, "palette");
         setMainNavigationState(false);
         ft.addToBackStack("palette");
         ft.commit();
@@ -268,7 +244,6 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         FragmentStartScreen fragment = new FragmentStartScreen();
         ft.replace(R.id.mainContent, fragment, "start_screen");
-//        setMainNavigationState(false);
         ft.addToBackStack("start_screen");
         ft.commit();
     }
@@ -293,13 +268,7 @@ public class MainActivity extends AppCompatActivity
             Bitmap bmp = shrinkBitmap(photo);
             ImageStorage.getInstance().setBmp(bmp);
             toModifyImage();
-
-
         }
-
-
-
-
     }
 
 
@@ -308,7 +277,6 @@ public class MainActivity extends AppCompatActivity
         int newHeight = 600;
         float scaleWidth = 1;
         float scaleHeight = 1;
-
         int width = bmp.getWidth();
         int height = bmp.getHeight();
         Log.d("w", "= " + width);
@@ -332,13 +300,12 @@ public class MainActivity extends AppCompatActivity
         if (fm.getBackStackEntryCount() > 0) {
             fm.popBackStackImmediate();
             fm.beginTransaction().commit();
-
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-           toStartScreen();
+            toStartScreen();
             super.onBackPressed();
         }
     }
@@ -371,13 +338,13 @@ public class MainActivity extends AppCompatActivity
                 toStartScreen();
                 break;
             case R.id.nav_effects:
-              observerChangeTools.changeTools(FragmentImageProcessing.EFFECTS);
+                setTools(FragmentImageProcessing.EFFECTS);
                 break;
             case R.id.nav_filters:
-                observerChangeTools.changeTools(FragmentImageProcessing.FILTERS);
+                setTools(FragmentImageProcessing.FILTERS);
                 break;
             case R.id.nav_gradients:
-                observerChangeTools.changeTools(FragmentImageProcessing.GRADIENTS);
+                setTools(FragmentImageProcessing.GRADIENTS);
                 break;
             case R.id.nav_share:
                 shareLink();
@@ -386,6 +353,15 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void setTools(int tools) {
+        if (ImageStorage.getInstance().getBmpOriginal() != null)
+            observerChangeTools.changeTools(tools);
+        else{
+            Toast.makeText(getContext(),"Photo is absent",Toast.LENGTH_SHORT).show();
+            toStartScreen();}
+
     }
 
     private void getAlbumsVK() {
@@ -419,209 +395,10 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void switchOnCanvas(boolean flag, Bitmap bmp, ViewGroup group) {
-        if (flag) {
-
-            bmpDraw = ImageStorage.getInstance().getBmpOriginal();
-            v = new CanvasView(this);
-            Drawable d = new BitmapDrawable(getResources(), bmpDraw);
-            group.removeAllViewsInLayout();
-            group.addView(v);
-            // v.setBackground(d);
-            //v.setBackgroundColor(Color.BLUE);
-            v.setZOrderMediaOverlay(true);
-            // v.setZOrderOnTop(true);
-            // v.setZOrderMediaOverlay(true);
-            //v.setKeepScreenOn(true);
-            v.getHolder().setFormat(PixelFormat.TRANSPARENT);
-            // v.getHolder().setFormat(PixelFormat.RGBA_8888);
-           // ball = BitmapFactory.decodeResource(getResources(), R.mipmap.monster);
-            x = y = 0;
-        }
-
-
-    }
-
-    @Override
     public void setObserver(IObserverChangeTools observer) {
-        this.observerChangeTools=observer;
+        this.observerChangeTools = observer;
 
     }
 
-    public class CanvasView extends SurfaceView implements SurfaceHolder.Callback {
-        private DrawThread drawThread;
-        Canvas canvas;
-        Bitmap working;
-        Bitmap original = ImageStorage.getInstance().getBmpOriginal();
-        Paint transparentPaint;
+}
 
-
-        public CanvasView(Context context) {
-            super(context);
-            getHolder().addCallback(this);
-            working = original.copy(Bitmap.Config.ARGB_8888, true);
-            transparentPaint = new Paint();
-            transparentPaint.setColor(getResources().getColor(android.R.color.transparent));
-            transparentPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-            transparentPaint.setAntiAlias(true);
-
-        }
-
-        @Override
-        public void draw(Canvas canvas) {
-            super.draw(canvas);
-            drawThread = new DrawThread(getHolder());
-            drawThread.run();
-            drawThread.start();
-
-        }
-
-        @Override
-        public boolean onTouchEvent(MotionEvent event) {
-            switch (event.getAction()) {
-
-                case MotionEvent.ACTION_DOWN: // нажатие
-                    x = (int) event.getX();
-                    y = (int) event.getY();
-                    break;
-                case MotionEvent.ACTION_MOVE: // движение
-                    x = (int) event.getX();
-                    y = (int) event.getY();
-
-                    break;
-                case MotionEvent.ACTION_UP: // отпускание
-                    x = (int) event.getX();
-                    y = (int) event.getY();
-                    updateBall();
-                    break;
-            }
-            return true;
-
-        }
-
-        @Override
-        protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-            super.onSizeChanged(w, h, oldw, oldh);
-
-//            bitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
-//            bitmap.eraseColor(Color.TRANSPARENT);
-//            temp = new Canvas(bitmap);
-        }
-
-        @Override
-        protected void onDraw(Canvas canvas) {
-            super.onDraw(canvas);
-//            drawThread = new DrawThread(getHolder(),canvas);
-//            drawThread.run();
-//            drawThread.start();
-//            temp.drawColor(Color.argb(80, 0, 0, 0));
-//            temp.drawCircle(centerPosX, centerPosY, 200, transparentPaint);
-//            canvas.drawBitmap(bitmap, 0, 0, null);
-
-        }
-
-        @Override
-        public void surfaceCreated(SurfaceHolder surfaceHolder) {
-            canvas = new Canvas(working);
-
-        }
-
-        @Override
-        public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
-
-        }
-
-        @Override
-        public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
-
-        }
-
-        private void updateBall() {
-            try {
-
-                canvas = getHolder().lockCanvas(null);
-                synchronized (getHolder()) {
-                    this.draw(canvas);
-                }
-            } finally {
-                if (canvas != null) {
-                    getHolder().unlockCanvasAndPost(canvas);
-
-                }
-
-            }
-
-        }
-
-        class DrawThread extends Thread {
-            private SurfaceHolder surfaceHolder;
-
-            public DrawThread(SurfaceHolder surfaceHolder) {
-                this.surfaceHolder = surfaceHolder;
-                surfaceHolder.setFormat(PixelFormat.TRANSPARENT);
-
-            }
-
-            @Override
-            public void run() {
-                Canvas canvas = new Canvas(working);
-                try {
-                    canvas = surfaceHolder.lockCanvas(null);
-                    synchronized (surfaceHolder) {
-                        Paint paint = new Paint(Paint.FILTER_BITMAP_FLAG);
-                        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-                        canvas.setBitmap(working);
-                        canvas.drawBitmap(ball, x, y, paint);
-                        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC));
-                        surfaceHolder.unlockCanvasAndPost(canvas);
-
-                    }
-                } catch (Exception e) {
-                    Log.d("DrawThread", " " + e.toString());
-                }
-            }
-        }
-
-
-    }
-
-//    public void test()
-//    {
-//
-//
-//         ArrayList<FacebookAlbum> alFBAlbum = new ArrayList<>();
-///*make API call*/
-//        new GraphRequest(
-//                AccessToken.getCurrentAccessToken(),  //your fb AccessToken
-//                "/" + AccessToken.getCurrentAccessToken().getUserId() + "/albums",//user id of login user
-//                null,
-//                HttpMethod.GET,
-//                new GraphRequest.Callback() {
-//                    public void onCompleted(GraphResponse response) {
-//                        Log.d("TAG", "Facebook Albums: " + response.toString());
-//                        try {
-//                            if (response.getError() == null) {
-//                                JSONObject joMain = response.getJSONObject(); //convert GraphResponse response to JSONObject
-//                                if (joMain.has("data")) {
-//                                    JSONArray jaData = joMain.optJSONArray("data"); //find JSONArray from JSONObject
-//                                    alFBAlbum = new ArrayList<>();
-//                                    for (int i = 0; i < jaData.length(); i++) {//find no. of album using jaData.length()
-//                                        JSONObject joAlbum = jaData.getJSONObject(i); //convert perticular album into JSONObject
-//                                        GetFacebookImages(joAlbum.optString("id")); //find Album ID and get All Images from album
-//                                    }
-//                                }
-//                            } else {
-//                                Log.d("Test", response.getError().toString());
-//                            }
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                }
-//        ).executeAsync();
-//
-//
-//
-//}
-
-}//Main Avtivity
