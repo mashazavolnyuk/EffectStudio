@@ -24,6 +24,7 @@ import com.mashazavolnyuk.effectstudio.gradient.GradientGreenDay;
 import com.mashazavolnyuk.effectstudio.gradient.GradientMiamiBeach;
 import com.mashazavolnyuk.effectstudio.gradient.GradientMintTea;
 import com.mashazavolnyuk.effectstudio.gradient.GradientPacificOcean;
+import com.mashazavolnyuk.effectstudio.gradient.GradientRainbow;
 import com.mashazavolnyuk.effectstudio.property.BrightnessProperty;
 import com.mashazavolnyuk.effectstudio.property.ContrastProperty;
 import com.mashazavolnyuk.effectstudio.property.OpacityProperty;
@@ -85,6 +86,8 @@ public class ChangeImageStorage {
         gradients.add(new GradientGreenDay());
         gradients.add(new GradientMiamiBeach());
         gradients.add(new GradientCherryBlossoms());
+        gradients.add(new GradientRainbow());
+
     }
     private void fillProperties() {
         properties.clear();

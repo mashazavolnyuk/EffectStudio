@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "772247546378",
-    "firebase_url": "https://effectstudio-fc3ba.firebaseio.com",
-    "project_id": "effectstudio-fc3ba",
-    "storage_bucket": "effectstudio-fc3ba.appspot.com"
+    "project_number": "289774445520",
+    "firebase_url": "https://effect-studio.firebaseio.com",
+    "project_id": "effect-studio",
+    "storage_bucket": "effect-studio.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:772247546378:android:9911ac22816ef85c",
+        "mobilesdk_app_id": "1:289774445520:android:c9701566810da3bb",
         "android_client_info": {
-          "package_name": "com.example.darkmaleficent.effectstudio.filter"
+          "package_name": "com.mashazavolnyuk.effectstudio"
         }
       },
       "oauth_client": [
         {
-          "client_id": "772247546378-8hmglsi840muo3v4lmpf9iav3mks59bs.apps.googleusercontent.com",
+          "client_id": "289774445520-l6et3sd9qm1nhko4a8nj1ol1llhpuk23.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCirKGlR4zynCJ41GPU1kJVPTGAObj_O8c"
+          "current_key": "AIzaSyBxU35JBDIWGjyWthBs673r4D0Q8qrUQj4"
         }
       ],
       "services": {

@@ -8,8 +8,8 @@ android {
         applicationId "com.mashazavolnyuk.effectstudio"
         minSdkVersion 16
         targetSdkVersion 24
-        versionCode 6
-        versionName "6.3.4"
+        versionCode 7
+        versionName "7.4.4"
         renderscriptTargetApi 18
         renderscriptSupportModeEnabled true
     }
@@ -40,6 +40,7 @@ dependencies {
     compile 'com.android.support:palette-v7:24.1.1'
     compile 'com.facebook.android:facebook-android-sdk:[4,5)'
 }
+apply plugin: 'com.google.gms.google-services'
 
 
 
