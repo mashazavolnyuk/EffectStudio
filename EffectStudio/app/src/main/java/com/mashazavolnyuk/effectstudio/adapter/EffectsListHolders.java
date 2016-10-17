@@ -7,11 +7,11 @@ import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.mashazavolnyuk.effectstudio.data.ImageStorage;
+import com.makeramen.roundedimageview.RoundedImageView;
 import com.mashazavolnyuk.effectstudio.R;
+import com.mashazavolnyuk.effectstudio.data.ImageStorage;
 import com.mashazavolnyuk.effectstudio.effect.ImageChangerExecutor;
 import com.mashazavolnyuk.effectstudio.interfaces.IObserveRecyclerTools;
 
@@ -19,7 +19,7 @@ import com.mashazavolnyuk.effectstudio.interfaces.IObserveRecyclerTools;
 public class EffectsListHolders extends RecyclerView.ViewHolder {
     TextView description;
     String imageChange;
-    ImageView effect;
+    RoundedImageView effect;
     View.OnClickListener listener;
     int position;
     Bitmap bitmap= ImageStorage.getInstance().getBmpOriginal();
@@ -30,7 +30,7 @@ public class EffectsListHolders extends RecyclerView.ViewHolder {
     public EffectsListHolders(View itemView) {
         super(itemView);
         description = (TextView) itemView.findViewById(R.id.tvDescriptionEffectTools);
-        effect = (ImageView) itemView.findViewById(R.id.imgEffectTools);
+        effect = (RoundedImageView) itemView.findViewById(R.id.imgEffectTools);
         listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {

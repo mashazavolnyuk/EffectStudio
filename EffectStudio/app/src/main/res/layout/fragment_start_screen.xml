@@ -17,6 +17,7 @@
         android:textSize="16dp" />
 
     <Button
+        android:paddingLeft="10dp"
         android:id="@+id/btnStartScreenPhoto"
         android:layout_width="220dp"
         android:layout_height="58dp"
@@ -30,6 +31,7 @@
         android:textColor="@color/mainBackground" />
 
     <Button
+        android:paddingLeft="10dp"
         android:id="@+id/btnStartScreenGallery"
         android:layout_width="220dp"
         android:layout_height="58dp"

@@ -89,7 +89,7 @@ public class GradientsListHolders extends RecyclerView.ViewHolder {
 
         @Override
         protected void onPostExecute(Bitmap bitmap) {
-            ImageStorage.getInstance().setBmp(temp);
+            ImageStorage.getInstance().setBmpModify(temp);
             observer.updatePicture(true);
             progressDialog.dismiss();
         }

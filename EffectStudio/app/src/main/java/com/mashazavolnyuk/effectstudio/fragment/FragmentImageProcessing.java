@@ -105,7 +105,6 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
                 effectsListAdapter.setObserver(this);
                 barToolsEffect.setAdapter(effectsListAdapter);
                 resetImage();
-
                 break;
             case FILTERS:
                 FiltersListAdapter filtersListAdapter = new FiltersListAdapter(getActivity());
