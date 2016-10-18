@@ -1,7 +1,6 @@
 package com.mashazavolnyuk.effectstudio;
 
 import android.Manifest;
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
@@ -25,11 +24,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mashazavolnyuk.effectstudio.data.ImageStorage;
+import com.mashazavolnyuk.effectstudio.fragment.FragmentAddSticker;
 import com.mashazavolnyuk.effectstudio.fragment.FragmentImageProcessing;
 import com.mashazavolnyuk.effectstudio.fragment.FragmentRegulatorProperty;
 import com.mashazavolnyuk.effectstudio.fragment.FragmentShowPalette;
@@ -95,7 +94,6 @@ public class MainActivity extends AppCompatActivity
         }
         toStartScreen();
     }
-
 
     private void handleSendImage(Intent intent) {
         Uri imageUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
@@ -171,16 +169,13 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void toModifyImage() {
         setMainNavigationState(true);
-        RelativeLayout layout = (RelativeLayout) findViewById(R.id.start_layout);
-        layout.removeAllViewsInLayout();
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
         FragmentImageProcessing fragment = new FragmentImageProcessing();
-        setObserver(fragment);
-        ft.replace(R.id.mainContent, fragment, "modify");
-        ft.addToBackStack("modify");
-        ft.commit();
-
-
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.mainContent, fragment)
+                .setTransition(android.support.v4.app.FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .addToBackStack("effects")
+                .commit();
     }
 
     @Override
@@ -230,22 +225,43 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void toPallete() {
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
+
+        setMainNavigationState(true);
         FragmentShowPalette fragment = new FragmentShowPalette();
-        ft.replace(R.id.mainContent, fragment, "palette");
-        setMainNavigationState(false);
-        ft.addToBackStack("palette");
-        ft.commit();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.mainContent, fragment)
+                .setTransition(android.support.v4.app.FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .addToBackStack("pallete")
+                .commit();
+
+
     }
 
     @Override
     public void toStartScreen() {
         setMainNavigationState(true);
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        setMainNavigationState(true);
         FragmentStartScreen fragment = new FragmentStartScreen();
-        ft.replace(R.id.mainContent, fragment, "start_screen");
-        ft.addToBackStack("start_screen");
-        ft.commit();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.mainContent, fragment)
+                .setTransition(android.support.v4.app.FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .addToBackStack("start screen")
+                .commit();
+
+    }
+
+    @Override
+    public void toStickersAndFrames() {
+        setMainNavigationState(false);
+        FragmentAddSticker f=new FragmentAddSticker();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.mainContent, f)
+                .setTransition(android.support.v4.app.FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .addToBackStack("stickers and frames")
+                .commit();
     }
 
     @Override
@@ -296,7 +312,8 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        FragmentManager fm = getFragmentManager();
+        android.support.v4.app.FragmentManager fm=getSupportFragmentManager();
+        //FragmentManager fm = getFragmentManager();
         if (fm.getBackStackEntryCount() > 0) {
             fm.popBackStackImmediate();
             fm.beginTransaction().commit();
@@ -349,6 +366,10 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_share:
                 shareLink();
                 break;
+            case R.id.nav_stickers:
+                toStickersAndFrames();
+                break;
+
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

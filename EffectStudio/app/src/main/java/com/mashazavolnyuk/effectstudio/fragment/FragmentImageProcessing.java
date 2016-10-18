@@ -1,6 +1,5 @@
 package com.mashazavolnyuk.effectstudio.fragment;
 
-import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -47,7 +46,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by Dark Maleficent on 12.06.2016.
  */
-public class FragmentImageProcessing extends Fragment implements IObserveWorkingImage, IObserveRecyclerTools, IObserverChangeTools {
+public class FragmentImageProcessing extends android.support.v4.app.Fragment implements IObserveWorkingImage, IObserveRecyclerTools, IObserverChangeTools {
     ImageView imageView,btnLeft,btnRight;
     private int overallXScroll = 0;
     RecyclerView barToolsEffect;

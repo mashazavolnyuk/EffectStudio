@@ -32,7 +32,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.1.1'
     compile 'com.android.support:cardview-v7:24.1.1'
     compile 'com.android.support:support-v4:24.0.0'
-    compile 'com.android.support:design:24.0.0'
+    compile 'com.android.support:design:24.2.1'
     compile 'com.github.zomato:androidphotofilters:1.0.1'
     compile 'com.mukesh:photofilter:1.0.0'
     compile 'com.vk:androidsdk:1.6.5'
