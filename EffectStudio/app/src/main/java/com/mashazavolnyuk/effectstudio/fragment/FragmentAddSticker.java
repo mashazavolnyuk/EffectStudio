@@ -17,14 +17,21 @@ import com.mashazavolnyuk.effectstudio.R;
  * Created by Dark Maleficent on 03.08.2016.
  */
 public class FragmentAddSticker extends android.support.v4.app.Fragment {
+
+    private int[] tabIcons = {
+            R.mipmap.ic_cat_white_36dp,
+            R.mipmap.ic_image_filter_frames_white_36dp,
+    };
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View inflatedView = inflater.inflate(R.layout.fragment_add_stickers, container, false);
         setHasOptionsMenu(true);
         TabLayout tabLayout = (TabLayout) inflatedView.findViewById(R.id.tabLayout);
-        tabLayout.addTab(tabLayout.newTab().setText("Campusplan"));
-        tabLayout.addTab(tabLayout.newTab().setText("Raumplan"));
+        tabLayout.addTab(tabLayout.newTab().setText("Stickers"));
+        tabLayout.addTab(tabLayout.newTab().setText("Frames"));
+        tabLayout.getTabAt(0).setIcon(tabIcons[0]);
+        tabLayout.getTabAt(1).setIcon(tabIcons[1]);
         final ViewPager viewPager = (ViewPager) inflatedView.findViewById(R.id.viewpager);
         viewPager.setAdapter(new PagerAdapter
                 (getFragmentManager(), tabLayout.getTabCount()));
@@ -34,12 +41,9 @@ public class FragmentAddSticker extends android.support.v4.app.Fragment {
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
             }
-
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
             }
-
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
 
