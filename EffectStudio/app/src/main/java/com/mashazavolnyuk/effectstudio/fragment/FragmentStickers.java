@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mashazavolnyuk.effectstudio.R;
+import com.mashazavolnyuk.effectstudio.adapter.StickersFramesListAdapter;
 import com.mashazavolnyuk.effectstudio.data.CardImage;
 import com.mashazavolnyuk.effectstudio.data.CardStorage;
 
@@ -32,18 +34,25 @@ import java.io.InputStream;
 
 public class FragmentStickers extends Fragment {
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter adapter;
-    private RecyclerView.LayoutManager layoutManager;
-    private String[] metrics = {"MEDIUM", "HIGH", "XHIGH", "XXHIGH", "XXXHIGH"};
+    private StickersFramesListAdapter adapter;
+    private String[] metricsDpi = {"MEDIUM", "HIGH", "XHIGH", "XXHIGH", "XXXHIGH"};
+    private String dpi;
+    public FragmentStickers() {
+    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_stickers, null);
         recyclerView = (RecyclerView) v.findViewById(R.id.rcvStickersFrames);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        fillData();
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        AsyncTaskLoadJsonModel loadJsonModel=new AsyncTaskLoadJsonModel();
+        loadJsonModel.execute();
+        if (loadJsonModel.getStatus() == AsyncTask.Status.FINISHED) {  //finish doInBackground() and onPostExecute was called
+            Log.d("size data", String.valueOf((CardStorage.getInstance().getsize())));
+            adapter=new StickersFramesListAdapter(getActivity());
+            recyclerView.setAdapter(adapter);
+        }
         return v;
     }
 
@@ -57,47 +66,48 @@ public class FragmentStickers extends Fragment {
         return new String(formArray);
     }
 
-    private void fillData() {
+    private String getDataJson() {
+        String json = null;
         try {
-            String jsonLocation = AssetJSONFile("jsonTest.json", getActivity());
-            JSONObject formArray = (new JSONObject()).getJSONObject("formules");
+            InputStream is = getActivity().getAssets().open("jsonTest.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, "UTF-8");
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
-
+        return json;
     }
 
-
-    private void checkDPI() {
+    private String checkDPI() {
         DisplayMetrics metrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
         switch (metrics.densityDpi) {
             case DisplayMetrics.DENSITY_MEDIUM:
-                break;
+                return metricsDpi[0];
             case DisplayMetrics.DENSITY_HIGH:
-                break;
-            case DisplayMetrics.DENSITY_XXXHIGH:
-                break;
-            case DisplayMetrics.DENSITY_XXHIGH:
-                break;
+                return metricsDpi[1];
             case DisplayMetrics.DENSITY_XHIGH:
-                break;
+                return metricsDpi[2];
+            case DisplayMetrics.DENSITY_XXHIGH:
+                return metricsDpi[3];
+            case DisplayMetrics.DENSITY_XXXHIGH:
+                return metricsDpi[4];
         }
+        return null;
     }
 
     private void parseJson(JSONObject jsonObject) {
-
-        Log.d("json", "name == null");
         if (jsonObject != null) {
             Log.d("json", "name" + jsonObject.toString());
             try {
-
+                dpi=checkDPI();
                 JSONArray array = jsonObject.getJSONArray("categories");
                 for (int index = 0; index < array.length(); index++) {
                     Log.d("loop", "index" + index);
-                    CardStorage.getInstance().addCardImage(new CardImage(array.getJSONObject(index)));
+                    CardStorage.getInstance().addCardImage(new CardImage(array.getJSONObject(index),dpi));
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -114,4 +124,20 @@ public class FragmentStickers extends Fragment {
         else
             return false;
     }
+
+    private class AsyncTaskLoadJsonModel extends AsyncTask<Void, Void, Void>{
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                String s=getDataJson();
+                JSONObject jsonObject=new JSONObject(s);
+                if(jsonObject!=null)
+                    parseJson(jsonObject);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
 }

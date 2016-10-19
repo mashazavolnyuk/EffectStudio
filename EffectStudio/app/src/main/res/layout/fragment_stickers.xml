@@ -3,7 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
+   <TextView
+       android:textColor="@color/colorAccent"
+       android:text="Choose stickers"
+       android:textSize="20sp"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content" />
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rcvStickersFrames"
         android:layout_width="match_parent"

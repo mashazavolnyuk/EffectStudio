@@ -5,6 +5,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.mashazavolnyuk.effectstudio.R;
+
 import java.util.List;
 
 /**
@@ -15,7 +17,13 @@ public class StickersFramesListHolders extends RecyclerView.ViewHolder {
     TextView textCover;
     ImageView imgCover;
     List<String> urlStickers;
+
+
     public StickersFramesListHolders(View itemView) {
         super(itemView);
+        textCover= (TextView) itemView.findViewById(R.id.tv_coverName);
+        imgCover= (ImageView) itemView.findViewById(R.id.imgCover);
+
+
     }
 }

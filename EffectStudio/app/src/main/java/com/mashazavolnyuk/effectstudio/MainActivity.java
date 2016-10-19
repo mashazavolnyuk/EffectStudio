@@ -60,7 +60,6 @@ public class MainActivity extends AppCompatActivity
     DrawerLayout drawerLayout;
     IObserverChangeTools observerChangeTools;
 
-
     static {
         System.loadLibrary("NativeImageProcessor");
     }

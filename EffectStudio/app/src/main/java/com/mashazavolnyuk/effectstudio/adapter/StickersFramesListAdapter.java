@@ -13,6 +13,7 @@ import com.mashazavolnyuk.effectstudio.data.CardImage;
 import com.mashazavolnyuk.effectstudio.data.CardStorage;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,7 +23,7 @@ import java.util.List;
 public class StickersFramesListAdapter extends RecyclerView.Adapter<StickersFramesListHolders> {
 
     private Context context;
-    private List<CardImage> data;
+    private List<CardImage> data=new ArrayList<>();
 
 
     public StickersFramesListAdapter(Context context) {
@@ -42,6 +43,7 @@ public class StickersFramesListAdapter extends RecyclerView.Adapter<StickersFram
     @Override
     public void onBindViewHolder(StickersFramesListHolders holder, int position) {
         holder.textCover.setText(data.get(position).getName());
+        Picasso.with(context).load("https://firebasestorage.googleapis.com/v0/b/effect-studio.appspot.com/o/cartoon%2Fmax(xxx).png?alt=media&token=8c0330e7-1d6c-44e8-996a-c8fbaedf866f").into(holder.imgCover);
         Picasso.with(context).load(Uri.parse(data.get(position).getImgUrl())).into(holder.imgCover);
         holder.urlStickers = data.get(position).getImageUrls();
 

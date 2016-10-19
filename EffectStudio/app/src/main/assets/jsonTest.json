@@ -1,49 +1,21 @@
 {
   "categories": [
-	  {
-		  "name": "cartoon",
-		  "id":"1",
-	  "cover(xxx)":"https://firebasestorage.googleapis.com/v0/b/testproject-5e7bb.appspot.com/o/cartoon%2Fpug%2Fpug(xxx).png?alt=media&token=2eef0578-9a04-4626-a25c-5c9a093e38f0",
-
-		"cover(xx)":"https://firebasestorage.googleapis.com/v0/b/testproject-5e7bb.appspot.com/o/cartoon%2Fpug%2Fpug(xx).png?alt=media&token=d0a9f3f0-c8db-4320-b22b-b644abae6083",
-
-		"cover(x)":"https://firebasestorage.googleapis.com/v0/b/testproject-5e7bb.appspot.com/o/cartoon%2Fpug%2Fpug(x).png?alt=media&token=704ccade-7996-434f-b984-35fb26db910f",
-
-		"cover(h)":"https://firebasestorage.googleapis.com/v0/b/testproject-5e7bb.appspot.com/o/cartoon%2Fpug%2Fpug(h).png?alt=media&token=4b154276-f7c6-4e3f-b278-261953821c48",
-
-		"cover(m)":"https://firebasestorage.googleapis.com/v0/b/testproject-5e7bb.appspot.com/o/cartoon%2Fpug%2Fpug(m).png?alt=media&token=20c23d5c-173a-441c-af63-c171d2a492e9"
-
-		  "imageUrls":[
-			{
-	"url":"https://firebasestorage.googleapis.com/v0/b/testproject-5e7bb.appspot.com/o/cartoon%2Fmax%2Fmax(xxx).png?alt=media&token=90cc5705-72ee-4f56-9cee-6d7858d7fcbf"
-			},	
-			{
-				"url":"https://firebasestorage.googleapis.com/v0/b/testproject-5e7bb.appspot.com/o/cartoon%2Fmax%2Fmax(xx).png?alt=media&token=9ff8ce9f-b71d-4a48-b3a8-f6ab99ab38a8"
-			}
-			  ]
-	  },
-	  {
-		  "name": "cartoon",
-		  "id":"1",
-	  "cover(xxx)":"https://firebasestorage.googleapis.com/v0/b/testproject-5e7bb.appspot.com/o/cartoon%2Fpug%2Fpug(xxx).png?alt=media&token=2eef0578-9a04-4626-a25c-5c9a093e38f0",
-
-		"cover(xx)":"https://firebasestorage.googleapis.com/v0/b/testproject-5e7bb.appspot.com/o/cartoon%2Fpug%2Fpug(xx).png?alt=media&token=d0a9f3f0-c8db-4320-b22b-b644abae6083",
-
-		"cover(x)":"https://firebasestorage.googleapis.com/v0/b/testproject-5e7bb.appspot.com/o/cartoon%2Fpug%2Fpug(x).png?alt=media&token=704ccade-7996-434f-b984-35fb26db910f",
-
-		"cover(h)":"https://firebasestorage.googleapis.com/v0/b/testproject-5e7bb.appspot.com/o/cartoon%2Fpug%2Fpug(h).png?alt=media&token=4b154276-f7c6-4e3f-b278-261953821c48",
-
-		"cover(m)":"https://firebasestorage.googleapis.com/v0/b/testproject-5e7bb.appspot.com/o/cartoon%2Fpug%2Fpug(m).png?alt=media&token=20c23d5c-173a-441c-af63-c171d2a492e9"
-
-		  "imageUrls":[
-			{
-	"url":"https://firebasestorage.googleapis.com/v0/b/testproject-5e7bb.appspot.com/o/cartoon%2Fmax%2Fmax(xxx).png?alt=media&token=90cc5705-72ee-4f56-9cee-6d7858d7fcbf"
-			},	
-			{
-		"url":"https://firebasestorage.googleapis.com/v0/b/testproject-5e7bb.appspot.com/o/cartoon%2Fmax%2Fmax(xx).png?alt=media&token=9ff8ce9f-b71d-4a48-b3a8-f6ab99ab38a8"
-			}
-
-		  ]
-	  }
+    {
+      "name": "cartoon",
+      "id": "1",
+      "cover(xxx)": "https://firebasestorage.googleapis.com/v0/b/testproject-5e7bb.appspot.com/o/cartoon%2Fpug%2Fpug(xxx).png?alt=media&token=2eef0578-9a04-4626-a25c-5c9a093e38f0",
+      "cover(xx)": "https://firebasestorage.googleapis.com/v0/b/testproject-5e7bb.appspot.com/o/cartoon%2Fpug%2Fpug(xx).png?alt=media&token=d0a9f3f0-c8db-4320-b22b-b644abae6083",
+      "cover(x)": "https://firebasestorage.googleapis.com/v0/b/testproject-5e7bb.appspot.com/o/cartoon%2Fpug%2Fpug(x).png?alt=media&token=704ccade-7996-434f-b984-35fb26db910f",
+      "cover(h)": "https://firebasestorage.googleapis.com/v0/b/testproject-5e7bb.appspot.com/o/cartoon%2Fpug%2Fpug(h).png?alt=media&token=4b154276-f7c6-4e3f-b278-261953821c48",
+      "cover(m)": "https://firebasestorage.googleapis.com/v0/b/testproject-5e7bb.appspot.com/o/cartoon%2Fpug%2Fpug(m).png?alt=media&token=20c23d5c-173a-441c-af63-c171d2a492e9",
+      "imageUrls": [
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/testproject-5e7bb.appspot.com/o/cartoon%2Fmax%2Fmax(xxx).png?alt=media&token=90cc5705-72ee-4f56-9cee-6d7858d7fcbf"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/testproject-5e7bb.appspot.com/o/cartoon%2Fmax%2Fmax(xx).png?alt=media&token=9ff8ce9f-b71d-4a48-b3a8-f6ab99ab38a8"
+        }
+      ]
+    }
   ]
 }

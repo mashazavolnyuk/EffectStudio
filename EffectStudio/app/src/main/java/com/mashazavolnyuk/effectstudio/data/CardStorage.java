@@ -8,18 +8,18 @@ import java.util.List;
  */
 public class CardStorage {
     private List<CardImage> card = new ArrayList<>();
-    private static CardStorage ourInstance = new CardStorage();
+    private static CardStorage intance = new CardStorage();
 
     public static CardStorage getInstance() {
-        return ourInstance;
+        if (intance == null)
+            synchronized (CardStorage.class) {
+                if (intance == null)
+                    intance = new CardStorage();
+            }
+        return intance;
     }
 
     private CardStorage() {
-    }
-
-    public void setCardImageList(List<CardImage> card) {
-        this.card = card;
-
     }
 
     public void addCardImage(CardImage cardImage) {
@@ -30,5 +30,8 @@ public class CardStorage {
     public List<CardImage> getCardImageList() {
         return card;
 
+    }
+    public int getsize(){
+        return  card.size();
     }
 }
