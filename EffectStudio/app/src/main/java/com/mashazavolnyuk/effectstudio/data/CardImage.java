@@ -46,7 +46,7 @@ public class CardImage {
     }
 
 
-    public CardImage(JSONObject json, String Dpi) {
+    public CardImage(JSONObject json, String Dpi) throws JSONException {
         this.dpi = Dpi;
         try {
             id = json.getInt("id");
@@ -66,7 +66,12 @@ public class CardImage {
                 case "XXXHIGH":
                     imgUrl = json.getString("cover(xxx)");
                     break;
+                default:
+                    imgUrl = json.getString("cover(xxx)");
+                    break;
+
             }
+
             name = json.getString("name");
             JSONArray imageJsonArray = json.getJSONArray("imageUrls");
             if (imageJsonArray != null && imageJsonArray.length() > 0)

@@ -27,11 +27,16 @@ public class CardStorage {
         card.add(cardImage);
     }
 
+    public void clean() {
+        card.clear();
+    }
+
     public List<CardImage> getCardImageList() {
         return card;
 
     }
-    public int getsize(){
-        return  card.size();
+
+    public int getsize() {
+        return card.size();
     }
 }

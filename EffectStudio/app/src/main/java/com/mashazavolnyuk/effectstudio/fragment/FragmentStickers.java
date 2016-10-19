@@ -37,6 +37,8 @@ public class FragmentStickers extends Fragment {
     private StickersFramesListAdapter adapter;
     private String[] metricsDpi = {"MEDIUM", "HIGH", "XHIGH", "XXHIGH", "XXXHIGH"};
     private String dpi;
+    DisplayMetrics metrics;
+
     public FragmentStickers() {
     }
 
@@ -45,11 +47,12 @@ public class FragmentStickers extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_stickers, null);
         recyclerView = (RecyclerView) v.findViewById(R.id.rcvStickersFrames);
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
+       // recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 4));
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         adapter = new StickersFramesListAdapter(getActivity());
         recyclerView.setAdapter(adapter);
 
-        AsyncTaskLoadJsonModel loadJsonModel=new AsyncTaskLoadJsonModel();
+        AsyncTaskLoadJsonModel loadJsonModel = new AsyncTaskLoadJsonModel();
         loadJsonModel.execute();
 
         return v;
@@ -81,32 +84,42 @@ public class FragmentStickers extends Fragment {
     }
 
     private String checkDPI() {
-        DisplayMetrics metrics = new DisplayMetrics();
+        metrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
         switch (metrics.densityDpi) {
-            case DisplayMetrics.DENSITY_MEDIUM:
+            case DisplayMetrics.DENSITY_MEDIUM://160
                 return metricsDpi[0];
-            case DisplayMetrics.DENSITY_HIGH:
+            case DisplayMetrics.DENSITY_HIGH://240
                 return metricsDpi[1];
-            case DisplayMetrics.DENSITY_XHIGH:
+            case DisplayMetrics.DENSITY_XHIGH://320
                 return metricsDpi[2];
-            case DisplayMetrics.DENSITY_XXHIGH:
+            case DisplayMetrics.DENSITY_XXHIGH://480
                 return metricsDpi[3];
-            case DisplayMetrics.DENSITY_XXXHIGH:
+            case DisplayMetrics.DENSITY_XXXHIGH://640
                 return metricsDpi[4];
+
         }
+        return null;
+    }
+
+    private String fullCheckDPI() {
+        int dpi = metrics.densityDpi;
+        if(dpi>DisplayMetrics.DENSITY_XXHIGH||dpi<=DisplayMetrics.DENSITY_XXXHIGH)
+            return metricsDpi[4];
         return null;
     }
 
     private void parseJson(JSONObject jsonObject) {
         if (jsonObject != null) {
-            Log.d("json", "name" + jsonObject.toString());
+          CardStorage.getInstance().clean();
             try {
-                dpi=checkDPI();
+                dpi = checkDPI();
+                if (dpi == null)
+                    dpi = fullCheckDPI();
                 JSONArray array = jsonObject.getJSONArray("categories");
                 for (int index = 0; index < array.length(); index++) {
                     Log.d("loop", "index" + index);
-                    CardStorage.getInstance().addCardImage(new CardImage(array.getJSONObject(index),dpi));
+                    CardStorage.getInstance().addCardImage(new CardImage(array.getJSONObject(index), dpi));
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -114,6 +127,7 @@ public class FragmentStickers extends Fragment {
             }
         }
     }
+
     private boolean checkOutConnection() {
         ConnectivityManager connMgr = (ConnectivityManager)
                 getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -124,13 +138,13 @@ public class FragmentStickers extends Fragment {
             return false;
     }
 
-    private class AsyncTaskLoadJsonModel extends AsyncTask<Void, Void, Void>{
+    private class AsyncTaskLoadJsonModel extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... params) {
             try {
-                String s=getDataJson();
-                JSONObject jsonObject=new JSONObject(s);
-                if(jsonObject!=null)
+                String s = getDataJson();
+                JSONObject jsonObject = new JSONObject(s);
+                if (jsonObject != null)
                     parseJson(jsonObject);
             } catch (JSONException e) {
                 e.printStackTrace();
