@@ -29,8 +29,6 @@ public class StickersFramesListAdapter extends RecyclerView.Adapter<StickersFram
     public StickersFramesListAdapter(Context context) {
         this.context = context;
         data = CardStorage.getInstance().getCardImageList();
-
-
     }
 
     @Override
@@ -53,5 +51,10 @@ public class StickersFramesListAdapter extends RecyclerView.Adapter<StickersFram
     public int getItemCount() {
         Log.d("size stickers", "count" + data.size());
         return data.size();
+    }
+
+    public void update(){
+        data = CardStorage.getInstance().getCardImageList();
+        notifyDataSetChanged();
     }
 }

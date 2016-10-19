@@ -46,13 +46,12 @@ public class FragmentStickers extends Fragment {
         View v = inflater.inflate(R.layout.fragment_stickers, null);
         recyclerView = (RecyclerView) v.findViewById(R.id.rcvStickersFrames);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        adapter = new StickersFramesListAdapter(getActivity());
+        recyclerView.setAdapter(adapter);
+
         AsyncTaskLoadJsonModel loadJsonModel=new AsyncTaskLoadJsonModel();
         loadJsonModel.execute();
-        if (loadJsonModel.getStatus() == AsyncTask.Status.FINISHED) {  //finish doInBackground() and onPostExecute was called
-            Log.d("size data", String.valueOf((CardStorage.getInstance().getsize())));
-            adapter=new StickersFramesListAdapter(getActivity());
-            recyclerView.setAdapter(adapter);
-        }
+
         return v;
     }
 
@@ -137,6 +136,11 @@ public class FragmentStickers extends Fragment {
                 e.printStackTrace();
             }
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            adapter.update();
         }
     }
 
