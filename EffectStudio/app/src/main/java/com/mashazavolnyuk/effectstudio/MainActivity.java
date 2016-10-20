@@ -169,6 +169,7 @@ public class MainActivity extends AppCompatActivity
     public void toModifyImage() {
         setMainNavigationState(true);
         FragmentImageProcessing fragment = new FragmentImageProcessing();
+        observerChangeTools=fragment;
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.mainContent, fragment)

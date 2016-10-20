@@ -20,13 +20,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.mashazavolnyuk.effectstudio.R;
 import com.mashazavolnyuk.effectstudio.adapter.EffectsListAdapter;
 import com.mashazavolnyuk.effectstudio.adapter.FiltersListAdapter;
 import com.mashazavolnyuk.effectstudio.adapter.GradientsListAdapter;
+import com.mashazavolnyuk.effectstudio.customview.ZoomableImageView;
 import com.mashazavolnyuk.effectstudio.data.ImageStorage;
 import com.mashazavolnyuk.effectstudio.interfaces.INavigation;
 import com.mashazavolnyuk.effectstudio.interfaces.IObrservableChangeTools;
@@ -47,7 +47,7 @@ import java.util.concurrent.TimeUnit;
  * Created by Dark Maleficent on 12.06.2016.
  */
 public class FragmentImageProcessing extends android.support.v4.app.Fragment implements IObserveWorkingImage, IObserveRecyclerTools, IObserverChangeTools {
-    ImageView imageView,btnLeft,btnRight;
+    ZoomableImageView imageView,btnLeft,btnRight;
     private int overallXScroll = 0;
     RecyclerView barToolsEffect;
     public static final int EFFECTS = 0;
@@ -77,7 +77,7 @@ public class FragmentImageProcessing extends android.support.v4.app.Fragment imp
         v = inflater.inflate(R.layout.fragment_image_processing, null);
         setHasOptionsMenu(true);
         barToolsEffect = (RecyclerView) v.findViewById(R.id.rcvToolsEffect);
-        imageView = (ImageView) v.findViewById(R.id.workingImage);
+        imageView = (ZoomableImageView) v.findViewById(R.id.workingImage);
 
         ImageStorage.getInstance().setObserver(this);
         Bitmap bitmap = ImageStorage.getInstance().getBmpOriginal();
