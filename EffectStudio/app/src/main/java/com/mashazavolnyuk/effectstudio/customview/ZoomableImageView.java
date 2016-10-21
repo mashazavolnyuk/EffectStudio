@@ -262,7 +262,6 @@ public class ZoomableImageView extends ImageView {
         redundantXSpace /= 2;
 
         matrix.postTranslate(redundantXSpace, redundantYSpace);
-
         origWidth = width - 2 * redundantXSpace;
         origHeight = height - 2 * redundantYSpace;
         right = width * saveScale - width - (2 * redundantXSpace * saveScale);

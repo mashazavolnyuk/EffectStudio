@@ -40,12 +40,22 @@
         <!--android:layout_alignParentBottom="true"-->
          <!--/>-->
 
-    <ImageView
+    <!--<ImageView-->
+        <!--android:id="@+id/workingImage"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_above="@+id/rcvToolsEffect"-->
+        <!--android:scaleType="centerCrop"-->
+        <!--android:scrollbarStyle="insideInset" />-->
+    <com.mashazavolnyuk.effectstudio.customview.ZoomableImageView
         android:id="@+id/workingImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/rcvToolsEffect"
-        android:scaleType="centerCrop"
-        android:scrollbarStyle="insideInset" />
+        android:scaleType="centerInside"
+        android:scrollbarStyle="insideInset"
+        >
+
+    </com.mashazavolnyuk.effectstudio.customview.ZoomableImageView>
 
 </RelativeLayout>

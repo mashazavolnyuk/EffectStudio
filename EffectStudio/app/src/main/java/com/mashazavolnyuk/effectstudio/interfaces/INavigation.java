@@ -13,4 +13,5 @@ public interface INavigation {
     void toPallete();
     void toStartScreen();
     void toStickersAndFrames();
+    void toViewOverlayProcess();
 }

@@ -30,6 +30,7 @@ import android.widget.Toast;
 import com.mashazavolnyuk.effectstudio.data.ImageStorage;
 import com.mashazavolnyuk.effectstudio.fragment.FragmentAddSticker;
 import com.mashazavolnyuk.effectstudio.fragment.FragmentImageProcessing;
+import com.mashazavolnyuk.effectstudio.fragment.FragmentOverlayPicture;
 import com.mashazavolnyuk.effectstudio.fragment.FragmentRegulatorProperty;
 import com.mashazavolnyuk.effectstudio.fragment.FragmentShowPalette;
 import com.mashazavolnyuk.effectstudio.fragment.FragmentStartScreen;
@@ -169,7 +170,7 @@ public class MainActivity extends AppCompatActivity
     public void toModifyImage() {
         setMainNavigationState(true);
         FragmentImageProcessing fragment = new FragmentImageProcessing();
-        observerChangeTools=fragment;
+        observerChangeTools = fragment;
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.mainContent, fragment)
@@ -255,12 +256,24 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void toStickersAndFrames() {
         setMainNavigationState(false);
-        FragmentAddSticker f=new FragmentAddSticker();
+        FragmentAddSticker f = new FragmentAddSticker();
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.mainContent, f)
                 .setTransition(android.support.v4.app.FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .addToBackStack("stickers and frames")
+                .commit();
+    }
+
+    @Override
+    public void toViewOverlayProcess() {
+        setMainNavigationState(true);
+        FragmentOverlayPicture f = new FragmentOverlayPicture();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.mainContent, f)
+                .setTransition(android.support.v4.app.FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .addToBackStack("overlay picture")
                 .commit();
     }
 
@@ -312,7 +325,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        android.support.v4.app.FragmentManager fm=getSupportFragmentManager();
+        android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
         //FragmentManager fm = getFragmentManager();
         if (fm.getBackStackEntryCount() > 0) {
             fm.popBackStackImmediate();
@@ -379,9 +392,10 @@ public class MainActivity extends AppCompatActivity
     private void setTools(int tools) {
         if (ImageStorage.getInstance().getBmpOriginal() != null)
             observerChangeTools.changeTools(tools);
-        else{
-            Toast.makeText(getContext(),"Photo is absent",Toast.LENGTH_SHORT).show();
-            toStartScreen();}
+        else {
+            Toast.makeText(getContext(), "Photo is absent", Toast.LENGTH_SHORT).show();
+            toStartScreen();
+        }
 
     }
 
@@ -420,6 +434,7 @@ public class MainActivity extends AppCompatActivity
         this.observerChangeTools = observer;
 
     }
+
 
 }
 

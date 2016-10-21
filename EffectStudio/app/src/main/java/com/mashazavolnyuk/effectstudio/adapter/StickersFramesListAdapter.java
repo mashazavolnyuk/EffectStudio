@@ -44,6 +44,7 @@ public class StickersFramesListAdapter extends RecyclerView.Adapter<StickersFram
         Picasso.with(context).load("https://firebasestorage.googleapis.com/v0/b/effect-studio.appspot.com/o/cartoon%2Fmax(xxx).png?alt=media&token=8c0330e7-1d6c-44e8-996a-c8fbaedf866f").into(holder.imgCover);
         Picasso.with(context).load(Uri.parse(data.get(position).getImgUrl())).into(holder.imgCover);
         holder.urlStickers = data.get(position).getImageUrls();
+        holder.c=context;
 
     }
 
