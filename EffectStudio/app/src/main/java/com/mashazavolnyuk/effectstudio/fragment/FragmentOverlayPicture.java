@@ -23,39 +23,46 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.mashazavolnyuk.effectstudio.R;
 import com.mashazavolnyuk.effectstudio.data.ImageStorage;
+import com.mashazavolnyuk.effectstudio.interfaces.INavigation;
+import com.mashazavolnyuk.effectstudio.stickers.StickerView;
 
 /**
  * Created by Dark Maleficent on 21.10.2016.
  */
 
 public class FragmentOverlayPicture extends Fragment {
-
-    MySurfaceView surfaceView;
+    SurfaceView surfaceView;
     float x, y;
     Bitmap bmp;
-    LinearLayout linearLayout;
+    StickerView stickerView;
+    Drawable drawable;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_overlay_picture, container, false);
         setHasOptionsMenu(true);
-        surfaceView = new MySurfaceView(getActivity());
+        stickerView = (StickerView) v.findViewById(R.id.sticker_view);
+        //surfaceView = (SurfaceView) v.findViewById(R.id.srfView);
+        drawable = new BitmapDrawable(ImageStorage.getInstance().getBmpOriginal());
+        Bitmap bitmap = ImageStorage.getInstance().getBmpOriginal();
+        Log.d("FragmentOverlayPicture", "" + bitmap.hashCode());
+        stickerView.setImageBitmap(ImageStorage.getInstance().getBmpOriginal());
+        stickerView.addSticker(drawable);
+        Drawable d = stickerView.getDrawable();
+        bitmap = ((BitmapDrawable) d).getBitmap();
+        Log.d("FragmentOverlayPicture", "" + bitmap.hashCode());
+        ImageStorage.getInstance().setBmp(bitmap);
+//        surfaceView.setZOrderMediaOverlay(true);
 
-        Drawable drawable=new BitmapDrawable(ImageStorage.getInstance().getBmpOriginal());
-        linearLayout=(LinearLayout) v.findViewById(R.id.layoutOverlay);
-        linearLayout.removeAllViews();
-        surfaceView.setZOrderMediaOverlay(true);
-        surfaceView.setZOrderOnTop(true);
-        linearLayout.addView(surfaceView);
-        surfaceView.setBackground(drawable);
-        getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        bmp= BitmapFactory.decodeResource(getActivity().getResources(),R.mipmap.gold);
+//        surfaceView.setZOrderOnTop(true);
+//        surfaceView.setBackground(drawable);
+        // getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        bmp = BitmapFactory.decodeResource(getActivity().getResources(), R.mipmap.gold);
         x = 0;
         y = 0;
         v.setOnTouchListener(new View.OnTouchListener() {
@@ -73,7 +80,7 @@ public class FragmentOverlayPicture extends Fragment {
                     case MotionEvent.ACTION_UP: // отпускание
                         x = (int) event.getX();
                         y = (int) event.getY();
-                        surfaceView.updateDrawing();
+                        //surfaceView.updateDrawing();
                         break;
                 }
                 return true;
@@ -100,6 +107,20 @@ public class FragmentOverlayPicture extends Fragment {
         }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.checkDone:
+                Bitmap bmp=ImageStorage.getInstance().getBmpOriginal();
+                bmp=stickerView.createBitmap();
+                ImageStorage.getInstance().setBmp(bmp);
+                Log.d("FragOver",""+bmp.hashCode());
+                ((INavigation) getActivity()).toPallete();
+                Toast.makeText(getActivity(), "apply", Toast.LENGTH_SHORT).show();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     public class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback {
 
@@ -112,7 +133,6 @@ public class FragmentOverlayPicture extends Fragment {
             // deprecated setting, but required on Android versions prior to 3.0
             getHolder().setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
         }
-
 
 
         @Override
