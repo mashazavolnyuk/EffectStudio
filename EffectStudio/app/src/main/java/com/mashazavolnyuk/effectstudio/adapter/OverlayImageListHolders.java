@@ -15,14 +15,14 @@ import java.util.List;
  * Created by Dark Maleficent on 19.10.2016.
  */
 
-public class StickersFramesListHolders extends RecyclerView.ViewHolder {
+public class OverlayImageListHolders extends RecyclerView.ViewHolder {
     TextView textCover;
     ImageView imgCover;
     List<String> urlStickers;
     Context c;
 
 
-    public StickersFramesListHolders(View itemView) {
+    public OverlayImageListHolders(View itemView) {
         super(itemView);
         textCover= (TextView) itemView.findViewById(R.id.tv_coverName);
         imgCover= (ImageView) itemView.findViewById(R.id.imgCover);

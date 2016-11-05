@@ -20,30 +20,30 @@ import java.util.List;
  * Created by Dark Maleficent on 19.10.2016.
  */
 
-public class StickersFramesListAdapter extends RecyclerView.Adapter<StickersFramesListHolders> {
+public class OverlayImageListAdapter extends RecyclerView.Adapter<OverlayImageListHolders> {
 
     private Context context;
     private List<CardImage> data=new ArrayList<>();
 
 
-    public StickersFramesListAdapter(Context context) {
+    public OverlayImageListAdapter(Context context) {
         this.context = context;
         data = CardStorage.getInstance().getCardImageList();
     }
 
     @Override
-    public StickersFramesListHolders onCreateViewHolder(ViewGroup parent, int viewType) {
-        View layoutView = LayoutInflater.from(context).inflate(R.layout.item_over_sticker, null);
-        StickersFramesListHolders rcv = new StickersFramesListHolders(layoutView);
+    public OverlayImageListHolders onCreateViewHolder(ViewGroup parent, int viewType) {
+        View layoutView = LayoutInflater.from(context).inflate(R.layout.item_cover_stickers, null);
+        OverlayImageListHolders rcv = new OverlayImageListHolders(layoutView);
         return rcv;
     }
 
     @Override
-    public void onBindViewHolder(StickersFramesListHolders holder, int position) {
+    public void onBindViewHolder(OverlayImageListHolders holder, int position) {
         holder.textCover.setText(data.get(position).getName());
         Picasso.with(context).load("https://firebasestorage.googleapis.com/v0/b/effect-studio.appspot.com/o/cartoon%2Fmax(xxx).png?alt=media&token=8c0330e7-1d6c-44e8-996a-c8fbaedf866f").into(holder.imgCover);
         Picasso.with(context).load(Uri.parse(data.get(position).getImgUrl())).into(holder.imgCover);
-        holder.urlStickers = data.get(position).getImageUrls();
+        holder.urlStickers=data.get(position).getImageUrls();
         holder.c=context;
 
     }

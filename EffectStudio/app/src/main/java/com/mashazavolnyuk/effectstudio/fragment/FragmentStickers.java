@@ -17,7 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mashazavolnyuk.effectstudio.R;
-import com.mashazavolnyuk.effectstudio.adapter.StickersFramesListAdapter;
+import com.mashazavolnyuk.effectstudio.adapter.OverlayImageListAdapter;
 import com.mashazavolnyuk.effectstudio.data.CardImage;
 import com.mashazavolnyuk.effectstudio.data.CardStorage;
 
@@ -27,6 +27,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Dark Maleficent on 18.10.2016.
@@ -34,7 +36,7 @@ import java.io.InputStream;
 
 public class FragmentStickers extends Fragment {
     private RecyclerView recyclerView;
-    private StickersFramesListAdapter adapter;
+    private OverlayImageListAdapter adapter;
     private String[] metricsDpi = {"MEDIUM", "HIGH", "XHIGH", "XXHIGH", "XXXHIGH"};
     private String dpi;
     DisplayMetrics metrics;
@@ -49,15 +51,23 @@ public class FragmentStickers extends Fragment {
         recyclerView = (RecyclerView) v.findViewById(R.id.rcvStickersFrames);
        // recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 4));
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        adapter = new StickersFramesListAdapter(getActivity());
+        adapter = new OverlayImageListAdapter(getActivity());
         recyclerView.setAdapter(adapter);
-
         AsyncTaskLoadJsonModel loadJsonModel = new AsyncTaskLoadJsonModel();
         loadJsonModel.execute();
 
         return v;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
 
     private static String AssetJSONFile(String filename, Context context) throws IOException {
         AssetManager manager = context.getAssets();
@@ -111,7 +121,7 @@ public class FragmentStickers extends Fragment {
 
     private void parseJson(JSONObject jsonObject) {
         if (jsonObject != null) {
-          CardStorage.getInstance().clean();
+            List<CardImage> newList = new ArrayList<>();
             try {
                 dpi = checkDPI();
                 if (dpi == null)
@@ -119,8 +129,9 @@ public class FragmentStickers extends Fragment {
                 JSONArray array = jsonObject.getJSONArray("categories");
                 for (int index = 0; index < array.length(); index++) {
                     Log.d("loop", "index" + index);
-                    CardStorage.getInstance().addCardImage(new CardImage(array.getJSONObject(index), dpi));
+                    newList.add(new CardImage(array.getJSONObject(index), dpi));
                 }
+                CardStorage.getInstance().setCards(newList);
             } catch (JSONException e) {
                 e.printStackTrace();
 

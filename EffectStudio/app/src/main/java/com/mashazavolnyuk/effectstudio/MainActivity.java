@@ -28,7 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mashazavolnyuk.effectstudio.data.ImageStorage;
-import com.mashazavolnyuk.effectstudio.fragment.FragmentAddSticker;
+import com.mashazavolnyuk.effectstudio.fragment.FragmentPagerOverlay;
 import com.mashazavolnyuk.effectstudio.fragment.FragmentImageProcessing;
 import com.mashazavolnyuk.effectstudio.fragment.FragmentOverlayPicture;
 import com.mashazavolnyuk.effectstudio.fragment.FragmentRegulatorProperty;
@@ -226,8 +226,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void toPallete() {
-
-        setMainNavigationState(true);
+        setMainNavigationState(false);
         FragmentShowPalette fragment = new FragmentShowPalette();
         getSupportFragmentManager()
                 .beginTransaction()
@@ -242,7 +241,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void toStartScreen() {
         setMainNavigationState(true);
-        setMainNavigationState(true);
         FragmentStartScreen fragment = new FragmentStartScreen();
         getSupportFragmentManager()
                 .beginTransaction()
@@ -255,8 +253,8 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void toStickersAndFrames() {
-        setMainNavigationState(false);
-        FragmentAddSticker f = new FragmentAddSticker();
+        setMainNavigationState(true);
+        FragmentPagerOverlay f = new FragmentPagerOverlay();
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.mainContent, f)
@@ -267,7 +265,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void toViewOverlayProcess() {
-        setMainNavigationState(true);
+        setMainNavigationState(false);
         FragmentOverlayPicture f = new FragmentOverlayPicture();
         getSupportFragmentManager()
                 .beginTransaction()

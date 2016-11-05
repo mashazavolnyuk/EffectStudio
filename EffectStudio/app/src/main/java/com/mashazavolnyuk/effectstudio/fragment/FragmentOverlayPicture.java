@@ -44,7 +44,7 @@ public class FragmentOverlayPicture extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_overlay_picture, container, false);
+        View v = inflater.inflate(R.layout.fragment_overlay_process, container, false);
         setHasOptionsMenu(true);
         stickerView = (StickerView) v.findViewById(R.id.sticker_view);
         //surfaceView = (SurfaceView) v.findViewById(R.id.srfView);
@@ -115,7 +115,7 @@ public class FragmentOverlayPicture extends Fragment {
                 bmp=stickerView.createBitmap();
                 ImageStorage.getInstance().setBmp(bmp);
                 Log.d("FragOver",""+bmp.hashCode());
-                ((INavigation) getActivity()).toPallete();
+                ((INavigation) getActivity()).toModifyImage();
                 Toast.makeText(getActivity(), "apply", Toast.LENGTH_SHORT).show();
                 break;
         }

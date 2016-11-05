@@ -74,7 +74,7 @@ public class FragmentImageProcessing extends android.support.v4.app.Fragment imp
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        v = inflater.inflate(R.layout.fragment_image_processing, null);
+        v = inflater.inflate(R.layout.fragment_image_process, null);
         setHasOptionsMenu(true);
         barToolsEffect = (RecyclerView) v.findViewById(R.id.rcvToolsEffect);
         imageView = (ZoomableImageView) v.findViewById(R.id.workingImage);
@@ -117,6 +117,13 @@ public class FragmentImageProcessing extends android.support.v4.app.Fragment imp
                 barToolsEffect.setAdapter(gradientsListAdapter);
                 resetImage();
                 break;
+            default:
+                EffectsListAdapter effects = new EffectsListAdapter(getActivity());
+                effects.setObserver(this);
+                barToolsEffect.setAdapter(effects);
+                resetImage();
+                break;
+
 
         }
 

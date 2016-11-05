@@ -16,7 +16,9 @@ import com.mashazavolnyuk.effectstudio.R;
 /**
  * Created by Dark Maleficent on 03.08.2016.
  */
-public class FragmentAddSticker extends android.support.v4.app.Fragment {
+public class FragmentPagerOverlay extends android.support.v4.app.Fragment {
+
+    FragmentStickers tab1, tab2;
 
     private int[] tabIcons = {
             R.mipmap.ic_cat_white_36dp,
@@ -34,7 +36,7 @@ public class FragmentAddSticker extends android.support.v4.app.Fragment {
         tabLayout.getTabAt(1).setIcon(tabIcons[1]);
         final ViewPager viewPager = (ViewPager) inflatedView.findViewById(R.id.viewpager);
         viewPager.setAdapter(new PagerAdapter
-                (getFragmentManager(), tabLayout.getTabCount()));
+                (getChildFragmentManager(), tabLayout.getTabCount()));
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -50,7 +52,20 @@ public class FragmentAddSticker extends android.support.v4.app.Fragment {
             }
         });
 
+        tab1 = new FragmentStickers();
+        tab2 = new FragmentStickers();
+
         return inflatedView;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
     }
 
     public class PagerAdapter extends FragmentStatePagerAdapter {
@@ -63,18 +78,31 @@ public class FragmentAddSticker extends android.support.v4.app.Fragment {
 
         @Override
         public Fragment getItem(int position) {
-
             switch (position) {
                 case 0:
-                    FragmentStickers tab1 = new FragmentStickers();
                     return tab1;
                 case 1:
-                    FragmentStickers tab2 = new FragmentStickers();
                     return tab2;
                 default:
                     return null;
             }
         }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            super.destroyItem(container, position, object);
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            return super.instantiateItem(container, position);
+        }
+
+        @Override
+        public Object instantiateItem(View container, int position) {
+            return super.instantiateItem(container, position);
+        }
+
         @Override
         public int getCount() {
             return mNumOfTabs;

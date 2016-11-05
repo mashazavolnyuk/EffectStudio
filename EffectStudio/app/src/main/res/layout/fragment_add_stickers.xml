@@ -12,7 +12,7 @@
         app:tabMode="fixed"
         app:tabGravity="fill"
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
-    <android.support.v4.view.ViewPager
+    <com.mashazavolnyuk.effectstudio.customview.CustomViewPager
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

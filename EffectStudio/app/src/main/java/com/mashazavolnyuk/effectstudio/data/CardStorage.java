@@ -8,18 +8,22 @@ import java.util.List;
  */
 public class CardStorage {
     private List<CardImage> card = new ArrayList<>();
-    private static CardStorage intance = new CardStorage();
+    private static volatile CardStorage instance = new CardStorage();
 
     public static CardStorage getInstance() {
-        if (intance == null)
+        if (instance == null)
             synchronized (CardStorage.class) {
-                if (intance == null)
-                    intance = new CardStorage();
+                if (instance == null)
+                    instance = new CardStorage();
             }
-        return intance;
+        return instance;
     }
 
     private CardStorage() {
+    }
+
+    public void setCards(List<CardImage> newList){
+        card = newList;
     }
 
     public void addCardImage(CardImage cardImage) {
