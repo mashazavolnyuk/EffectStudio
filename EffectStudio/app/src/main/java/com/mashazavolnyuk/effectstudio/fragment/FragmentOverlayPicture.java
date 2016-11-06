@@ -2,7 +2,6 @@ package com.mashazavolnyuk.effectstudio.fragment;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
@@ -47,22 +46,16 @@ public class FragmentOverlayPicture extends Fragment {
         View v = inflater.inflate(R.layout.fragment_overlay_process, container, false);
         setHasOptionsMenu(true);
         stickerView = (StickerView) v.findViewById(R.id.sticker_view);
-        //surfaceView = (SurfaceView) v.findViewById(R.id.srfView);
-        drawable = new BitmapDrawable(ImageStorage.getInstance().getBmpOriginal());
         Bitmap bitmap = ImageStorage.getInstance().getBmpOriginal();
-        Log.d("FragmentOverlayPicture", "" + bitmap.hashCode());
-        stickerView.setImageBitmap(ImageStorage.getInstance().getBmpOriginal());
+        Bundle bundle=this.getArguments();
+        Bitmap sticker=bundle.getParcelable("sticker");
+        drawable = new BitmapDrawable(sticker);
+        stickerView.setImageBitmap(bitmap);
         stickerView.addSticker(drawable);
         Drawable d = stickerView.getDrawable();
         bitmap = ((BitmapDrawable) d).getBitmap();
         Log.d("FragmentOverlayPicture", "" + bitmap.hashCode());
         ImageStorage.getInstance().setBmp(bitmap);
-//        surfaceView.setZOrderMediaOverlay(true);
-
-//        surfaceView.setZOrderOnTop(true);
-//        surfaceView.setBackground(drawable);
-        // getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        bmp = BitmapFactory.decodeResource(getActivity().getResources(), R.mipmap.gold);
         x = 0;
         y = 0;
         v.setOnTouchListener(new View.OnTouchListener() {

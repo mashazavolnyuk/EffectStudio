@@ -10,25 +10,29 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mashazavolnyuk.effectstudio.R;
-import com.mashazavolnyuk.effectstudio.adapter.OverlayImageListAdapter;
+import com.mashazavolnyuk.effectstudio.adapter.StickersListAdapter;
+
+import java.util.List;
 
 /**
- * Created by Dark Maleficent on 31.10.2016.
+ * Created by Dark Maleficent on 06.11.2016.
  */
 
-public class FragmentStickersOrFramesList extends Fragment {
-
+public class FragmentListStickers extends Fragment {
     private RecyclerView recyclerView;
-    private OverlayImageListAdapter adapter;
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_stickers, null);
-        recyclerView = (RecyclerView) v.findViewById(R.id.rcvStickersFrames);
+        View v = inflater.inflate(R.layout.fragment_list_stickers, null);
+        setHasOptionsMenu(true);
+        recyclerView = (RecyclerView) v.findViewById(R.id.rcvStickersList);
+        Bundle bundle = this.getArguments();
+        List<String> strings = bundle.getStringArrayList("listUrlStikers");
+        StickersListAdapter stickersListAdapter = new StickersListAdapter(getActivity(), strings);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
-        adapter = new OverlayImageListAdapter(getActivity());
-        recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(stickersListAdapter);
         return v;
     }
 }

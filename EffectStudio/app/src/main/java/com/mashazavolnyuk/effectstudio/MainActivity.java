@@ -28,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mashazavolnyuk.effectstudio.data.ImageStorage;
+import com.mashazavolnyuk.effectstudio.fragment.FragmentListStickers;
 import com.mashazavolnyuk.effectstudio.fragment.FragmentPagerOverlay;
 import com.mashazavolnyuk.effectstudio.fragment.FragmentImageProcessing;
 import com.mashazavolnyuk.effectstudio.fragment.FragmentOverlayPicture;
@@ -49,6 +50,8 @@ import com.vk.sdk.api.model.VKList;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, INavigation, IObrservableChangeTools {
@@ -264,9 +267,27 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void toViewOverlayProcess() {
+    public void toStickersListCollection(List<String> stringList) {
+        setMainNavigationState(false);
+        FragmentListStickers f = new FragmentListStickers();
+        Bundle bundle=new Bundle();
+        bundle.putStringArrayList("listUrlStikers", (ArrayList<String>) stringList);
+        f.setArguments(bundle);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.mainContent, f)
+                .setTransition(android.support.v4.app.FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .addToBackStack("stickers list")
+                .commit();
+    }
+
+    @Override
+    public void toViewOverlayProcess(Bitmap bmp) {
         setMainNavigationState(false);
         FragmentOverlayPicture f = new FragmentOverlayPicture();
+        Bundle bundle=new Bundle();
+        bundle.putParcelable("sticker",bmp);
+        f.setArguments(bundle);
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.mainContent, f)

@@ -50,7 +50,7 @@ public class FragmentStickers extends Fragment {
         View v = inflater.inflate(R.layout.fragment_stickers, null);
         recyclerView = (RecyclerView) v.findViewById(R.id.rcvStickersFrames);
        // recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 4));
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
         adapter = new OverlayImageListAdapter(getActivity());
         recyclerView.setAdapter(adapter);
         AsyncTaskLoadJsonModel loadJsonModel = new AsyncTaskLoadJsonModel();

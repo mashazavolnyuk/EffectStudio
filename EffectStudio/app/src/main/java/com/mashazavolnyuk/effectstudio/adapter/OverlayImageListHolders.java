@@ -29,7 +29,7 @@ public class OverlayImageListHolders extends RecyclerView.ViewHolder {
         imgCover.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ( (INavigation)(c)).toViewOverlayProcess();
+                ( (INavigation)(c)).toStickersListCollection(urlStickers);
             }
         });
     }
