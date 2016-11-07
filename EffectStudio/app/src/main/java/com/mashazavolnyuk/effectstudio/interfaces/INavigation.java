@@ -17,4 +17,5 @@ public interface INavigation {
     void toStickersAndFrames();
     void toStickersListCollection(List<String> stringList);
     void toViewOverlayProcess(Bitmap bmp);
+    void toWifiState();
 }

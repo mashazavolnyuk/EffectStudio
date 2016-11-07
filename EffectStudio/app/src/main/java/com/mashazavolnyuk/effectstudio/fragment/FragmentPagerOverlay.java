@@ -18,7 +18,8 @@ import com.mashazavolnyuk.effectstudio.R;
  */
 public class FragmentPagerOverlay extends android.support.v4.app.Fragment {
 
-    FragmentStickers tab1, tab2;
+    FragmentCoverStickers tab1;
+    FragmentCoverFrames tab2;
 
     private int[] tabIcons = {
             R.mipmap.ic_cat_white_36dp,
@@ -52,8 +53,8 @@ public class FragmentPagerOverlay extends android.support.v4.app.Fragment {
             }
         });
 
-        tab1 = new FragmentStickers();
-        tab2 = new FragmentStickers();
+        tab1 = new FragmentCoverStickers();
+        tab2 = new FragmentCoverFrames();
 
         return inflatedView;
     }

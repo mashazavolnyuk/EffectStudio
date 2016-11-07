@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+    <Switch
+        android:id="@+id/swWifi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
+    <TextView
+        android:id="@+id/tvWifiState"
+        android:text="Not connected to the Internet.
+        Please check your connection and try again
+        "
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/swWifi" />
+    <ImageView
+        android:backgroundTint="@color/colorAccent"
+        android:layout_centerInParent="true"
+        android:background="@mipmap/ic_wifi_off_white_36dp"
+        android:layout_above="@+id/tvWifiState"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

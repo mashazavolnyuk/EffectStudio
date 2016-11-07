@@ -73,6 +73,7 @@ public class CardImage {
             }
 
             name = json.getString("name");
+
             JSONArray imageJsonArray = json.getJSONArray("imageUrls");
             if (imageJsonArray != null && imageJsonArray.length() > 0)
                 for (int i = 0; i < imageJsonArray.length(); i++) {

@@ -29,7 +29,6 @@ import com.mashazavolnyuk.effectstudio.adapter.GradientsListAdapter;
 import com.mashazavolnyuk.effectstudio.customview.ZoomableImageView;
 import com.mashazavolnyuk.effectstudio.data.ImageStorage;
 import com.mashazavolnyuk.effectstudio.interfaces.INavigation;
-import com.mashazavolnyuk.effectstudio.interfaces.IObrservableChangeTools;
 import com.mashazavolnyuk.effectstudio.interfaces.IObserveRecyclerTools;
 import com.mashazavolnyuk.effectstudio.interfaces.IObserveWorkingImage;
 import com.mashazavolnyuk.effectstudio.interfaces.IObserverChangeTools;
@@ -47,7 +46,7 @@ import java.util.concurrent.TimeUnit;
  * Created by Dark Maleficent on 12.06.2016.
  */
 public class FragmentImageProcessing extends android.support.v4.app.Fragment implements IObserveWorkingImage, IObserveRecyclerTools, IObserverChangeTools {
-    ZoomableImageView imageView,btnLeft,btnRight;
+    ZoomableImageView imageView, btnLeft, btnRight;
     private int overallXScroll = 0;
     RecyclerView barToolsEffect;
     public static final int EFFECTS = 0;
@@ -62,7 +61,8 @@ public class FragmentImageProcessing extends android.support.v4.app.Fragment imp
     final int STATUS_CONNECTED = 2; // подключено
     Menu menu;
     MenuInflater menuInflater;
-    IObrservableChangeTools iObrservableChangeTools = (IObrservableChangeTools) getActivity();
+    boolean isrestore = false;
+    int currenttools;
 
 
     @Override
@@ -89,11 +89,10 @@ public class FragmentImageProcessing extends android.support.v4.app.Fragment imp
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 overallXScroll = overallXScroll + dx;
-                Log.i("check","overall X  = " + overallXScroll);
+                Log.i("check", "overall X  = " + overallXScroll);
             }
         });
-
-        setToolsBar(EFFECTS);
+        setToolsBar(currenttools);
         return v;
     }
 
@@ -182,7 +181,7 @@ public class FragmentImageProcessing extends android.support.v4.app.Fragment imp
                 ((INavigation) getActivity()).toPallete();
                 break;
             case R.id.restore:
-                changeImage=false;
+                changeImage = false;
                 resetImage();
                 onCreateOptionsMenu(menu, menuInflater);
                 Toast.makeText(getActivity(), "undo", Toast.LENGTH_SHORT).show();
@@ -268,8 +267,6 @@ public class FragmentImageProcessing extends android.support.v4.app.Fragment imp
             ImageStorage.getInstance().setBmp(bitmap);
             imageView.setImageBitmap(bitmap);
             changeImage = false;
-
-
         }
     }
 
@@ -301,11 +298,15 @@ public class FragmentImageProcessing extends android.support.v4.app.Fragment imp
         imageView.setImageBitmap(bmp);
     }
 
+    public void pointisRestore(boolean restore) {
+
+    }
 
     @Override
     public void changeTools(int tools) {
+        currenttools=tools;
         changeImage = false;
-        setToolsBar(tools);
+        setToolsBar(currenttools);
         ;
     }
 }

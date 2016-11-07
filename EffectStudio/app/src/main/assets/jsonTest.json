@@ -27,10 +27,13 @@
           "url":"https://firebasestorage.googleapis.com/v0/b/effect-studio.appspot.com/o/drink%2Fxxx%2Ftea(xxx).png?alt=media&token=1ad4fb6f-7663-41e7-a7a0-0e298530018e"
         },
         {
-          "url":"https://firebasestorage.googleapis.com/v0/b/effect-studio.appspot.com/o/drink%2Fxxx%2Fbeer(xxx).png?alt=media&token=fd8cf650-4c4f-400d-8a20-28d8d9537e69"
+          "url":"https://firebasestorage.googleapis.com/v0/b/effect-studio.appspot.com/o/drink%2Fxxx%2Fcoconutdrink(xxx).png?alt=media&token=cb127c59-0a16-4746-aedc-ef3097e22542"
         },
         {
-          "url":"https://firebasestorage.googleapis.com/v0/b/effect-studio.appspot.com/o/drink%2Fxxx%2Ftea(xxx).png?alt=media&token=1ad4fb6f-7663-41e7-a7a0-0e298530018e"
+          "url":"https://firebasestorage.googleapis.com/v0/b/effect-studio.appspot.com/o/drink%2Fxxx%2Fdrinkred(xxx).png?alt=media&token=dc1570ce-1456-44d2-920f-9a1131c51790"
+        },
+        {
+          "url":"https://firebasestorage.googleapis.com/v0/b/effect-studio.appspot.com/o/drink%2Fxxx%2Fmojito(xxx).png?alt=media&token=b983d530-c18a-4b21-b528-d0dd9541a138"
         }
 
       ]
@@ -115,6 +118,9 @@
         },
         {
           "url":"https://firebasestorage.googleapis.com/v0/b/effect-studio.appspot.com/o/food%2Fxxx%2Fsushi2(xxx).png?alt=media&token=30e6d53c-0a02-4d7a-bec8-86cefcffc4b3"
+        },
+        {
+          "url":"https://firebasestorage.googleapis.com/v0/b/effect-studio.appspot.com/o/food%2Fxxx%2Fpasta(h).png?alt=media&token=14f7f0b3-a01f-4d3e-a6c1-e655a52e6ef0"
         }
       ]
     },

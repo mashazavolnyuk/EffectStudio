@@ -34,14 +34,14 @@ import java.util.List;
  * Created by Dark Maleficent on 18.10.2016.
  */
 
-public class FragmentStickers extends Fragment {
+public class FragmentCoverStickers extends Fragment {
     private RecyclerView recyclerView;
     private OverlayImageListAdapter adapter;
     private String[] metricsDpi = {"MEDIUM", "HIGH", "XHIGH", "XXHIGH", "XXXHIGH"};
     private String dpi;
     DisplayMetrics metrics;
 
-    public FragmentStickers() {
+    public FragmentCoverStickers() {
     }
 
     @Nullable

@@ -1,7 +1,6 @@
 package com.mashazavolnyuk.effectstudio.adapter;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,8 +39,6 @@ public class GradientsListAdapter extends RecyclerView.Adapter<GradientsListHold
     @Override
     public void onBindViewHolder(GradientsListHolders holder, int position) {
         holder.description.setText(data.get(position).getName());
-        Typeface type = Typeface.createFromAsset(context.getAssets(),"Roboto-BlackItalic.ttf");
-        holder.description.setTypeface(type);
         holder.imageChange = data.get(position).getClass().getName();
         holder.effect.setImageBitmap(data.get(position).getPreview());
         holder.position = position;
