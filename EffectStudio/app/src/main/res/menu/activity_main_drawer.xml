@@ -11,14 +11,21 @@
     <item android:title="choose your tools">
         <menu>
         <item
+            android:icon="@mipmap/ic_flask_outline_white_36dp"
             android:id="@+id/nav_effects"
             android:title="Effects" />
         <item
+            android:icon="@mipmap/ic_palette_white_36dp"
             android:id="@+id/nav_filters"
             android:title="Filters" />
             <item
+                android:icon="@mipmap/ic_gradient_white_36dp"
                 android:id="@+id/nav_gradients"
                 android:title="Gradients" />
+            <item
+                android:icon="@mipmap/ic_cat_white_36dp"
+                android:id="@+id/nav_stickers"
+                android:title="Stickers" />
         </menu>
     </item>
     <group android:checkableBehavior="single">

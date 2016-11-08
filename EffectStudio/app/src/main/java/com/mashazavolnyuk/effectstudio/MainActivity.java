@@ -1,14 +1,12 @@
 package com.mashazavolnyuk.effectstudio;
 
 import android.Manifest;
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -25,15 +23,17 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mashazavolnyuk.effectstudio.data.ImageStorage;
 import com.mashazavolnyuk.effectstudio.fragment.FragmentImageProcessing;
+import com.mashazavolnyuk.effectstudio.fragment.FragmentListStickers;
+import com.mashazavolnyuk.effectstudio.fragment.FragmentOverlayPicture;
+import com.mashazavolnyuk.effectstudio.fragment.FragmentPagerOverlay;
 import com.mashazavolnyuk.effectstudio.fragment.FragmentRegulatorProperty;
 import com.mashazavolnyuk.effectstudio.fragment.FragmentShowPalette;
 import com.mashazavolnyuk.effectstudio.fragment.FragmentStartScreen;
+import com.mashazavolnyuk.effectstudio.fragment.FragmentWifiState;
 import com.mashazavolnyuk.effectstudio.interfaces.INavigation;
 import com.mashazavolnyuk.effectstudio.interfaces.IObrservableChangeTools;
 import com.mashazavolnyuk.effectstudio.interfaces.IObserverChangeTools;
@@ -49,6 +49,8 @@ import com.vk.sdk.api.model.VKList;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, INavigation, IObrservableChangeTools {
@@ -60,7 +62,8 @@ public class MainActivity extends AppCompatActivity
     NavigationView navigationView;
     DrawerLayout drawerLayout;
     IObserverChangeTools observerChangeTools;
-
+    FragmentImageProcessing fragmentImageProcessing=new FragmentImageProcessing();
+    boolean saveOldFragmentImageProcessing = false;
 
     static {
         System.loadLibrary("NativeImageProcessor");
@@ -96,7 +99,6 @@ public class MainActivity extends AppCompatActivity
         toStartScreen();
     }
 
-
     private void handleSendImage(Intent intent) {
         Uri imageUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
         if (imageUri != null) {
@@ -128,13 +130,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void enableHomeButton() {
-        Typeface type = Typeface.createFromAsset(context.getAssets(), "Roboto-BlackItalic.ttf");
-        TextView view = new TextView(this);
-        view.setText("Effect Studio");
-        view.setTypeface(type);
         final ActionBar supportActionBar = getSupportActionBar();
-        supportActionBar.setCustomView(view);
-
         toggle.setDrawerIndicatorEnabled(false);
         if (supportActionBar != null) {
             supportActionBar.setDisplayHomeAsUpEnabled(true);
@@ -171,16 +167,31 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void toModifyImage() {
         setMainNavigationState(true);
-        RelativeLayout layout = (RelativeLayout) findViewById(R.id.start_layout);
-        layout.removeAllViewsInLayout();
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
         FragmentImageProcessing fragment = new FragmentImageProcessing();
-        setObserver(fragment);
-        ft.replace(R.id.mainContent, fragment, "modify");
-        ft.addToBackStack("modify");
-        ft.commit();
+        observerChangeTools = fragment;
+        if (saveOldFragmentImageProcessing)
+            saveLinkFragmentImageProcessing(fragment);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.mainContent, fragment)
+                .setTransition(android.support.v4.app.FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .addToBackStack("effects")
+                .commit();
+    }
 
+    private void saveLinkFragmentImageProcessing(FragmentImageProcessing fragment) {
+        fragmentImageProcessing = fragment;
+        observerChangeTools=fragmentImageProcessing;
+    }
 
+    private void toRestore() {
+        if(saveOldFragmentImageProcessing){
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.mainContent, fragmentImageProcessing)
+                .setTransition(android.support.v4.app.FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .addToBackStack("restore")
+                .commit();}
     }
 
     @Override
@@ -230,22 +241,83 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void toPallete() {
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        FragmentShowPalette fragment = new FragmentShowPalette();
-        ft.replace(R.id.mainContent, fragment, "palette");
         setMainNavigationState(false);
-        ft.addToBackStack("palette");
-        ft.commit();
+        FragmentShowPalette fragment = new FragmentShowPalette();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.mainContent, fragment)
+                .setTransition(android.support.v4.app.FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .addToBackStack("pallete")
+                .commit();
+
+
     }
 
     @Override
     public void toStartScreen() {
         setMainNavigationState(true);
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
         FragmentStartScreen fragment = new FragmentStartScreen();
-        ft.replace(R.id.mainContent, fragment, "start_screen");
-        ft.addToBackStack("start_screen");
-        ft.commit();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.mainContent, fragment)
+                .setTransition(android.support.v4.app.FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .addToBackStack("start screen")
+                .commit();
+
+    }
+
+    @Override
+    public void toStickersAndFrames() {
+        setMainNavigationState(true);
+        FragmentPagerOverlay f = new FragmentPagerOverlay();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.mainContent, f)
+                .setTransition(android.support.v4.app.FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .addToBackStack("stickers and frames")
+                .commit();
+    }
+
+    @Override
+    public void toStickersListCollection(List<String> stringList) {
+        setMainNavigationState(false);
+        FragmentListStickers f = new FragmentListStickers();
+        Bundle bundle = new Bundle();
+        bundle.putStringArrayList("listUrlStikers", (ArrayList<String>) stringList);
+        f.setArguments(bundle);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.mainContent, f)
+                .setTransition(android.support.v4.app.FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .addToBackStack("stickers list")
+                .commit();
+    }
+
+    @Override
+    public void toViewOverlayProcess(Bitmap bmp) {
+        setMainNavigationState(false);
+        FragmentOverlayPicture f = new FragmentOverlayPicture();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("sticker", bmp);
+        f.setArguments(bundle);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.mainContent, f)
+                .setTransition(android.support.v4.app.FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .addToBackStack("overlay picture")
+                .commit();
+    }
+
+    @Override
+    public void toWifiState() {
+        setMainNavigationState(false);
+        FragmentWifiState f = new FragmentWifiState();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.mainContent, f)
+                .setTransition(android.support.v4.app.FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .addToBackStack("wifi state")
+                .commit();
     }
 
     @Override
@@ -261,12 +333,14 @@ public class MainActivity extends AppCompatActivity
             }
             Bitmap bmp = shrinkBitmap(bitmap);
             ImageStorage.getInstance().setBmp(bmp);
+            saveOldFragmentImageProcessing=true;
             toModifyImage();
         }
         if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
             Bitmap photo = (Bitmap) data.getExtras().get("data");
             Bitmap bmp = shrinkBitmap(photo);
             ImageStorage.getInstance().setBmp(bmp);
+            saveOldFragmentImageProcessing=true;
             toModifyImage();
         }
     }
@@ -296,7 +370,8 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        FragmentManager fm = getFragmentManager();
+        android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+        //FragmentManager fm = getFragmentManager();
         if (fm.getBackStackEntryCount() > 0) {
             fm.popBackStackImmediate();
             fm.beginTransaction().commit();
@@ -338,17 +413,24 @@ public class MainActivity extends AppCompatActivity
                 toStartScreen();
                 break;
             case R.id.nav_effects:
-                setTools(FragmentImageProcessing.EFFECTS);
+                toRestore();
+                setTools(fragmentImageProcessing.EFFECTS);
                 break;
             case R.id.nav_filters:
-                setTools(FragmentImageProcessing.FILTERS);
+                toRestore();
+                setTools(fragmentImageProcessing.FILTERS);
                 break;
             case R.id.nav_gradients:
-                setTools(FragmentImageProcessing.GRADIENTS);
+                toRestore();
+                setTools(fragmentImageProcessing.GRADIENTS);
                 break;
             case R.id.nav_share:
                 shareLink();
                 break;
+            case R.id.nav_stickers:
+                toStickersAndFrames();
+                break;
+
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -358,9 +440,10 @@ public class MainActivity extends AppCompatActivity
     private void setTools(int tools) {
         if (ImageStorage.getInstance().getBmpOriginal() != null)
             observerChangeTools.changeTools(tools);
-        else{
-            Toast.makeText(getContext(),"Photo is absent",Toast.LENGTH_SHORT).show();
-            toStartScreen();}
+        else {
+            Toast.makeText(getContext(), "Photo is absent", Toast.LENGTH_SHORT).show();
+            toStartScreen();
+        }
 
     }
 
@@ -399,6 +482,7 @@ public class MainActivity extends AppCompatActivity
         this.observerChangeTools = observer;
 
     }
+
 
 }
 

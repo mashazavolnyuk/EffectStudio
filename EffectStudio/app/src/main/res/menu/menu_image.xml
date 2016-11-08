@@ -18,21 +18,21 @@
         android:orderInCategory="100"
         />
     <item
-        android:title="save"
+        android:title="Save"
         android:id="@+id/save"
         android:icon="@mipmap/ic_check_white_36dp"
         android:showAsAction="never"
         android:orderInCategory="100"
         />
     <item
-        android:title="share"
+        android:title="Share"
         android:id="@+id/share"
         android:icon="@mipmap/ic_share_white_48dp"
         android:showAsAction="never"
         android:orderInCategory="100"
         />
     <item
-        android:title="show palette"
+        android:title="Show palette"
         android:id="@+id/palette"
         android:icon="@mipmap/ic_delete_grey600_36dp"
         android:showAsAction="never"

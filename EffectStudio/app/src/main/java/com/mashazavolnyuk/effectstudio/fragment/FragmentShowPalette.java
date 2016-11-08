@@ -1,6 +1,5 @@
 package com.mashazavolnyuk.effectstudio.fragment;
 
-import android.app.Fragment;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.graphics.Bitmap;
@@ -30,7 +29,7 @@ import static android.content.Context.CLIPBOARD_SERVICE;
  * Created by Dark Maleficent on 09.10.2016.
  */
 
-public class FragmentShowPalette extends Fragment {
+public class FragmentShowPalette extends android.support.v4.app.Fragment {
     private Bitmap mainBmp;
     ImageView img;
     RecyclerView rcvColorPallete;

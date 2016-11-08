@@ -1,6 +1,5 @@
 package com.mashazavolnyuk.effectstudio.fragment;
 
-import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -21,16 +20,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.mashazavolnyuk.effectstudio.R;
 import com.mashazavolnyuk.effectstudio.adapter.EffectsListAdapter;
 import com.mashazavolnyuk.effectstudio.adapter.FiltersListAdapter;
 import com.mashazavolnyuk.effectstudio.adapter.GradientsListAdapter;
+import com.mashazavolnyuk.effectstudio.customview.ZoomableImageView;
 import com.mashazavolnyuk.effectstudio.data.ImageStorage;
 import com.mashazavolnyuk.effectstudio.interfaces.INavigation;
-import com.mashazavolnyuk.effectstudio.interfaces.IObrservableChangeTools;
 import com.mashazavolnyuk.effectstudio.interfaces.IObserveRecyclerTools;
 import com.mashazavolnyuk.effectstudio.interfaces.IObserveWorkingImage;
 import com.mashazavolnyuk.effectstudio.interfaces.IObserverChangeTools;
@@ -47,8 +45,8 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by Dark Maleficent on 12.06.2016.
  */
-public class FragmentImageProcessing extends Fragment implements IObserveWorkingImage, IObserveRecyclerTools, IObserverChangeTools {
-    ImageView imageView,btnLeft,btnRight;
+public class FragmentImageProcessing extends android.support.v4.app.Fragment implements IObserveWorkingImage, IObserveRecyclerTools, IObserverChangeTools {
+    ZoomableImageView imageView, btnLeft, btnRight;
     private int overallXScroll = 0;
     RecyclerView barToolsEffect;
     public static final int EFFECTS = 0;
@@ -63,7 +61,8 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
     final int STATUS_CONNECTED = 2; // подключено
     Menu menu;
     MenuInflater menuInflater;
-    IObrservableChangeTools iObrservableChangeTools = (IObrservableChangeTools) getActivity();
+    boolean isrestore = false;
+    int currenttools;
 
 
     @Override
@@ -75,10 +74,10 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        v = inflater.inflate(R.layout.fragment_image_processing, null);
+        v = inflater.inflate(R.layout.fragment_image_process, null);
         setHasOptionsMenu(true);
         barToolsEffect = (RecyclerView) v.findViewById(R.id.rcvToolsEffect);
-        imageView = (ImageView) v.findViewById(R.id.workingImage);
+        imageView = (ZoomableImageView) v.findViewById(R.id.workingImage);
 
         ImageStorage.getInstance().setObserver(this);
         Bitmap bitmap = ImageStorage.getInstance().getBmpOriginal();
@@ -90,11 +89,10 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 overallXScroll = overallXScroll + dx;
-                Log.i("check","overall X  = " + overallXScroll);
+                Log.i("check", "overall X  = " + overallXScroll);
             }
         });
-
-        setToolsBar(EFFECTS);
+        setToolsBar(currenttools);
         return v;
     }
 
@@ -118,6 +116,13 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
                 barToolsEffect.setAdapter(gradientsListAdapter);
                 resetImage();
                 break;
+            default:
+                EffectsListAdapter effects = new EffectsListAdapter(getActivity());
+                effects.setObserver(this);
+                barToolsEffect.setAdapter(effects);
+                resetImage();
+                break;
+
 
         }
 
@@ -176,7 +181,7 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
                 ((INavigation) getActivity()).toPallete();
                 break;
             case R.id.restore:
-                changeImage=false;
+                changeImage = false;
                 resetImage();
                 onCreateOptionsMenu(menu, menuInflater);
                 Toast.makeText(getActivity(), "undo", Toast.LENGTH_SHORT).show();
@@ -262,8 +267,6 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
             ImageStorage.getInstance().setBmp(bitmap);
             imageView.setImageBitmap(bitmap);
             changeImage = false;
-
-
         }
     }
 
@@ -295,11 +298,15 @@ public class FragmentImageProcessing extends Fragment implements IObserveWorking
         imageView.setImageBitmap(bmp);
     }
 
+    public void pointisRestore(boolean restore) {
+
+    }
 
     @Override
     public void changeTools(int tools) {
+        currenttools=tools;
         changeImage = false;
-        setToolsBar(tools);
+        setToolsBar(currenttools);
         ;
     }
 }

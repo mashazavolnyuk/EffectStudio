@@ -6,22 +6,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/txStartScreen"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:gravity="center"
-        android:text="Please,load image"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="16dp" />
-
     <Button
         android:paddingLeft="10dp"
         android:id="@+id/btnStartScreenPhoto"
         android:layout_width="220dp"
         android:layout_height="58dp"
-        android:layout_below="@+id/txStartScreen"
         android:layout_centerInParent="true"
         android:layout_margin="2dp"
         android:background="@drawable/round_button"
