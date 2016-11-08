@@ -173,10 +173,10 @@ public class FragmentImageProcessing extends android.support.v4.app.Fragment imp
                 onCreateOptionsMenu(menu, menuInflater);
                 Toast.makeText(getActivity(), "apply", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.share:
-                if (ImageStorage.getInstance().getBmpOriginal() != null)
-                    share();
-                break;
+//            case R.id.share:
+//                if (ImageStorage.getInstance().getBmpOriginal() != null)
+//                    share();
+//                break;
             case R.id.palette:
                 ((INavigation) getActivity()).toPallete();
                 break;

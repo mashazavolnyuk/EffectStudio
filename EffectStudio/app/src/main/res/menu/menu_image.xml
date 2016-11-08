@@ -24,13 +24,13 @@
         android:showAsAction="never"
         android:orderInCategory="100"
         />
-    <item
-        android:title="Share"
-        android:id="@+id/share"
-        android:icon="@mipmap/ic_share_white_48dp"
-        android:showAsAction="never"
-        android:orderInCategory="100"
-        />
+    <!--<item-->
+        <!--android:title="Share"-->
+        <!--android:id="@+id/share"-->
+        <!--android:icon="@mipmap/ic_share_white_48dp"-->
+        <!--android:showAsAction="never"-->
+        <!--android:orderInCategory="100"-->
+        <!--/>-->
     <item
         android:title="Show palette"
         android:id="@+id/palette"

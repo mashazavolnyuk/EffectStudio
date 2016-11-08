@@ -513,7 +513,6 @@ public class StickerView extends ImageView {
         Bitmap bitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         this.draw(canvas);
-
         return bitmap;
     }
 

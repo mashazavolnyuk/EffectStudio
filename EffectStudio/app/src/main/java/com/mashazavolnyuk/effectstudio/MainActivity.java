@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -428,13 +430,28 @@ public class MainActivity extends AppCompatActivity
                 shareLink();
                 break;
             case R.id.nav_stickers:
-                toStickersAndFrames();
+               toPageWithResult();
                 break;
 
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void toPageWithResult(){
+        if(isNetworkAvailable(this))
+            toStickersAndFrames();
+        else
+            Toast.makeText(this,"please check the internet connection",Toast.LENGTH_LONG).show();
+    }
+    private static boolean isNetworkAvailable(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnected()) {
+            return true;
+        }
+        return false;
     }
 
     private void setTools(int tools) {
